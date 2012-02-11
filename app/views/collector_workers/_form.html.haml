@@ -1,0 +1,16 @@
+= form_for @collector_worker do |f|
+  -if @collector_worker.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@collector_worker.errors.count, "error")} prohibited this collector_worker from being saved:"
+      %ul
+        - @collector_worker.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :url
+    = f.text_field :url
+  .field
+    = f.label :connection_count
+    = f.text_field :connection_count
+  .actions
+    = f.submit 'Save'

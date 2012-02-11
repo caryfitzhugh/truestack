@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Url:
+  = @collector_worker.url
+%p
+  %b Connection Count:
+  = @collector_worker.connection_count
+
+= link_to 'Edit', edit_collector_worker_path(@collector_worker)
+\|
+= link_to 'Back', collector_workers_path
