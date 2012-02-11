@@ -7,6 +7,8 @@ gem 'pg'
 group :test do
   gem 'machinist', '>= 2.0.0.beta2'
 end
+
+gem 'haml-rails'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -19,4 +21,9 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+
 gem 'jquery-rails'
+
+# Collector
+gem 'eventmachine'
+gem 'em-websocket'
