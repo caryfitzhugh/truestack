@@ -1,0 +1,27 @@
+#
+# This is the default .rvmrc file for ZipList.
+# Setup
+#
+# If you want to use this with you local rvm you can create a local rvmrc
+# like this:
+#
+#    echo "source .rvmrc" >> .rvmrc
+#
+# That file can be used set other enviroment varables (quite useful for
+# database configuration) or any other configuration.
+#
+# Unless it is setup as a global gem in rvm, you may need to install the
+# bundler gem at this point:
+#
+#    gem install bundler
+#
+#
+# Getting Fancy
+#
+# If you wanted to get fancy, you could do something like this in your
+# .rvmrc file:
+#
+#     [ -f .rvmrc.default ] && source .rvmrc.default || echo "Warning: No .rvmrc.default found"
+#
+
+rvm use --create ruby-1.9.3-p@truestack

@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Key:
+  = @access_token.key
+%p
+  %b Secret:
+  = @access_token.secret
+
+= link_to 'Edit', edit_access_token_path(@access_token)
+\|
+= link_to 'Back', access_tokens_path

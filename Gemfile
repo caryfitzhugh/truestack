@@ -21,9 +21,16 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+group :development do
+  gem 'pry', :git => "git://github.com/pry/pry.git"
+end
+group :test do
+  gem 'pry', :git => "git://github.com/pry/pry.git"
+  gem "minitest"
+end
 
 gem 'jquery-rails'
 
 # Collector
 gem 'eventmachine'
-gem 'em-websocket'
+gem 'em-websocket', git: "git@github.com:caryfitzhugh/em-websocket.git"

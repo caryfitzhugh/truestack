@@ -1,0 +1,5 @@
+Work on the authentication of websockets
+Move the test code into the integration test -- running against the 'real' collector.
+* start up collector as process *
+* run tests for the auth / connection / processing *
+* unit tests in there for other stuff *
