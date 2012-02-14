@@ -8,6 +8,9 @@ group :test do
   gem 'machinist', '>= 2.0.0.beta2'
 end
 
+gem 'mongo_mapper'
+gem 'bson_ext'
+
 gem 'haml-rails'
 # Gems used only for assets and not required
 # in production environments by default.
