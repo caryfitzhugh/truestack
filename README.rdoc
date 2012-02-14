@@ -22,9 +22,10 @@ It shows you the
 * the % of time spent in the view (how many DB calls in there)
 * the % of time spent in the controllers
 * the % of time spent in the models
-* the # of exceptions overall (and a quick ability to list them)
+* the # of exceptions overall (and a quick ability to list them (stacktrace, name, line / file, inside what action)
 * All the requests show a variance rating -- how variable are the request times.
-
+* your overall performance rating compared to last deploy.
+* A selector to hop back to previous deploys
 Sections below that:
 * the slowest action (Laggin')
 * the most used action ( Popular)
@@ -34,7 +35,24 @@ Sections below that:
 
 * Can click on any individual action that you see - and see the heat map 'stack trace'.
 * Sort it simply by most time used -> least time used.  Want to focus on most important thing to speed up.
+* darker 'tigher' timings indicate less variable actions. Want consistent actions (if possible).
 
 * When viewing a single action - you can say 'compare to previous deploys'.  And we'll have some diff ability to show the difference between the current and past 10 or so deploys (or month or something)
 
 * Deployment indicator needs to tell us the names of all the public controller methods, so we can put them in the list from the get-go and know which are never hit.
+
+== Next?
+Let people define a code path as a given 'action'. Even though it is not a top-level action.
+Such as: index action may have search and no search as two code paths.  You can identify them with a filter or something as two paths, which we map / track separately.
+
+Simple enough to add metrics to a deploy for reporting....
+Deploy_ID:metrics => {
+  metric_name => { time, data}
+}
+
+Easy. :) It won't support jillions of things but can be a good solution for new user tracking, or A/B testing I'd imagine.
+In a view:
+  ab_test(:partial_1 => :action_1, :partial_2 => :action_2)
+
+So you would say that partial 1 will go to controller action 1, if it was successful, or something like that.
+Then we do the math on the back end.

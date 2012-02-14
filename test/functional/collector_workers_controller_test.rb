@@ -18,7 +18,7 @@ class CollectorWorkersControllerTest < ActionController::TestCase
 
   test "should create collector_worker" do
     assert_difference('CollectorWorker.count') do
-      post :create, collector_worker: @collector_worker.attributes
+      post :create, collector_worker: { url: 'http://collector.foo.com'}
     end
 
     assert_redirected_to collector_worker_path(assigns(:collector_worker))

@@ -2,34 +2,29 @@ require 'test_helper'
 require 'helpers/websocket_client'
 
 # Start up collector
-$test_url = "http://127.0.0.1:10000"
-$collector_pid = Process.spawn("RAILS_ENV=#{ENV['RAILS_ENV']} rake workers:collector:start[#{$test_url}] --trace", :out => STDOUT)
-puts "Starting websocket collector"
-
-MiniTest::Unit.after_tests {
-  Process.kill("SIGTERM", $collector_pid)
-}
-
-sleep 10
 
 class CollectorTest < MiniTest::Unit::TestCase
   def self.test(name, &block)
     define_method("test_"+name.gsub(/\W/,'_'), block)
   end
   def setup
-    AccessToken.make!
+    @test_url = "http://127.0.0.1:10000"
+    @collector_pid = Process.spawn("RAILS_ENV=#{ENV['RAILS_ENV']} rake workers:collector:start[#{@test_url}]", :out => [Rails.root.join('log','test.log').to_s, 'w'] )
+    sleep 5
+    @access_token = AccessToken.make!
     opts = { protocol:'01282012.client.truestack.com',
-             secret:  AccessToken.first.secret,
-             key:     AccessToken.first.key,
+             secret:  @access_token.secret,
+             key:     @access_token.key,
              nonce: Time.now.to_i.to_s + OpenSSL::Random.random_bytes(32).unpack("H*")[0]
              }
-    @client = WebsocketClient.new($test_url,opts)
+    @client = WebsocketClient.new(@test_url,opts)
     super
   end
 
   def teardown
     @client.close if @client.connected?
     AccessToken.destroy_all
+    Process.kill("SIGTERM", @collector_pid)
     super
   end
 

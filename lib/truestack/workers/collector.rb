@@ -11,8 +11,9 @@ module Truestack
 
       def initialize(url)
         @url = URI.parse(url)
-        ActiveRecord::Base.connection_pool.with_connection do
-          @collector_record = CollectorWorker.find_or_create_by_url(@url.to_s)
+        @collector_record = CollectorWorker.where(url: @url).first
+        if (!@collector_record)
+          @collector_record = CollectorWorker.new(url: @url)
           @collector_record.save!
         end
       end
@@ -22,7 +23,6 @@ module Truestack
         EventMachine.run do
           at_exit do
             Rails.logger.info "Shutting down collector..."
-            ActiveRecord::Base.connection_pool.disconnect!
             Rails.logger.info "Shutting down active record connection."
           end
           Rails.logger.info "Starting collector on #{@url.host} #{@url.port}"
@@ -65,10 +65,8 @@ module Truestack
 
       def heartbeat
         Rails.logger.info "Heartbeat."
-        ActiveRecord::Base.connection_pool.with_connection do
-          @collector_record.updated_at = Time.now
-          @collector_record.save!
-        end
+        @collector_record.updated_at = Time.now
+        @collector_record.save!
       end
 
       private
@@ -80,10 +78,8 @@ module Truestack
 
         # Nonce must be 32+ chars and a-f0-9
         if req_nonce =~ /^[0-9a-f]{31}[0-9a-f]+$/
-          access_token = nil
-          ActiveRecord::Base.connection_pool.with_connection do
-            access_token = AccessToken.where(key: req_key).first
-          end
+          Rails.logger.info "Looking up access token for key: #{req_key}"
+          access_token = AccessToken.where(key: req_key).limit(1).first
 
           if access_token
             if access_token.valid_signature?(req_nonce, req_token)
@@ -101,9 +97,7 @@ module Truestack
       PROTOCOLS = {
         '01282012.client.truestack.com' => lambda {|ws, msg|
           Rails.logger.info "Received #{msg}"
-          ActiveRecord::Base.connection_pool.with_connection do
 
-          end
         }
       }
     end

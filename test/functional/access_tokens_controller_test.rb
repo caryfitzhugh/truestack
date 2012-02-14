@@ -18,7 +18,7 @@ class AccessTokensControllerTest < ActionController::TestCase
 
   test "should create access_token" do
     assert_difference('AccessToken.count') do
-      post :create, access_token: @access_token.attributes
+      post :create, access_token: {secret: 'new secret', key: 'new key'    }
     end
 
     assert_redirected_to access_token_path(assigns(:access_token))

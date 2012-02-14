@@ -1,7 +1,12 @@
 require 'base64'
 require 'openssl'
 
-class AccessToken < ActiveRecord::Base
+class AccessToken
+  include Mongoid::Document
+  include Mongoid::Timestamps
+  field :secret, type: String
+  field :key, type: String
+
   # Is the provided nonce and token valid?
   def valid_signature?(nonce, their_token)
     digest = OpenSSL::Digest::Digest.new('sha256')
