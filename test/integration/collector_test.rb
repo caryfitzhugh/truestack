@@ -10,7 +10,7 @@ MiniTest::Unit.after_tests {
   Process.kill("SIGTERM", $collector_pid)
 }
 
-sleep 20
+sleep 10
 
 class CollectorTest < MiniTest::Unit::TestCase
   def self.test(name, &block)
@@ -35,20 +35,44 @@ class CollectorTest < MiniTest::Unit::TestCase
 
   test "that we can not connect with a wimpy nonce" do
     @client.connect(nonce: 'notvalid')
-    read = @client.read_data
-    assert @client.close_received?
+    begin
+      read = @client.write_data("shouldn't be able to")
+      fail
+    rescue Exception => e
+      # This is ok.
+    end
   end
 
   test "that we can connect with valid credentials" do
-    assert @client.connect
+    @client.connect
+
+    @client.write_data("Writing data")
   end
   test "that we can not connect with invalid secret" do
-    assert !@client.connect(secret: 'notvalid'), "Connected?"
+    @client.connect(secret: 'notvalid')
+    begin
+      read = @client.write_data("shouldn't be able to")
+      fail "Connected?"
+    rescue Exception => e
+      # This is ok.
+    end
   end
   test "that we can not connect with invalid protocol" do
-    assert !@client.connect(protocol: 'notvalid'), "Connected?"
+    @client.connect(protocol: 'notvalid')
+    begin
+      read = @client.write_data("shouldn't be able to")
+      fail "Connected?"
+    rescue Exception => e
+      # This is ok.
+    end
   end
   test "that we can not connect with invalid app_key" do
-    assert !@client.connect(key: 'notvalid'), "Connected?"
+    @client.connect(key: 'notvalid')
+    begin
+      read = @client.write_data("shouldn't be able to")
+      fail "Connected?"
+    rescue Exception => e
+      # This is ok.
+    end
   end
 end

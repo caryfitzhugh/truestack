@@ -10,9 +10,8 @@ class WebsocketClient
     @proto = :hybi07
 
     log = Rails.logger
-    log.level = Logger::FATAL
 
-    @client = WSClient.new(log, {:host => @url.host, :port => @url.port, :proto => @proto, :frame_compression => true})
+    @client = WSClient.new(log, {:host => @url.host, :port => @url.port, :proto => @proto, :frame_compression => false})
   end
 
   def method_missing(*args)
@@ -35,8 +34,5 @@ class WebsocketClient
 
   def connected?
     @client.connected?
-  end
-  def report(type, hw_id, tstart, tend = tstart, data ={})
-    @client.write_data(ActiveSupport::JSON.encode(data.merge({type: type, source: hw_id, start: tstart, end: tend})))
   end
 end

@@ -72,7 +72,6 @@ class ProtoHybi07
       @compression = false
     end
 
-
     @connected = true
     return true
   end
@@ -319,6 +318,4 @@ class ProtoHybi07
     str = handshake +"258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
     return Base64.encode64(Digest::SHA1.digest(str)).strip
   end
-
-
 end

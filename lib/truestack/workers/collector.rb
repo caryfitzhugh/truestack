@@ -27,46 +27,40 @@ module Truestack
           end
           Rails.logger.info "Starting collector on #{@url.host} #{@url.port}"
           EventMachine::WebSocket.start(:protocols=>PROTOCOLS.keys, :host => @url.host, :port => @url.port) do |ws|
-            ws.onopen     { self.onopen(ws) }
-            ws.onclose    { self.onclose(ws) }
-            ws.onmessage  {|msg| self.onmessage(ws, msg) }
-            ws.onerror    {|e|   self.onerror(ws, e) }
+            ws.onopen     {
+              Rails.logger.info "Connection requested..."
+              @collector_record.connection_count += 1
+
+              begin
+                validate_request!(ws)
+                Rails.logger.info "Connection accepted."
+              rescue ValidationException => e
+                Rails.logger.error "Closed connection, validation error: #{e}"
+                ws.close_websocket(4000, "Error: #{e}")
+              rescue Exception => e
+                Rails.logger.error e
+                Rails.logger.error e.backtrace
+                raise e
+              end
+            }
+
+            ws.onclose    {
+              @collector_record.connection_count -= 1
+              Rails.logger.info "Connection closed"
+            }
+            ws.onmessage  {|msg|
+              Rails.logger.info "Recieved message: [#{msg}]"
+            }
+
+            ws.onerror    {|e|
+              Rails.logger.error "Error: #{e}"
+              pp e
+              pp e.backtrace.first
+            }
           end
 
           EventMachine.add_periodic_timer(30) { self.heartbeat }
         end
-      end
-
-      def onopen(ws)
-        Rails.logger.info "Connection requested..."
-        @collector_record.connection_count += 1
-        ActiveRecord::Base.connection_pool.with_connection do
-        end
-        begin
-          validate_request!(ws)
-          Rails.logger.info "Connection accepted."
-        rescue ValidationException => e
-          Rails.logger.error "Closed connection, validation error: #{e}"
-          ws.close_websocket(4000, "Error: #{e}")
-        rescue Exception => e
-          Rails.logger.error e
-          Rails.logger.error e.backtrace
-          raise e
-        end
-      end
-      def onclose(ws)
-        @collector_record.connection_count -= 1
-        Rails.logger.info "Connection closed"
-      end
-      def onerror(ws, e)
-        Rails.logger.error "Error: #{e}"
-        pp e
-        pp e.backtrace.first
-
-      end
-      def onmessage(ws, msg)
-        Rails.logger.info "Recieved message: #{msg} - push into Cassandra storage"
-
       end
 
       def heartbeat

@@ -32,21 +32,26 @@ class WSClient
     handshake = @proto.make_handshake(@host, protocols, @extensions, addl_headers)
 
     begin
+      @logger.info "Writing handshake..."
       write_to_socket(handshake)
+      @logger.info "Handshaking..."
       headers = read_http_headers
       @proto.check_handshake_response(headers)
-
+      @logger.info "Handshake completed"
       # If the protocol does not match, we need to close connection
       if (@proto.valid_protocol_response?(headers, protocols))
+        @logger.info "Protocols matched"
         true
       else
+        @logger.info "No matching protocol"
         close(406, "No matching protocol")
         false
       end
     rescue IOError => e
-
+      @logger.info "IO Error #{e}"
       return false
     rescue EOFError => e
+      @logger.info "EOF Error #{e}"
       # They hung up on us
       return false
     end
