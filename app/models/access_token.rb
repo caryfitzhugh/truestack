@@ -4,8 +4,9 @@ require 'openssl'
 class AccessToken
   include Mongoid::Document
   include Mongoid::Timestamps
-  field :secret, type: String
-  field :key, type: String
+  field :secret,  type: String
+  field :key,     type: String
+  belongs_to :user_application
 
   # Is the provided nonce and token valid?
   def valid_signature?(nonce, their_token)
