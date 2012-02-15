@@ -17,8 +17,9 @@ class DeploymentsControllerTest < ActionController::TestCase
   end
 
   test "should create deployment" do
+
     assert_difference('Deployment.count') do
-      post :create, deployment: { }
+      post :create, deployment: Deployment.make.attributes
     end
 
     assert_redirected_to deployment_path(assigns(:deployment))

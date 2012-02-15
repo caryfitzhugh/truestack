@@ -10,7 +10,7 @@ class CollectorTest < MiniTest::Unit::TestCase
   def setup
     @test_url = "http://127.0.0.1:10000"
     @collector_pid = Process.spawn("RAILS_ENV=#{ENV['RAILS_ENV']} rake workers:collector:start[#{@test_url}]", :out => [Rails.root.join('log','test.log').to_s, 'w'] )
-    sleep 5
+    sleep 10
     @access_token = AccessToken.make!
     opts = { protocol:'01282012.client.truestack.com',
              secret:  @access_token.secret,
