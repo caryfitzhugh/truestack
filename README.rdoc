@@ -5,11 +5,10 @@ We give you insight into your code, what makes it slow, how it is faring, etc. o
 
 == Data Model
 
-Application => Deploy_IDs
-Deploy_ID => {
-  "class/string" => { count, running mean, running stddev}
-
-}
+    Application => Deploy_IDs
+    Deploy_ID => {
+      "class/string" => { count, running mean, running stddev}
+    }
 
 
 
@@ -46,13 +45,15 @@ Let people define a code path as a given 'action'. Even though it is not a top-l
 Such as: index action may have search and no search as two code paths.  You can identify them with a filter or something as two paths, which we map / track separately.
 
 Simple enough to add metrics to a deploy for reporting....
-Deploy_ID:metrics => {
-  metric_name => { time, data}
-}
+
+    Deploy_ID:metrics => {
+      metric_name => { time, data}
+    }
 
 Easy. :) It won't support jillions of things but can be a good solution for new user tracking, or A/B testing I'd imagine.
 In a view:
-  ab_test(:partial_1 => :action_1, :partial_2 => :action_2)
+
+    ab_test(:partial_1 => :action_1, :partial_2 => :action_2)
 
 So you would say that partial 1 will go to controller action 1, if it was successful, or something like that.
 Then we do the math on the back end.
