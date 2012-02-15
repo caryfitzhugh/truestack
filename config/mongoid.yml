@@ -1,13 +1,16 @@
 development:
+  parameterize_keys: false
   host: localhost
   database: truestack_development
 
 test:
+  parameterize_keys: false
   host: localhost
   database: truestack_test
 
 # set these environment variables on your prod server
 production:
+  parameterize_keys: false
   uri: <%= ENV['MONGOHQ_URL'] %>
   # slaves:
   #   - host: slave1.local
