@@ -13,7 +13,6 @@ class Deployment
   belongs_to :user_application
 
   validates_presence_of :commit_id
-  validates_presence_of :commit_info
   validates_presence_of :user_application
 
   # http://railstips.org/blog/archives/2011/06/28/counters-everywhere/
@@ -62,7 +61,14 @@ class Deployment
       db.items.save(doc);
     }
   EOS
-
+  def inject_message(message)
+    Rails.logger.info message
+    if (message[:type] == 'request')
+      add_request(message[:name], message[:methods])
+    else
+      false
+    end
+  end
   def add_request(action_name, method_calls)
     # We want to do an upsert on matching data
     # TODO

@@ -8,6 +8,8 @@ class AccessToken
   field :key,     type: String
   belongs_to :user_application
 
+  validates_uniqueness_of :key
+
   # Is the provided nonce and token valid?
   def valid_signature?(nonce, their_token)
     digest = OpenSSL::Digest::Digest.new('sha256')

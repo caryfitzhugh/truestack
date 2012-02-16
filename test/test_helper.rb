@@ -5,11 +5,12 @@ require 'rails/test_help'
 require File.expand_path(File.dirname(__FILE__) + '/blueprints')
 
 class ActiveSupport::TestCase
-  setup :global_setup
+  setup     :clean_out_mongo
+  teardown  :clean_out_mongo
 
   private
 
-  def global_setup
+  def clean_out_mongo
     Mongoid.master.collections.select {|c| c.name !~ /system/ }.each(&:drop)
   end
 end

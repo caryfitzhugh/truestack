@@ -8,11 +8,13 @@ class CollectorTest < MiniTest::Unit::TestCase
     define_method("test_"+name.gsub(/\W/,'_'), block)
   end
   def setup
+    # Clean out mongo
+    Mongoid.master.collections.select {|c| c.name !~ /system/ }.each(&:drop)
     @test_url = "http://127.0.0.1:10000"
-    @collector_pid = Process.spawn("RAILS_ENV=#{ENV['RAILS_ENV']} rake workers:collector:start[#{@test_url}]", :out => [Rails.root.join('log','test.log').to_s, 'w'] )
+    @collector_pid = Process.spawn("RAILS_ENV=#{ENV['RAILS_ENV']} rake workers:collector:start[#{@test_url}] --trace", :out => [Rails.root.join('log','test.log').to_s, 'w'] )
     sleep 10
     @access_token = AccessToken.make!
-    opts = { protocol:'01282012.client.truestack.com',
+    opts = {
              secret:  @access_token.secret,
              key:     @access_token.key,
              nonce: Time.now.to_i.to_s + OpenSSL::Random.random_bytes(32).unpack("H*")[0]
@@ -28,6 +30,23 @@ class CollectorTest < MiniTest::Unit::TestCase
     super
   end
 
+  test "that request events are queued" do
+    @client.connect
+
+    @client.request('test_request', {action: 300})
+    @client.request('test_request', {action: 300})
+
+    # Should only show up in correct spots
+    sleep 1
+
+    @access_token.user_application.latest_deployment.reload
+    assert_equal 2, @access_token.user_application.latest_deployment.application_actions.get('action').count
+    assert_equal 300, @access_token.user_application.latest_deployment.application_actions.get('action').mean
+  end
+  test "we can submit a request report to the system" do
+    @client.connect
+    @client.request('test_request', {action: 500})
+  end
   test "that we can not connect with a wimpy nonce" do
     @client.connect(nonce: 'notvalid')
     begin
@@ -45,15 +64,6 @@ class CollectorTest < MiniTest::Unit::TestCase
   end
   test "that we can not connect with invalid secret" do
     @client.connect(secret: 'notvalid')
-    begin
-      read = @client.write_data("shouldn't be able to")
-      fail "Connected?"
-    rescue Exception => e
-      # This is ok.
-    end
-  end
-  test "that we can not connect with invalid protocol" do
-    @client.connect(protocol: 'notvalid')
     begin
       read = @client.write_data("shouldn't be able to")
       fail "Connected?"

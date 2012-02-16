@@ -1,4 +1,23 @@
 class CollectorWorkersController < ApplicationController
+
+  def ingest
+    key   = params[:key]
+    nonce = params[:nonce]
+    token = params[:token]
+
+    # Nonce must be 32+ chars and a-f0-9
+    if nonce =~ /^[0-9a-f]{31}[0-9a-f]+$/
+      Rails.logger.info "Looking up access token for key: #{req_key}"
+      access_token = AccessToken.where(key: req_key).limit(1).first
+      if (access_token && access_token.valid_signature?(nonce, token))
+        message = params[:message]
+        access_token.user_application.latest_deployment.inject_message(message)
+      end
+    else
+      render text: "Error", status: 404
+    end
+  end
+
   # GET /collector_workers
   # GET /collector_workers.json
   def index

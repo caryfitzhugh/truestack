@@ -6,7 +6,12 @@ class UserApplication
 
   # Get the latest deployment for a user application
   def latest_deployment
-    deployments.desc(:created_at).limit(1).first
+    deploy = deployments.desc(:created_at).limit(1).first
+    if (deploy)
+      deploy
+    else
+      deployed!("Initial Deploy")
+    end
   end
 
   # This user application was deployed to it's server

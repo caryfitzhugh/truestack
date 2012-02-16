@@ -35,4 +35,8 @@ class WebsocketClient
   def connected?
     @client.connected?
   end
+
+  def request(action_name, methods_n_times)
+    @client.write_data({type: :request, :name=>action_name, :methods=>methods_n_times}.to_json)
+  end
 end

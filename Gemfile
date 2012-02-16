@@ -35,4 +35,4 @@ gem 'jquery-rails'
 
 # Collector
 gem 'eventmachine'
-gem 'em-websocket', git: "git@github.com:caryfitzhugh/em-websocket.git"
+gem 'em-websocket'

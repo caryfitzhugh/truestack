@@ -3,15 +3,6 @@
 We give you insight into your code, what makes it slow, how it is faring, etc. over time / deploys.
 
 
-== Data Model
-
-    Application => Deploy_IDs
-    Deploy_ID => {
-      "class/string" => { count, running mean, running stddev}
-    }
-
-
-
 == Displaying
 On index page, you view the 'latest' deploy.
 
@@ -40,20 +31,27 @@ Sections below that:
 
 * Deployment indicator needs to tell us the names of all the public controller methods, so we can put them in the list from the get-go and know which are never hit.
 
-== Next?
-Let people define a code path as a given 'action'. Even though it is not a top-level action.
-Such as: index action may have search and no search as two code paths.  You can identify them with a filter or something as two paths, which we map / track separately.
+== Tasks
 
-Simple enough to add metrics to a deploy for reporting....
+=== ToDo
+* add initial index action for deployments --> redirect to show.
+* show deployment page and give the stats we want -- adding model methods.
+* refactor into access_token authorized request (returns true or raises the error)
+* show alerts from the deployment
+* allow hook for deployments
+* show action heatmap graph
+* write server client
+* write browser helper
+* login
+* payment?
+* graphic design? Backbone UI / standard HTML / etc etc?
 
-    Deploy_ID:metrics => {
-      metric_name => { time, data}
-    }
+=== Done
+* webhook does same as websocket.
+* get enqueue task done from websocket
 
-Easy. :) It won't support jillions of things but can be a good solution for new user tracking, or A/B testing I'd imagine.
-In a view:
-
-    ab_test(:partial_1 => :action_1, :partial_2 => :action_2)
-
-So you would say that partial 1 will go to controller action 1, if it was successful, or something like that.
-Then we do the math on the back end.
+=== Icebox
+* Let people define a code path as a given 'action'. Even though it is not a top-level action.
+* API for external services to query deployments and data
+* Custom metrics and way to graph / chart them (or just in the API?)
+* support A/B testing

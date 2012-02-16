@@ -10,6 +10,8 @@ class ApplicationAction
   embedded_in :deployment
   validates_presence_of :name
 
+  # http://mrdanadams.com/2011/mongodb-eval-ruby-driver/
+  # Want to make this a JS atomic
   def update(timing)
     count       = self.count + 1
     old_mean    = self.mean
