@@ -1,14 +1,15 @@
 Truestack::Application.routes.draw do
-  root :to => "dashboard#show"
+  resources :user_applications, :only => [:index, :show], :path => "apps"
 
-  get "dashboard" => 'dashboard#show'
+  root :to => "user_applications#index"
 
   resources :application_actions, :only=>[:create]
+
   resources :deployments, :only=>[:create]
 
   resources :access_tokens
 
   match "/director" => "director#index"
 
-  resources :collector_workers
+  resources :collector_workers, :as => "collectors"
 end

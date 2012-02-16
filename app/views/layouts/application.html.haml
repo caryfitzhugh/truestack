@@ -1,0 +1,29 @@
+!!!
+%html
+  %head
+    %title Truestack
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+  %body
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          %a.btn.btn-navbar{'data-toggle'=>'collapse', 'data-target'=>'.nav-collapse'}
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          %a.brand Truestack.com
+          .nav-collapse
+            %ul.nav
+              %li.active
+                %a{:href=>'/'} Home
+              %li
+                %a{:href=>user_applications_path} Apps
+    .container
+      = yield
+
+      %hr
+
+      %footer
+        %p &copy; Truestack 2012
