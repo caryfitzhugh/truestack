@@ -16,6 +16,9 @@ class AccessToken
     our_token  = OpenSSL::HMAC.hexdigest(digest, self.secret, nonce)
     our_token == their_token
   end
+  def create_signature(nonce)
+    AccessToken.create_signature(self.secret, nonce)
+  end
   def self.create_signature(secret, nonce)
     digest = OpenSSL::Digest::Digest.new('sha256')
     OpenSSL::HMAC.hexdigest(digest, secret, nonce)

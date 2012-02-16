@@ -75,7 +75,7 @@ class Deployment
     Rails.logger.error "THIS IS BAD! RACE CONDITIONS! - make a JS stored_procedure"
 
     method_calls.each_pair do |name, new_duration|
-      application_actions.find_or_create_by(name: name).update(new_duration)
+      application_actions.find_or_create_by(name: name.to_s).update(new_duration.to_f)
     end
   end
 end
