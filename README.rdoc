@@ -34,19 +34,21 @@ Sections below that:
 == Tasks
 
 === ToDo
-* add initial index action for deployments --> redirect to show.
-* show deployment page and give the stats we want -- adding model methods.
+* on apps show page - sho latest deployment stats (as above in reqts).  show deployment page and give the stats we want -- adding model methods.
 * refactor into access_token authorized request (returns true or raises the error)
 * show alerts from the deployment
-* allow hook for deployments
-* show action heatmap graph
+* allow hook for deployments to POST and create new deployments
+* show action heatmap graph when clicking on a request
 * write server client
 * write browser helper
+* write fake apps we can install on in heroku - which then poke each other to create tons of traffic in random ways
 * login
 * payment?
 * graphic design? Backbone UI / standard HTML / etc etc?
 
 === Done
+* twitter-bootstrap styles installed.
+* add initial index action for deployments  - you can see this on /apps
 * webhook does same as websocket.
 * get enqueue task done from websocket
 
