@@ -1,4 +1,6 @@
 Truestack::Application.routes.draw do
+  get "dashboard" => 'dashboard#show'
+
   resources :application_actions, :only=>[:create]
   resources :deployments, :only=>[:create]
 

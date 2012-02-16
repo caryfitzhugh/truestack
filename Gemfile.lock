@@ -47,6 +47,9 @@ GEM
       multi_json (~> 1.0)
     addressable (2.2.6)
     arel (3.0.0)
+    bootstrap-sass-rails (2.0.0.3)
+      rails (~> 3.1)
+      sass-rails (~> 3.1)
     bson (1.5.2)
     bson_ext (1.5.2)
       bson (= 1.5.2)
@@ -145,6 +148,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bootstrap-sass-rails
   bson_ext (~> 1.5)
   coffee-rails (~> 3.2.1)
   em-websocket
