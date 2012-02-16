@@ -45,6 +45,9 @@ Sections below that:
 * login
 * payment?
 * graphic design? Backbone UI / standard HTML / etc etc?
+* configure DNS and email truestack.com
+* setup truestack blog
+* truestack twitter ? chris?
 
 === Done
 * twitter-bootstrap styles installed.
