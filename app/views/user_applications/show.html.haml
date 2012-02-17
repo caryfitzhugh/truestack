@@ -1,12 +1,11 @@
 .hero-unit
   %p Here is the overview graph for the current deploy
+  %p
+    %a{href: deployment_path(@user_application.latest_deployment)} View Latest
 
-.row
-  %h2 Popular Requests
-  %p List
-.row
-  %h2 Slowest Requests
-  %p List
-.row
-  %h2 Lonely Requests
-  %p List
+
+- @user_application.deployments.each do |deployment|
+  .row
+    %h2= deployment.created_at
+    %p
+      %a{href: deployment_path(deployment)} View
