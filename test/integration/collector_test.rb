@@ -33,19 +33,15 @@ class CollectorTest < MiniTest::Unit::TestCase
   test "that request events are queued" do
     @client.connect
 
-    @client.request('test_request', {action: 300})
-    @client.request('test_request', {action: 300})
+    @client.request('test_request', {action: {s: 0, d:300}})
+    @client.request('test_request', {action: {s: 0, d:300}})
 
     # Should only show up in correct spots
     sleep 1
 
     @access_token.user_application.latest_deployment.reload
     assert_equal 2, @access_token.user_application.latest_deployment.application_actions.get('action').count
-    assert_equal 300, @access_token.user_application.latest_deployment.application_actions.get('action').mean
-  end
-  test "we can submit a request report to the system" do
-    @client.connect
-    @client.request('test_request', {action: 500})
+    assert_equal 300, @access_token.user_application.latest_deployment.application_actions.get('action').duration_mean
   end
   test "that we can not connect with a wimpy nonce" do
     @client.connect(nonce: 'notvalid')

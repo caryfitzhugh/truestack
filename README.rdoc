@@ -34,6 +34,8 @@ Sections below that:
 == Tasks
 
 === ToDo
+* add start time to events
+
 * on app show page - show latest deployment stats
 ** requests / second
 ** small graph (or txt for now) - just slice on : and take the first one as the 'grouping'
