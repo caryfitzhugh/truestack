@@ -11,5 +11,5 @@ Truestack::Application.routes.draw do
 
   match "/director" => "director#index"
 
-  resources :collector_workers, :as => "collectors"
+  resources :collector_workers
 end
