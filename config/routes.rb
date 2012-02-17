@@ -5,7 +5,7 @@ Truestack::Application.routes.draw do
 
   resources :application_actions, :only=>[:create]
 
-  resources :deployments, :only=>[:create]
+  resources :deployments, :only=>[:create, :show]
 
   resources :access_tokens
 

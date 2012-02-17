@@ -15,6 +15,11 @@ class Deployment
   validates_presence_of :commit_id
   validates_presence_of :user_application
 
+  def req_per_second(now = Time.now)
+    total_count = application_actions.inject(0) {|tot, action| tot += action.count }.to_f
+    total_count / (now - created_at).to_i
+  end
+
   # http://railstips.org/blog/archives/2011/06/28/counters-everywhere/
   #
   # http://www.johndcook.com/standard_deviation.html
@@ -74,8 +79,8 @@ class Deployment
     # TODO
     Rails.logger.error "THIS IS BAD! RACE CONDITIONS! - make a JS stored_procedure"
 
-    method_calls.each_pair do |name, new_duration|
-      application_actions.find_or_create_by(name: name.to_s).update(new_duration.to_f)
+    method_calls.each_pair do |name, timings|
+      application_actions.find_or_create_by(name: name.to_s).update(timings)
     end
   end
 end
