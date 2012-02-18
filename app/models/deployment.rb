@@ -20,6 +20,13 @@ class Deployment
     total_count / (now - created_at).to_i
   end
 
+  # Gives the stats on things which start with the filter (split on ":")
+  def filtered_stats(str)
+    application_actions.select do |action|
+      action.name =~ /^#{str}:/
+    end
+  end
+
   # http://railstips.org/blog/archives/2011/06/28/counters-everywhere/
   #
   # http://www.johndcook.com/standard_deviation.html

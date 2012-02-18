@@ -4,6 +4,11 @@
   %p
     %label Req / Sec
     = @deployment.req_per_second
+.row
+  %h2 Debug
+  %p
+    = form_tag(debug_create_deployment_data_path(@deployment)) do
+      %input{:type=>:submit, :value => "Create Debug Data"}
 
 - @deployment.application_actions.each do |action|
   .row

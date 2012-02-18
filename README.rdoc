@@ -33,6 +33,9 @@ Sections below that:
 == Tasks
 
 === ToDo
+** Create the reporter GEM
+** Setup reporter gem in a fake heroku rails 3 app
+
 * on app show page - show latest deployment stats
 ** small graph (or txt for now) - just slice action names on / and take the first one as the 'grouping'
 *** % in DB

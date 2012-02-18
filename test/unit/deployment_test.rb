@@ -1,6 +1,24 @@
 require 'test_helper'
 
 class DeploymentTest < ActiveSupport::TestCase
+  test "we can filter stats by prefix" do
+    deployment = Deployment.make!
+    deployment.add_request("one", {'db:action'=> {s:0, d:700}})
+    deployment.add_request("one", {'db:action2' => {s:0, d:700}})
+    deployment.add_request("one", {'view:action' => {s:0, d:700}})
+    deployment.add_request("one", {'view:action2' => {s:0, d:700}})
+    deployment.add_request("one", {'browser:action' => {s:0, d:700}})
+    deployment.add_request("two", {'browser:action2' => {s:0, d:700}})
+    deployment.add_request("two", {'browser:action3' => {s:0, d:700}})
+    deployment.add_request("two", {'app:action' => {s:0, d:700}})
+    deployment.add_request("two", {'app:action2' => {s:0, d:700}})
+    deployment.add_request("two", {'app:action3' => {s:0, d:700}})
+
+    assert_equal 2, deployment.filtered_stats('db').size
+    assert_equal 2, deployment.filtered_stats('view').size
+    assert_equal 3, deployment.filtered_stats('browser').count
+    assert_equal 3, deployment.filtered_stats('app').count
+  end
   test "req per second results" do
     deployment = Deployment.make!
     deployment.add_request("one", {action: {s:0, d:700}})
