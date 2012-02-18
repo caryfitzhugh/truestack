@@ -33,8 +33,21 @@ Sections below that:
 == Tasks
 
 === ToDo
-** Create the reporter GEM
-** Setup reporter gem in a fake heroku rails 3 app
+** Create the truestack client GEM.
+  -- accepts configuration like mongo (global settings in ruby)
+  -- threadsafe
+  -- exception, request, deploy methods, log/alert
+** Create the truestack - rails GEM
+  -- reads from config file
+  -- Sets up wrapper methods on load for all the interest
+  -- Sets up exception handlers
+  -- is very explicit about rails versions
+** Create truestack JS library for online / in rails app
+  -- put on CDN ?
+  -- when loaded, stores time, waits for DOM ready, then posts to truestack.
+  -- accepts a nonce, and token from rails.
+
+* Put truetsack-rails GEM into heroku app
 
 * on app show page - show latest deployment stats
 ** small graph (or txt for now) - just slice action names on / and take the first one as the 'grouping'
