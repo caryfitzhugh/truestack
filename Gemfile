@@ -28,6 +28,7 @@ end
 group :test do
   gem 'pry', :git => "git://github.com/pry/pry.git"
   gem "minitest"
+  gem 'truestack_client', :git => "git@github.com:caryfitzhugh/truestack_client.git"
 end
 
 gem 'jquery-rails'

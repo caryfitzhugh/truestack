@@ -8,6 +8,12 @@ GIT
       slop (>= 2.4.4, < 3)
 
 GIT
+  remote: git@github.com:caryfitzhugh/truestack_client.git
+  revision: e91074392c7309a9329db3d791ba57be04b3b5cc
+  specs:
+    truestack_client (0.0.1)
+
+GIT
   remote: https://github.com/nmerouze/machinist_mongo.git
   revision: fa4819c4e1233a4e3ce527b68af8aeee85dfc6c3
   branch: machinist2
@@ -159,4 +165,5 @@ DEPENDENCIES
   pry!
   rails (= 3.2.1)
   sass-rails (~> 3.2.3)
+  truestack_client!
   uglifier (>= 1.0.3)

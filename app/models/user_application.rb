@@ -2,7 +2,10 @@ class UserApplication
   include Mongoid::Document
   field :name, :type => String
   has_many :deployments
+  has_many :time_buckets
   has_many :access_tokens
+
+  BUCKET_RESOLUTION_IN_SECONDS = 300  # 5 minutes
 
   # Get the latest deployment for a user application
   def latest_deployment
@@ -20,5 +23,16 @@ class UserApplication
     deployment = Deployment.new(commit_id: commit_id, commit_info: commit_info, methods: all_methods, user_application: self)
     deployment.save!
     deployment
+  end
+
+  def add_request(request_name, method_calls)
+    current_bucket.add_request(request_name, method_calls)
+    current_bucket.save
+  end
+
+  # Get the latest bucket
+  def current_bucket
+    timestamp = (Time.now.to_i / BUCKET_RESOLUTION_IN_SECONDS) * BUCKET_RESOLUTION_IN_SECONDS
+    time_buckets.find_or_create_by(created_at: timestamp)
   end
 end

@@ -14,4 +14,13 @@ class UserApplicationTest < ActiveSupport::TestCase
 
     assert_equal latest, application.latest_deployment
   end
+  test "we create a app and can add some timings to it" do
+    app = UserApplication.make!
+    # Adding a request involves the action_name and then a hash of method => timing_data sets
+    app.add_request("controller#action",
+                      model_action: 300.3,
+                      controller_action: 700,
+                      db_request:   200
+           )
+  end
 end

@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'helpers/websocket_client'
 
 # Start up collector
 
@@ -19,7 +18,7 @@ class CollectorTest < MiniTest::Unit::TestCase
              key:     @access_token.key,
              nonce: Time.now.to_i.to_s + OpenSSL::Random.random_bytes(32).unpack("H*")[0]
              }
-    @client = WebsocketClient.new(@test_url,opts)
+    @client = TruestackClient::Websocket.new(@test_url,opts)
     super
   end
 
