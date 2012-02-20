@@ -25,8 +25,8 @@ class UserApplication
     deployment
   end
 
-  def add_request(request_name, method_calls)
-    current_bucket.add_request(request_name, method_calls)
+  def add_request(request_name, start_time, method_calls)
+    current_bucket.add_request(request_name, start_time, method_calls)
     current_bucket.save
   end
 

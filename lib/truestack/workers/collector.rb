@@ -58,10 +58,14 @@ module Truestack
                 while !messages.empty?
                   queued_message = messages.pop
                   message = ActiveSupport::JSON.decode(queued_message).symbolize_keys rescue {}
-                  deployment = access_token.user_application.latest_deployment
+                  app = access_token.user_application
                   #Rails.logger.info "*"*800 + "Injecting #{queued_message}"
-                  if( deployment.inject_message(message) )
-                    deployment.save!
+                  if (message[:type] == 'request')
+                    name  = message.delete(:name)
+                    type  = message.delete(:type)
+                    timestamp = message.delete(:timestamp)
+                    data = message.delete(:data)
+                    app.add_request(name, timestamp, data)
                   end
                 end
               else

@@ -32,8 +32,8 @@ class CollectorTest < MiniTest::Unit::TestCase
   test "that request events are queued" do
     @client.connect
 
-    @client.request('test_request', {action: {s: 0, d:300}})
-    @client.request('test_request', {action: {s: 0, d:300}})
+    @client.request('test_request', Time.now.to_i, {action: {s: 0, d:300}})
+    @client.request('test_request', Time.now.to_i, {action: {s: 0, d:300}})
 
     # Should only show up in correct spots
     sleep 1
@@ -41,38 +41,5 @@ class CollectorTest < MiniTest::Unit::TestCase
     @access_token.user_application.latest_deployment.reload
     assert_equal 2, @access_token.user_application.latest_deployment.application_actions.get('action').count
     assert_equal 300, @access_token.user_application.latest_deployment.application_actions.get('action').duration_mean
-  end
-  test "that we can not connect with a wimpy nonce" do
-    @client.connect(nonce: 'notvalid')
-    begin
-      read = @client.write_data("shouldn't be able to")
-      fail
-    rescue Exception => e
-      # This is ok.
-    end
-  end
-
-  test "that we can connect with valid credentials" do
-    @client.connect
-
-    @client.write_data("Writing data")
-  end
-  test "that we can not connect with invalid secret" do
-    @client.connect(secret: 'notvalid')
-    begin
-      read = @client.write_data("shouldn't be able to")
-      fail "Connected?"
-    rescue Exception => e
-      # This is ok.
-    end
-  end
-  test "that we can not connect with invalid app_key" do
-    @client.connect(key: 'notvalid')
-    begin
-      read = @client.write_data("shouldn't be able to")
-      fail "Connected?"
-    rescue Exception => e
-      # This is ok.
-    end
   end
 end

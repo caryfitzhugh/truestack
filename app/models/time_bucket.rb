@@ -3,10 +3,10 @@ class TimeBucket
   include Mongoid::Timestamps
 
   belongs_to :user_application
-  has_many :application_requests
-  has_many :application_actions
+  embeds_many :application_requests
+  embeds_many :application_actions
 
-  def add_request(request_name, method_calls)
+  def add_request(request_name, timestamp, method_calls)
     application_requests.find_or_create_by(name: request_name).update(method_calls)
 
     # TODO

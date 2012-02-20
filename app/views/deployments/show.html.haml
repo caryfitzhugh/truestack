@@ -1,31 +1,3 @@
 .hero-unit
   %h1
     Deployment on #{@deployment.created_at}
-  %p
-    %label Req / Sec
-    = @deployment.req_per_second
-.row
-  %h2 Debug
-  %p
-    = form_tag(debug_create_deployment_data_path(@deployment)) do
-      %input{:type=>:submit, :value => "Create Debug Data"}
-
-- @deployment.application_actions.each do |action|
-  .row
-    %h2
-      = action.name
-      (
-      = action.count
-      )
-    %p
-      %label Start Mean
-      = action.start_mean
-      %br
-      %label Start Std Dev
-      = action.start_stddev
-    %p
-      %label Duration Mean
-      = action.start_mean
-      %br
-      %label Duration Std Dev
-      = action.start_stddev

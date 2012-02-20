@@ -24,6 +24,7 @@ end
 
 group :development do
   gem 'pry', :git => "git://github.com/pry/pry.git"
+  #gem "ruby-debug19", :require => "ruby-debug"
 end
 group :test do
   gem 'pry', :git => "git://github.com/pry/pry.git"
