@@ -13,16 +13,16 @@ class UserApplication
     if (deploy)
       deploy
     else
-      deployed!("Initial Deploy")
+      deploy!(:commit_id => "Initial Deploy")
     end
   end
 
   # This user application was deployed to it's server
   # And so - create a new deployment record
-  def deployed!( commit_id, commit_info={}, all_methods={} )
-    deployment = Deployment.new(commit_id: commit_id, commit_info: commit_info, methods: all_methods, user_application: self)
-    deployment.save!
-    deployment
+  def deploy!( message )
+    commit_id = message.delete(:commit_id)
+    all_actions = message.delete(:all_actions) || {}
+    deployment = Deployment.create!(commit_id: commit_id, commit_info: message, methods: all_actions, user_application: self)
   end
 
   def add_request(request_name, timestamp, method_calls)

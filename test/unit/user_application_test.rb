@@ -3,7 +3,9 @@ require 'test_helper'
 class UserApplicationTest < ActiveSupport::TestCase
   test "we can create an app and attach deployments" do
     application = UserApplication.make!
-    new_deployment = application.deployed!("git-commit-id", {'free-form'=>'commit-information'}, ['method#one', 'method#two'])
+    new_deployment = application.deploy!(:commit_id=>"git-commit-id",
+        'free-form'=>'commit-information',
+        :all_actions => ['method#one', 'method#two'])
     assert_equal new_deployment, application.latest_deployment
   end
 

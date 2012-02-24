@@ -3,12 +3,11 @@ class UserApplicationsController < ApplicationController
 
   def create_event
     message = ActiveSupport::JSON.decode(request.body).symbolize_keys
-    app = access_token.user_application
+    app = @access_token.user_application
     if (message[:type] == 'request' )
       #name, timestamp, data
       app.add_request(message[:name], message[:timestamp], :data => message[:data])
     end
-    app.save!
     head :accepted
   end
 
