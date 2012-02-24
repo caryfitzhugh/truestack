@@ -24,10 +24,12 @@ end
 
 group :development do
   gem 'pry', :git => "git://github.com/pry/pry.git"
+  gem 'pry-nav', :git => "https://github.com/nixme/pry-nav.git"
   #gem "ruby-debug19", :require => "ruby-debug"
 end
 group :test do
   gem 'pry', :git => "git://github.com/pry/pry.git"
+  gem 'pry-nav', :git => "https://github.com/nixme/pry-nav.git"
   gem "minitest"
   gem 'truestack_client', :git => "git@github.com:caryfitzhugh/truestack_client.git"
 end

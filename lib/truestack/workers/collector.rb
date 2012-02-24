@@ -27,12 +27,32 @@ module Truestack
           EventMachine::WebSocket.start(:host => @url.host, :port => @url.port) do |ws|
             access_token = nil
 
+            messages = []
+            process_messages = lambda do
+              while !messages.empty?
+                queued_message = messages.pop
+                message = ActiveSupport::JSON.decode(queued_message).symbolize_keys rescue {}
+                app = access_token.user_application
+
+                if (message[:type] == 'request')
+                  name  = message.delete(:name)
+                  type  = message.delete(:type)
+                  timestamp = message.delete(:timestamp)
+                  data = message.delete(:data)
+                  Rails.logger.info "Adding request: #{name} #{type} #{timestamp} #{data}"
+                  app.add_request(name, timestamp, data)
+                  Rails.logger.info "Added request: #{name} #{type} #{timestamp} #{data}"
+                end
+              end
+            end
+
             ws.onopen     {
               @collector_record.connection_count += 1
 
               begin
                 access_token = validate_request!(ws)
                 Rails.logger.info "Connection accepted."
+                process_messages.call
               rescue ValidationException => e
                 Rails.logger.error "Rejected connection, validation error: #{e}"
                 ws.close_websocket(4000, "Error: #{e}")
@@ -47,27 +67,13 @@ module Truestack
               @collector_record.connection_count -= 1
               Rails.logger.info "Connection closed"
             }
-
-            messages = []
             ws.onmessage  {|msg|
               Rails.logger.info "Recieved message: [#{msg}]"
               messages << msg
               # If we're still looking up the access token, then queue this
-              # until we are
+              # until we are connected
               if (access_token)
-                while !messages.empty?
-                  queued_message = messages.pop
-                  message = ActiveSupport::JSON.decode(queued_message).symbolize_keys rescue {}
-                  app = access_token.user_application
-                  #Rails.logger.info "*"*800 + "Injecting #{queued_message}"
-                  if (message[:type] == 'request')
-                    name  = message.delete(:name)
-                    type  = message.delete(:type)
-                    timestamp = message.delete(:timestamp)
-                    data = message.delete(:data)
-                    app.add_request(name, timestamp, data)
-                  end
-                end
+                process_messages.call
               else
                 Rails.logger.info "no access_tokens yet!"
               end

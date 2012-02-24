@@ -9,9 +9,16 @@ GIT
 
 GIT
   remote: git@github.com:caryfitzhugh/truestack_client.git
-  revision: e91074392c7309a9329db3d791ba57be04b3b5cc
+  revision: 18fe71a52c802c643e09ad4f6d1e5b88a0a98944
   specs:
-    truestack_client (0.0.1)
+    truestack_client (0.0.15)
+
+GIT
+  remote: https://github.com/nixme/pry-nav.git
+  revision: 92de7516ae0f058a4809bcf7564de880429f5a35
+  specs:
+    pry-nav (0.1.0)
+      pry (~> 0.9.8.1)
 
 GIT
   remote: https://github.com/nmerouze/machinist_mongo.git
@@ -163,6 +170,7 @@ DEPENDENCIES
   mongoid (~> 2.4)
   pg
   pry!
+  pry-nav!
   rails (= 3.2.1)
   sass-rails (~> 3.2.3)
   truestack_client!

@@ -7,6 +7,7 @@ class TimeBucket
   embeds_many :application_actions
 
   def add_request(request_name, timestamp, method_calls)
+
     application_requests.find_or_create_by(name: request_name).update(method_calls)
 
     # TODO

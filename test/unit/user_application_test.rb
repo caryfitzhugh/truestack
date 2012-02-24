@@ -17,10 +17,6 @@ class UserApplicationTest < ActiveSupport::TestCase
   test "we create a app and can add some timings to it" do
     app = UserApplication.make!
     # Adding a request involves the action_name and then a hash of method => timing_data sets
-    app.add_request("controller#action", Time.now.to_i,
-                      model_action: 300.3,
-                      controller_action: 700,
-                      db_request:   200
-           )
+    app.add_request("controller#action", Time.now.to_i, model_action: 300.3, controller_action: 700, db_request:   200)
   end
 end

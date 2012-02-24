@@ -25,8 +25,9 @@ class UserApplication
     deployment
   end
 
-  def add_request(request_name, start_time, method_calls)
-    current_bucket.add_request(request_name, start_time, method_calls)
+  def add_request(request_name, timestamp, method_calls)
+    Rails.logger.info "Add request #{request_name} #{timestamp} #{method_calls}"
+    current_bucket.add_request(request_name, timestamp, method_calls)
     current_bucket.save
   end
 
