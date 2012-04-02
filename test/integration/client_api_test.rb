@@ -19,7 +19,7 @@ class ClientApiTest < ActionDispatch::IntegrationTest
     access_token = AccessToken.make!
     nonce        = Time.now.to_i.to_s + OpenSSL::Random.random_bytes(32).unpack("H*")[0]
 
-    post "/deployments", { commit_id: 'foo'}.to_json,
+    post "/app/deployments", { commit_id: 'foo'}.to_json,
         {'TrueStack-Access-Key' => access_token.key, 'TrueStack-Access-Token' => access_token.create_signature(nonce),
           'TrueStack-Access-Nonce' => nonce}
     assert_response :accepted

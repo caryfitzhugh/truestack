@@ -3,7 +3,7 @@ root :to => "user_applications#index"
   resources :user_applications, :only => [:index, :show], :path => "apps"
   post "/app/event"     => "user_applications#create_event"
 
-  resources :deployments, :only=>[:create, :show]
+  resources :deployments, :only=>[:create, :show], :path => "app/deployments"
 
   resources :access_tokens
 
