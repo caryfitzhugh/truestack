@@ -9,10 +9,8 @@
     %h2= deployment.created_at
     %p
       %a{href: deployment_path(deployment)} View Latest
-= @user_application.to_json
-= @user_application.time_buckets.to_json
 
-- @user_application.time_buckets do |time_bucket|
+- @user_application.time_buckets.each do |time_bucket|
   .row
     %h2= time_bucket.created_at
     %h3 Requests
