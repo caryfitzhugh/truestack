@@ -1,0 +1,10 @@
+form class='form-horizontal' action=user_applications_path method='post'
+  fieldset
+    legend Create A New User Application
+    div class='control-group'
+      label class='control-label' for='field_name' App Name
+      div class='controls'
+        input type='text' class='input-xlarge' id='field_name' name='user_application[name]'
+    div class='form-actions'
+      button type='submit' class='btn btn-primary' Create
+      button class='btn' Cancel
