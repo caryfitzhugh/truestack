@@ -10,15 +10,31 @@
     %p
       %a{href: deployment_path(deployment)} View Latest
 
-%table.table.table-striped
-  %tr
-    %th ID
-    %th Key
-    %th Secret
-    %th &nbsp;
-  - @user_application.access_tokens.each do |token|
-    %tr
-      %td= token.id
-      %td= token.key
-      %td= token.secret
-      %td &nbsp;
+- @user_application.time_buckets do |time_bucket|
+  .row
+    %h2= time_bucket.created_at
+    %h3 Requests
+    - time_bucket.application_requests.each do |request|
+      %h4= request.name
+      %table.table.table-striped
+        %tr
+          %th Name
+          %th Count
+        - request.actions.each_pair do |name, count|
+          %tr
+            %td= name
+            %td= count
+
+    %h3 Actions
+    %table.table.table-striped
+      %tr
+        %th Name
+        %th Count
+        %th Mean
+        %th Square
+      - time_bucket.application_actions.each do |action|
+        %tr
+          %td= action.name
+          %td= action.count
+          %td= action.mean
+          %td= action.square
