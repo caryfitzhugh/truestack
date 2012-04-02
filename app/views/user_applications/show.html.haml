@@ -9,6 +9,8 @@
     %h2= deployment.created_at
     %p
       %a{href: deployment_path(deployment)} View Latest
+= @user_application.to_json
+= @user_application.time_buckets.to_json
 
 - @user_application.time_buckets do |time_bucket|
   .row
