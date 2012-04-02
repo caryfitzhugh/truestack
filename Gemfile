@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.1'
 
 gem 'pg'
+gem 'slim'
 
 group :test do
   gem 'machinist', '>= 2.0.0.beta2'

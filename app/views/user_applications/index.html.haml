@@ -1,6 +1,9 @@
 .hero-unit
   %h1 Your Dashboard For All Your Applications
   %p Here we may have a blurb about all your applications
+  %p
+    %a{:href=>new_user_application_path} New Application
+
 
 - @user_applications.each do |app|
   .row

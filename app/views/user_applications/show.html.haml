@@ -8,4 +8,17 @@
   .row
     %h2= deployment.created_at
     %p
-      %a{href: deployment_path(deployment)} View
+      %a{href: deployment_path(deployment)} View Latest
+
+%table.table.table-striped
+  %tr
+    %th ID
+    %th Key
+    %th Secret
+    %th &nbsp;
+  - @user_application.access_tokens.each do |token|
+    %tr
+      %td= token.id
+      %td= token.key
+      %td= token.secret
+      %td &nbsp;

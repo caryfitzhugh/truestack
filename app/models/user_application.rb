@@ -5,6 +5,8 @@ class UserApplication
   has_many :time_buckets
   has_many :access_tokens
 
+  after_save :create_default_access_token
+
   BUCKET_RESOLUTION_IN_SECONDS = 300  # 5 minutes
 
   # Get the latest deployment for a user application
@@ -35,5 +37,13 @@ class UserApplication
   def current_bucket
     timestamp = (Time.now.to_i / BUCKET_RESOLUTION_IN_SECONDS) * BUCKET_RESOLUTION_IN_SECONDS
     time_buckets.find_or_create_by(created_at: timestamp)
+  end
+
+  private
+
+  def create_default_access_token
+    if (self.access_tokens.length == 0)
+      self.access_tokens.create!
+    end
   end
 end

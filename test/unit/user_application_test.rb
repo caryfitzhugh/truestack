@@ -21,4 +21,10 @@ class UserApplicationTest < ActiveSupport::TestCase
     # Adding a request involves the action_name and then a hash of method => timing_data sets
     app.add_request("controller#action", Time.now.to_i, model_action: 300.3, controller_action: 700, db_request:   200)
   end
+
+  test "user app has access_tokens" do
+    app = UserApplication.make!
+
+    assert_equal 1, app.access_tokens.length
+  end
 end

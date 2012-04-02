@@ -19,4 +19,17 @@ class UserApplicationsController < ApplicationController
   def index
     @user_applications = UserApplication.all
   end
+
+  def new
+    @user_application = UserApplication.new
+  end
+
+  def create
+    @user_application = UserApplication.new(params[:user_application])
+    if @user_application.save
+      redirect_to user_application_path(@user_application)
+    else
+      render :action => "new"
+    end
+  end
 end

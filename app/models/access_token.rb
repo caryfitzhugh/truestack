@@ -9,6 +9,7 @@ class AccessToken
   belongs_to :user_application
 
   validates_uniqueness_of :key
+  before_validation :create_key, :create_secret
 
   # Is the provided nonce and token valid?
   def valid_signature?(nonce, their_token)
@@ -22,5 +23,15 @@ class AccessToken
   def self.create_signature(secret, nonce)
     digest = OpenSSL::Digest::Digest.new('sha256')
     OpenSSL::HMAC.hexdigest(digest, secret, nonce)
+  end
+
+  private
+
+  def create_key
+    self.key = SecureRandom.hex(10) if self.key.blank?
+  end
+
+  def create_secret
+    self.secret = SecureRandom.hex(10) if self.secret.blank?
   end
 end
