@@ -11,3 +11,7 @@
  *= require_self
  *= require "twitter/bootstrap"
 */
+
+body {
+  background: url('body-bg.png');
+}
