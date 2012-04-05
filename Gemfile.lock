@@ -9,9 +9,9 @@ GIT
 
 GIT
   remote: git@github.com:caryfitzhugh/truestack_client.git
-  revision: 18fe71a52c802c643e09ad4f6d1e5b88a0a98944
+  revision: 6fa476db65be70b514b5189b93e5188fed840a7d
   specs:
-    truestack_client (0.0.15)
+    truestack_client (0.0.22)
 
 GIT
   remote: https://github.com/nixme/pry-nav.git
