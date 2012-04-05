@@ -5,7 +5,7 @@ class UserApplicationsController < ApplicationController
     ::Rails.logger.info "Caught browser event "
     ::Rails.logger.info params.to_yaml
 
-    head :200
+    head 200
   end
 
   def create_event
