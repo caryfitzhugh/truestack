@@ -9,7 +9,7 @@
 - @user_applications.each do |app|
   .row
     h2
-      a href: user_application_path(app)
+      a href=(user_application_path(app)) = app.name
 
 
 .row
