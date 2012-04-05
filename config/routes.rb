@@ -2,7 +2,7 @@ Truestack::Application.routes.draw do
 root :to => "user_applications#index"
   resources :user_applications, :path => "apps"
 
-  post "/app/browser_event"     => "user_applications#create_browser_event"
+  get  "/app/browser_event"     => "user_applications#create_browser_event"
   post "/app/event"     => "user_applications#create_event"
 
   resources :deployments, :only=>[:create, :show], :path => "app/deployments"
