@@ -1,5 +1,12 @@
 class UserApplicationsController < ApplicationController
-  before_filter :access_token_required, :only => [:create_event]
+  before_filter :access_token_required, :only => [:create_event, :create_browser_event]
+
+  def create_browser_event
+    ::Rails.logger.info "Caught browser event "
+    ::Rails.logger.info params.to_yaml
+
+    head :200
+  end
 
   def create_event
     message = ActiveSupport::JSON.decode(request.body).symbolize_keys
