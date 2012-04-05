@@ -13,6 +13,7 @@ gem "mongoid", "~> 2.4"
 gem "bson_ext", "~> 1.5"
 
 gem 'haml-rails'
+gem 'slim-rails'
 gem 'sass-rails',   '~> 3.2.3'
 
 # Gems used only for assets and not required
