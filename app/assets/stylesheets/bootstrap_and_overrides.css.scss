@@ -1,0 +1,14 @@
+// Set the correct sprite paths
+$iconSpritePath: image-path('glyphicons-halflings.png');
+$iconWhiteSpritePath: image-path('glyphicons-halflings-white.png');
+@import "vars";
+@import "bootstrap";
+@import url(http://fonts.googleapis.com/css?family=Lobster);
+body {
+  padding-top: 60px;
+  background: asset-url("body-bg.png", image);
+}
+h1 {
+  font-family: 'Lobster', cursive;
+}
+@import "bootstrap-responsive";
