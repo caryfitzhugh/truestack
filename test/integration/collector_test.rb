@@ -29,7 +29,6 @@ class CollectorTest < MiniTest::Unit::TestCase
     @access_token = AccessToken.make!
     @client = TruestackClient.configure do |c|
       c.host   = "http://127.0.0.1:3005/"  # This is the server url
-      c.secret = @access_token.secret
       c.key    = @access_token.key
       c.logger = Rails.logger
     end

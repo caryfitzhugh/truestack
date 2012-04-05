@@ -4,7 +4,6 @@ CollectorWorker.blueprint do
   url { "http://#{sn}.collector.com" }
 end
 AccessToken.blueprint do
-  secret { "test_secret_#{sn}" }
   key    { "test_key_#{sn}" }
   user_application { UserApplication.make! }
 end

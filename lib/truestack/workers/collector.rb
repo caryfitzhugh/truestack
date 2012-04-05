@@ -99,25 +99,13 @@ module Truestack
 
       def validate_request!(ws)
         req_key   = ws.request['truestack-access-key'];
-        req_nonce = ws.request['truestack-access-nonce'];
-        req_token = ws.request['truestack-access-token'];
 
-        # Nonce must be 32+ chars and a-f0-9
-        if req_nonce =~ /^[0-9a-f]{31}[0-9a-f]+$/
-          Rails.logger.info "Looking up access token for key: #{req_key}"
-          access_token = AccessToken.where(key: req_key).limit(1).first
+        access_token = AccessToken.where(key: req_key).limit(1).first
 
-          if access_token
-            if access_token.valid_signature?(req_nonce, req_token)
-              access_token
-            else
-              raise ValidationException.new "Invalid signature"
-            end
-          else
-            raise ValidationException.new "Invalid token"
-          end
+        if access_token
+          access_token
         else
-          raise ValidationException.new "Invalid Nonce - /[0-9a-f]{32+}/"
+          raise ValidationException.new "Invalid access key"
         end
       end
     end
