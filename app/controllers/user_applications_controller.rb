@@ -8,6 +8,22 @@ class UserApplicationsController < ApplicationController
     head 200
   end
 
+  # request_id:  (unique token)
+  # name: controller#action
+  # action:
+  #   type => controller | model | helper | view | browser | lib
+  #   tstart
+  #   tend
+  #   name: klass#method
+  #
+  def create_request_event
+    message = ActiveSupport::JSON.decode(request.body).symbolize_keys
+    app = @access_token.user_application
+    app.add_request(message[:name], message[:timestamp], :data => message[:data])
+
+    head :accepted
+  end
+
   def create_event
     message = ActiveSupport::JSON.decode(request.body).symbolize_keys
     app = @access_token.user_application

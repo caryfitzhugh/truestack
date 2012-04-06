@@ -7,7 +7,7 @@ class UserApplication
 
   after_save :create_default_access_token
 
-  BUCKET_RESOLUTION_IN_SECONDS = 300  # 5 minutes
+  BUCKET_RESOLUTION_IN_SECONDS = 120  # 2 minutes
 
   # Get the latest deployment for a user application
   def latest_deployment
@@ -27,9 +27,10 @@ class UserApplication
     deployment = Deployment.create!(commit_id: commit_id, commit_info: message, methods: all_actions, user_application: self)
   end
 
-  def add_request(request_name, timestamp, method_calls)
-    Rails.logger.info "Add request #{request_name} #{timestamp} #{method_calls}"
-    current_bucket.add_request(request_name, timestamp, method_calls)
+  def add_request(name, id, actions)
+    Rails.logger.info "Add request #{name} #{id} #{actions.to_yaml}"
+
+    current_bucket.add_request(name, id, actions)
     current_bucket.save
   end
 

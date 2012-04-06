@@ -1,18 +1,19 @@
 class ApplicationRequest
   include Mongoid::Document
-  include Mongoid::Timestamps
 
-  field :name,  type: String
-  field :actions, type: Hash, default: {}
+  field :name,          type: String
+  field :request_id,    type: String
   key   :name
   validates_presence_of :name
-
   embedded_in :time_bucket
+  embeds_many :request_actions
 
-  def update(method_calls)
-    method_calls.each_pair do |name, data|
-      actions[name] ||= 0
-      actions[name] += 1
+  def update_request(incoming_actions)
+    incoming_actions.each_pair do |method_name, executions|
+      action = request_actions.find_or_create_by(:name => method_name)
+      executions.each do |execution|
+        action.increment_stats(execution[:tend] - execution[:tstart])
+      end
     end
   end
 end
