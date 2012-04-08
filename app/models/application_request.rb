@@ -3,17 +3,12 @@ class ApplicationRequest
 
   field :name,          type: String
   field :request_id,    type: String
+  field :data,          type: Array, default: []
   key   :name
   validates_presence_of :name
-  embedded_in :time_bucket
-  embeds_many :request_actions
+  belongs_to :time_bucket
 
-  def update_request(incoming_actions)
-    incoming_actions.each_pair do |method_name, executions|
-      action = request_actions.find_or_create_by(:name => method_name)
-      executions.each do |execution|
-        action.increment_stats(execution[:tend] - execution[:tstart])
-      end
-    end
+  def update_request(actions)
+    data << actions
   end
 end

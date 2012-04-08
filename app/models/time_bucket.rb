@@ -3,8 +3,7 @@ class TimeBucket
   include Mongoid::Timestamps
 
   belongs_to :user_application
-  embeds_many :application_requests
-  embeds_many :application_actions
+  has_many :application_requests
 
   def add_request(name, id, actions)
     # We need to process the actions to get their actual durations
@@ -18,17 +17,6 @@ class TimeBucket
     request = application_requests.find_or_create_by(name: name)
     request.request_id = id
     request.update_request(actions)
-
-    # TODO
-::Rails.logger.error "THIS IS BAD! RACE CONDITIONS! - make a JS stored_procedure"
-
-    actions.each_pair do |method_name, executions|
-      action = application_actions.find_or_create_by( :name => method_name)
-      executions.each do |execution|
-        action.increment_stats(execution[:tend] - execution[:tstart])
-      end
-    end
-
     save!
   end
 end

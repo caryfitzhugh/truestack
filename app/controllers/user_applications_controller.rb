@@ -1,5 +1,5 @@
 class UserApplicationsController < ApplicationController
-  before_filter :access_token_required, :only => [:create_event, :create_browser_event]
+  before_filter :access_token_required, :only => [:create_event, :create_browser_event, :create_request_event]
 
   def create_browser_event
     ::Rails.logger.info "Caught browser event "

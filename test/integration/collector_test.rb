@@ -55,7 +55,7 @@ class CollectorTest < MiniTest::Unit::TestCase
     sleep 5
 
     @access_token.user_application.current_bucket.reload
-    assert_equal 1, @access_token.user_application.time_buckets.map(&:application_actions).flatten.count
+    assert_equal 1, @access_token.user_application.time_buckets.map(&:application_requests).flatten.count
   end
 
   private
