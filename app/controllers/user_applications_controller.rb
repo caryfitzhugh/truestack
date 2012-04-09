@@ -6,7 +6,7 @@ class UserApplicationsController < ApplicationController
     ::Rails.logger.info params.to_yaml
 
     app = @access_token.user_application
-    app.add_request(message[:request_id], message[:tstart], message[:tend])
+    app.add_request(params[:request_id], params[:tstart], params[:tend])
 
     head :accepted
   end
