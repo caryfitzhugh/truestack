@@ -21,7 +21,6 @@
         %tr
           %th Name
           %th Count
-        - app_request.actions.each_pair do |name, count|
+        - app_request.actions.each do |action|
           %tr
-            %td= name
-            %td= count
+            %td= action.to_yaml
