@@ -19,8 +19,9 @@
         %h5= app_request.request_id
       %table.table.table-striped
         %tr
-          %th Name
-          %th Count
+          %th Data
         - app_request.actions.each do |action|
           %tr
-            %td= action.to_yaml
+            %td
+              %pre
+                = action.to_yaml

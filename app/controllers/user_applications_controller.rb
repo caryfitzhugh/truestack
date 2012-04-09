@@ -5,7 +5,10 @@ class UserApplicationsController < ApplicationController
     ::Rails.logger.info "Caught browser event "
     ::Rails.logger.info params.to_yaml
 
-    head 200
+    app = @access_token.user_application
+    app.add_request(message[:request_id], message[:tstart], message[:tend])
+
+    head :accepted
   end
 
   # request_id:  (unique token)
