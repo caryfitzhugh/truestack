@@ -3,12 +3,12 @@ class ApplicationRequest
 
   field :name,          type: String
   field :request_id,    type: String
-  field :data,          type: Array, default: []
+  field :actions,          type: Array, default: []
   key   :name
   validates_presence_of :name
   belongs_to :time_bucket
 
-  def update_request(actions)
-    data << actions
+  def update_request(incoming_actions)
+    actions << incoming_actions
   end
 end
