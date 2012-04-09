@@ -5,6 +5,14 @@ class TimeBucket
   belongs_to :user_application
   has_many :application_requests
 
+  def add_browser_request(id, tstart, tend)
+    request = application_requests.find_by(request_id: name)
+    if (request)
+      request.add_browser_data(tstart, tend)
+      request.save!
+    end
+  end
+
   def add_request(name, id, actions)
     # We need to process the actions to get their actual durations
     # subtracting subsequent things from the tree

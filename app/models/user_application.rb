@@ -27,6 +27,11 @@ class UserApplication
     deployment = Deployment.create!(commit_id: commit_id, commit_info: message, methods: all_actions, user_application: self)
   end
 
+  def add_browser_event(id, tstart, tend)
+    Rails.logger.info "Add browser request #{id} #{tstart} - #{tend}"
+    current_bucket.add_browser_request(name, id, actions)
+  end
+
   def add_request(name, id, actions)
     Rails.logger.info "Add request #{name} #{id} #{actions.to_yaml}"
 
