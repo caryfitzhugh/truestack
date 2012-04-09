@@ -17,6 +17,8 @@ class TimeBucket
     request = application_requests.find_or_create_by(name: name)
     request.request_id = id
     request.update_request(actions)
+    request.save!
+
     save!
   end
 end
