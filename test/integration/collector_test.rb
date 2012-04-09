@@ -48,14 +48,14 @@ class CollectorTest < MiniTest::Unit::TestCase
   end
 
   test "that request events are queued" do
-    TruestackClient.request('test_request', Time.now.to_i, {action: 300})
-    TruestackClient.request('test_request', Time.now.to_i, {action: 300})
+    TruestackClient.request('test_request', Time.now.to_i, [{tstart: 0, tend: 10, type: 'controller'}])
+    TruestackClient.request('test_request', Time.now.to_i, [{tstart: 0, tend: 10, type: 'controller'}])
 
     # Should only show up in correct spots
     sleep 5
 
     @access_token.user_application.current_bucket.reload
-    assert_equal 1, @access_token.user_application.time_buckets.map(&:application_actions).flatten.count
+    assert_equal 1, @access_token.user_application.time_buckets.map(&:application_requests).flatten.count
   end
 
   private

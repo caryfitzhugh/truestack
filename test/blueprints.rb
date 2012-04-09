@@ -12,9 +12,6 @@ Deployment.blueprint do
   commit_info { {'name' => 'test_commit', 'description' => 'foo'} }
   user_application { UserApplication.make! }
 end
-ApplicationAction.blueprint do
-  name { "action_#{sn}" }
-end
 UserApplication.blueprint do
   name { "#{sn}_application"}
 end

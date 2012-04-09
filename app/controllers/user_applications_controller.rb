@@ -1,12 +1,38 @@
 class UserApplicationsController < ApplicationController
-  before_filter :access_token_required, :only => [:create_event]
+  before_filter :access_token_required, :only => [:create_event, :create_browser_event, :create_request_event]
+
+  def create_browser_event
+    ::Rails.logger.info "Caught browser event "
+    ::Rails.logger.info params.to_yaml
+
+    app = @access_token.user_application
+    app.add_request(params[:request_id], params[:tstart], params[:tend])
+
+    head :accepted
+  end
+
+  # request_id:  (unique token)
+  # name: controller#action
+  # actions:
+  #   type => controller | model | helper | view | browser | lib
+  #   tstart
+  #   tend
+  #   name: klass#method
+  #
+  def create_request_event
+    message = ActiveSupport::JSON.decode(request.body).symbolize_keys
+    app = @access_token.user_application
+    app.add_request(message[:name], message[:request_id], message[:actions])
+
+    head :accepted
+  end
 
   def create_event
     message = ActiveSupport::JSON.decode(request.body).symbolize_keys
     app = @access_token.user_application
     if (message[:type] == 'request' )
       #name, timestamp, data
-      app.add_request(message[:name], message[:timestamp], :data => message[:data])
+      app.add_request(message[:name], message[:timestamp], message[:actions])
     end
     head :accepted
   end

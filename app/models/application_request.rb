@@ -1,18 +1,17 @@
 class ApplicationRequest
   include Mongoid::Document
-  include Mongoid::Timestamps
 
-  field :name,  type: String
-  field :actions, type: Hash, default: {}
+  field :name,          type: String
+  field :request_id,    type: String
+  field :actions,          type: Array, default: []
   key   :name
   validates_presence_of :name
+  belongs_to :time_bucket
 
-  embedded_in :time_bucket
-
-  def update(method_calls)
-    method_calls.each_pair do |name, data|
-      actions[name] ||= 0
-      actions[name] += 1
-    end
+  def add_browser_data(tstart, tend)
+    actions << {type: 'browser', name: 'browser', tend: tend, tstart: tstart}
+  end
+  def update_request(incoming_actions)
+    actions << incoming_actions
   end
 end

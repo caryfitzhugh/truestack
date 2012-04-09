@@ -1,10 +1,9 @@
 .hero-unit
   %p Here is the overview graph for the current deploy
-  %p
-    %a{href: deployment_path(@user_application.latest_deployment)} View Latest
 
 
 - @user_application.deployments.each do |deployment|
+  %h1 Deployments
   .row
     %h2= deployment.created_at
     %p
@@ -14,27 +13,15 @@
   .row
     %h2= time_bucket.created_at
     %h3 Requests
-    - time_bucket.application_requests.each do |request|
-      %h4= request.name
+    - time_bucket.application_requests.each do |app_request|
+      %h4
+        = app_request.name
+        %h5= app_request.request_id
       %table.table.table-striped
         %tr
-          %th Name
-          %th Count
-        - request.actions.each_pair do |name, count|
+          %th Data
+        - app_request.actions.each do |action|
           %tr
-            %td= name
-            %td= count
-
-    %h3 Actions
-    %table.table.table-striped
-      %tr
-        %th Name
-        %th Count
-        %th Mean
-        %th Square
-      - time_bucket.application_actions.each do |action|
-        %tr
-          %td= action.name
-          %td= action.count
-          %td= action.mean
-          %td= action.square
+            %td
+              %pre
+                = action.to_yaml

@@ -4,9 +4,28 @@ class ClientApiTest < ActionDispatch::IntegrationTest
   test "can ingest a request from webhook" do
     access_token = AccessToken.make!
     nonce        = Time.now.to_i.to_s + OpenSSL::Random.random_bytes(32).unpack("H*")[0]
-    body = { type: 'request', name: 'test', methods: {'method_1' => {s: 0, d: 300}}}.to_json
+    body = {
+      name: 'Controller#action',
+      request_id: SecureRandom.hex(8),
+      actions: {
+        'klass#method1' => [{
+          tstart: 0,
+          tend:   10
+        }],
+        'klass#method2' => [
+          {
+            tstart: 0,
+            tend:   4
+          },
+          {
+            tstart: 5,
+            tend:   10
+          }
+        ]
+      }
+    }.to_json
 
-    post "app/event", body,
+    post "app/request", body,
         { 'TrueStack-Access-Key' => access_token.key ,
           :type => :json}
 
