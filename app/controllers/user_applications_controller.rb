@@ -10,7 +10,7 @@ class UserApplicationsController < ApplicationController
 
   # request_id:  (unique token)
   # name: controller#action
-  # action:
+  # actions:
   #   type => controller | model | helper | view | browser | lib
   #   tstart
   #   tend
@@ -19,7 +19,7 @@ class UserApplicationsController < ApplicationController
   def create_request_event
     message = ActiveSupport::JSON.decode(request.body).symbolize_keys
     app = @access_token.user_application
-    app.add_request(message[:name], message[:timestamp], :data => message[:data])
+    app.add_request(message[:name], message[:request_id], message[:actions])
 
     head :accepted
   end
@@ -29,7 +29,7 @@ class UserApplicationsController < ApplicationController
     app = @access_token.user_application
     if (message[:type] == 'request' )
       #name, timestamp, data
-      app.add_request(message[:name], message[:timestamp], :data => message[:data])
+      app.add_request(message[:name], message[:timestamp], message[:actions])
     end
     head :accepted
   end

@@ -32,16 +32,26 @@ module Truestack
               while !messages.empty?
                 queued_message = messages.pop
                 message = ActiveSupport::JSON.decode(queued_message).symbolize_keys rescue {}
+                #  request:
+                #    name: controller#action
+                #    request_id:  (unique token)
+                #    actions: [
+                #      {    type => controller | model | helper | view | browser | lib
+                #           tstart
+                #           tend
+                #           name: klass#method
+                #      }
+                #    ]
+
                 app = access_token.user_application
 
                 if (message[:type] == 'request')
                   name  = message.delete(:name)
-                  type  = message.delete(:type)
-                  timestamp = message.delete(:timestamp)
-                  data = message.delete(:data)
-                  Rails.logger.info "Adding request: #{name} #{type} #{timestamp} #{data}"
-                  app.add_request(name, timestamp, data)
-                  Rails.logger.info "Added request: #{name} #{type} #{timestamp} #{data}"
+                  request_id  = message.delete(:request_id)
+                  actions = message.delete(:actions)
+                  Rails.logger.info "Adding request: #{name} #{request_id} #{actions.to_yaml}"
+                  app.add_request(name, request_id, actions)
+                  Rails.logger.info "Added request: #{name}"
                 end
               end
             end

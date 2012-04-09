@@ -48,8 +48,8 @@ class CollectorTest < MiniTest::Unit::TestCase
   end
 
   test "that request events are queued" do
-    TruestackClient.request('test_request', Time.now.to_i, {action: 300})
-    TruestackClient.request('test_request', Time.now.to_i, {action: 300})
+    TruestackClient.request('test_request', Time.now.to_i, [{tstart: 0, tend: 10, type: 'controller'}])
+    TruestackClient.request('test_request', Time.now.to_i, [{tstart: 0, tend: 10, type: 'controller'}])
 
     # Should only show up in correct spots
     sleep 5
