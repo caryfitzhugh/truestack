@@ -1,5 +1,9 @@
 Truestack::Application.routes.draw do
-root :to => "user_applications#index"
+  devise_for :users
+
+  get "about" => "static#about"
+  root :to => "static#home"
+
   resources :user_applications, :path => "apps"
 
   get   "/app/browser_event"     => "user_applications#create_browser_event"

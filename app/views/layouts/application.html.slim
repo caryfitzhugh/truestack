@@ -13,10 +13,21 @@ html
           a.brand Truestack.com
           .nav-collapse
             ul.nav
+              / TODO: Need to get the active class on the right element here:
               li.active
                 a href='/' home
               li
                 a href=(user_applications_path) apps
+              li
+                = link_to "about", about_path
+    - unless flash.empty?
+      .container
+        .content
+          .row
+            - flash.each do |name, msg|
+              div class="alert alert-#{ name == :notice ? "success" : "error"}"
+                a.close data-dismiss="alert"
+                = msg
     .container
       = yield
 
