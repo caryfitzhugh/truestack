@@ -4,6 +4,8 @@ gem 'rails', '3.2.1'
 
 gem 'pg'
 
+gem 'devise'
+
 group :test do
   gem 'machinist', '>= 2.0.0.beta2'
   gem 'machinist_mongo', :git => 'https://github.com/nmerouze/machinist_mongo.git', :require => 'machinist/mongoid', :branch => 'machinist2'
@@ -13,6 +15,7 @@ gem "mongoid", "~> 2.4"
 gem "bson_ext", "~> 1.5"
 
 gem 'haml-rails'
+gem 'slim-rails'
 gem 'sass-rails',   '~> 3.2.3'
 gem 'slim-rails'
 
