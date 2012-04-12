@@ -22,7 +22,7 @@ class TimeBucket
     # CONVERT TO FLOATS
 ::Rails.logger.error "Need to pre-process the start/end times on the requests!"
 
-    request = application_requests.find_or_create_by(name: name)
+    request = application_requests.create(name: name)
     request.request_id = id
     request.update_request(actions)
     request.save!
