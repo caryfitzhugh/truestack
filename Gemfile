@@ -24,6 +24,9 @@ group :test, :development do
 end
 
 group :development do
+  gem 'guard'
+  gem 'guard-spinach'
+  gem 'growl'
   gem 'pry', :git => "git://github.com/pry/pry.git"
   gem 'pry-nav', :git => "https://github.com/nixme/pry-nav.git"
   #gem "ruby-debug19", :require => "ruby-debug"
