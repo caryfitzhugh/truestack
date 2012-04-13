@@ -4,18 +4,12 @@ gem 'rails', '3.2.1'
 
 gem 'devise'
 
-group :test do
-  gem 'machinist', '>= 2.0.0.beta2'
-  gem 'machinist_mongo', :git => 'https://github.com/nmerouze/machinist_mongo.git', :require => 'machinist/mongoid', :branch => 'machinist2'
-end
-
 gem "mongoid", "~> 2.4"
 gem "bson_ext", "~> 1.5"
 
 gem 'haml-rails'
 gem 'slim-rails'
 gem 'sass-rails',   '~> 3.2.3'
-gem 'slim-rails'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -25,12 +19,21 @@ group :assets do
   gem "bootstrap-sass", ">= 2.0.1"
 end
 
+group :test, :development do
+  gem 'spinach-rails'
+end
+
 group :development do
   gem 'pry', :git => "git://github.com/pry/pry.git"
   gem 'pry-nav', :git => "https://github.com/nixme/pry-nav.git"
   #gem "ruby-debug19", :require => "ruby-debug"
 end
+
 group :test do
+  gem "database_cleaner", "~> 0.7.2"
+  gem 'spinach'
+  gem 'machinist', '>= 2.0.0.beta2'
+  gem 'machinist_mongo', :git => 'https://github.com/nmerouze/machinist_mongo.git', :require => 'machinist/mongoid', :branch => 'machinist2'
   gem 'pry', :git => "git://github.com/pry/pry.git"
   gem 'pry-nav', :git => "https://github.com/nixme/pry-nav.git"
   gem "minitest"
