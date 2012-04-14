@@ -1,0 +1,18 @@
+.span2.offset10
+  a.btn href=(new_admin_user_path) New User
+table
+  thead
+    tr
+      td Name
+      td Email
+      td Role
+      td Edit
+      td Delete
+  tbody
+    - @users.each do |u|
+      tr
+        td= link_to_if(can?(:read, User), "#{u.full_name}", admin_user_path(u.id))
+        td= "#{u.email}"
+        td= u.roles.map(&:name).join(', ')
+        td= link_to_if(can?(:edit, User), "Edit", edit_admin_user_path(u.id), class: 'btn btn-mini')
+        td= link_to_if(can?(:delete, u), "Delete", admin_user_path, confirm: "Are you sure?", method: :delete, class: 'btn btn-mini')

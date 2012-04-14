@@ -2,7 +2,8 @@ doctype 5
 html
   head
     title Truestack
-    = stylesheet_link_tag    "application", :media => "all"
+    = stylesheet_link_tag    "screen", :media => "screen, projection"
+    = stylesheet_link_tag    "print", :media => "print"
     = javascript_include_tag "application"
     = csrf_meta_tags
   body
@@ -10,16 +11,26 @@ html
       .navbar-inner
         .container
           a.btn.btn-navbar 'data-toggle'='collapse', 'data-target'='.nav-collapse'
-          a.brand Truestack.com
+          - if user_signed_in?
+            a.brand href=(user_application_path) Truestack.com
+          - else
+            a.brand href='/' Truestack.com
           .nav-collapse
-            ul.nav
-              / TODO: Need to get the active class on the right element here:
-              li.active
-                a href='/' home
-              li
-                a href=(user_applications_path) apps
-              li
-                = link_to "about", about_path
+            ul.nav.pull-right
+              - if (current_user && current_user.role?(:admin))
+                li.dropdown
+                  a.dropdown-toggle data-toggle==('dropdown') href='#'
+                    | Admin
+                    b.caret
+                  ul.dropdown-menu
+                    li
+                      a href=(admin_users_path) Users
+              - if user_signed_in?
+                li
+                  = link_to 'Log Out', destroy_user_session_path, method: :delete
+              - else
+                li.pull-right
+                  a href=(new_user_session_path) Log In
     - unless flash.empty?
       .container
         .content
@@ -34,4 +45,8 @@ html
       hr
 
       footer
-        p &copy; Truestack 2012
+        .row
+          .span4
+            a href=(about_path) About
+          .span2.offset6
+            p &copy; Truestack 2012

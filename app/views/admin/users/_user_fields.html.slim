@@ -1,0 +1,17 @@
+p= f.label :first_name
+p= f.text_field :first_name
+
+p= f.label :last_name
+p= f.text_field :last_name
+
+p= f.label :email
+p= f.text_field :email
+
+- if can? :read, Role
+  p= f.label :role
+  ul.unstyled
+    - Role.all.each_with_index do |role|
+      li
+        label.checkbox
+          =check_box_tag "user[role_ids][]", role.id, @user.roles.detect{|r| r.id == role.id} ? true : false
+          =role.name.humanize

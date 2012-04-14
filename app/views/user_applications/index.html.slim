@@ -1,19 +1,15 @@
 .hero-unit
   h1 The Dashboard For Your Apps
-  hr
   p Here we may have a blurb about all your applications
-  p
-    a href=(new_user_application_path)
-
 
 - @user_applications.each do |app|
   .row
     h2
       a href=(user_application_path(app)) = app.name
 
-
 .row
-  img src="http://placekitten.com/240/300"
-  img src="http://placekitten.com/245/300"
-  img src="http://placekitten.com/220/300"
-  img src="http://placekitten.com/255/300"
+  .span12
+    img src="http://placekitten.com/240/300"
+    img src="http://placekitten.com/245/300"
+    img src="http://placekitten.com/220/300"
+    img src="http://placekitten.com/255/300"

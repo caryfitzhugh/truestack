@@ -1,0 +1,16 @@
+h3= @user == @current_user ? "Your Account Settings" : "Edit User"
+= form_for(@user, url: admin_user_path, html: { method: :put }) do |f|
+  = render :partial => 'user_fields', :locals => { :f => f }
+  p
+    = f.label :password
+    i (leave blank if you don't want to change it)
+  p= f.password_field :password
+  p= f.label :password_confirmation
+  p= f.password_field :password_confirmation
+  p
+    = f.label :current_password
+    i (we need your current password to confirm your changes)
+  p= f.password_field :current_password
+  .form-actions
+    = f.submit "Update", class: 'btn btn-primary'
+    = link_to "Back", :back, class: 'btn'

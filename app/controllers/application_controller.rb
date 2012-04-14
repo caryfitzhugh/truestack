@@ -1,7 +1,13 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+  helper_method :get_user
+
   private
+
+  def get_user
+    @current_user ||= current_user
+  end
 
   def access_token_required
     key   = params["TrueStack-Access-Key"]   || request.headers['TrueStack-Access-Key']

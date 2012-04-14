@@ -1,0 +1,15 @@
+h2 Register User</h2>
+
+= form_for(@user, url: admin_user_path) do |f|
+
+  = render :partial => 'user_fields', :locals => { f: f }
+
+  p= f.label :password
+  p= f.password_field :password
+
+  p= f.label :password_confirmation
+  p= f.password_field :password_confirmation
+
+  .form-actions
+    = f.submit "Register", class: 'btn btn-primary'
+    = link_to "Back", :back, class: 'btn'

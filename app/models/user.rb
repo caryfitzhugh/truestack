@@ -39,4 +39,17 @@ class User
 
   ## Token authenticatable
   # field :authentication_token, :type => String
+
+  field :first_name, type: String
+  field :last_name, type: String
+
+  has_and_belongs_to_many :roles
+
+  def role?(role)
+    return !!self.roles.find_by_name(role.to_s.camelize)
+  end
+
+  def full_name
+    [first_name, last_name].join(' ')
+  end
 end

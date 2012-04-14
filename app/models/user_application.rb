@@ -1,6 +1,9 @@
 class UserApplication
   include Mongoid::Document
-  field :name, :type => String
+
+  field :name, type: String
+  field :owner, type: String
+
   has_many :deployments
   has_many :time_buckets
   has_many :access_tokens

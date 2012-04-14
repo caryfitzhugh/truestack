@@ -16,3 +16,7 @@
 
 # Ignore assets
 /public/assets
+
+.DS_Store
+*.swp
+*.swo
