@@ -1,0 +1,10 @@
+@import "bourbon";
+
+@import "bootswatch/simplex/variables";
+@import "bootstrap";
+
+// Bootstrap body padding for fixed navbar
+body { padding-top: 60px; }
+
+@import "bootstrap-responsive";
+@import "bootswatch/simplex/theme";

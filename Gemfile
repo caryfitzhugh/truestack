@@ -19,19 +19,19 @@ gem 'cancan'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'bourbon'
+  gem 'sass-rails', '~> 3.2.5'
   gem 'coffee-rails', '~> 3.2.1'
+  gem 'bootstrap-sass', '~> 2.0.2'
+  gem 'bootswatch-rails', '~> 0.0.11'
+
   gem 'uglifier', '>= 1.0.3'
-  gem 'sass-rails', '~> 3.1'
-  gem 'bootstrap-sass', '>= 2.0.2'
-  gem 'bootswatch-rails'
 end
 
 group :development do
   gem 'pry', :git => "git://github.com/pry/pry.git"
   gem 'pry-nav', :git => "https://github.com/nixme/pry-nav.git"
   gem 'debugger'
-  #gem "ruby-debug19", :require => "ruby-debug"
+  gem 'quiet_assets'
 end
 
 group :test do
@@ -44,6 +44,7 @@ group :test do
 end
 
 gem 'jquery-rails'
+gem 'bourbon'
 gem 'simple_form'
 
 # Collector
