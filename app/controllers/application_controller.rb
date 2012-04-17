@@ -1,13 +1,11 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  helper_method :get_user
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to main_app.root_path, :alert => exception.message
+  end
 
   private
-
-  def get_user
-    @current_user ||= current_user
-  end
 
   def access_token_required
     key   = params["TrueStack-Access-Key"]   || request.headers['TrueStack-Access-Key']

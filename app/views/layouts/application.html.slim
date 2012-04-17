@@ -17,7 +17,7 @@ html
             a.brand href='/' Truestack.com
           .nav-collapse
             ul.nav.pull-right
-              - if (current_user && current_user.role?(:admin))
+              - if (current_user && current_user.admin?)
                 li
                   a href=(rails_admin_path) Admin
               - if user_signed_in?

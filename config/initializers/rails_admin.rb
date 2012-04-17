@@ -3,6 +3,8 @@
 
 RailsAdmin.config do |config|
 
+  config.authorize_with :cancan, AdminAbility
+
   # If your default_local is different from :en, uncomment the following 2 lines and set your default locale here:
   # require 'i18n'
   # I18n.default_locale = :de
@@ -16,7 +18,7 @@ RailsAdmin.config do |config|
   # config.audit_with :paper_trail, User
 
   # Set the admin name here (optional second array element will appear in a beautiful RailsAdmin red ©)
-  config.main_app_name = ['Truestack', 'Admin']
+  config.main_app_name = ['Truestack']
   # or for a dynamic name:
   # config.main_app_name = Proc.new { |controller| [Rails.application.engine_name.titleize, controller.params['action'].titleize] }
 
@@ -82,11 +84,11 @@ RailsAdmin.config do |config|
   # config.model AccessToken do
   #   # Found associations:
   #     configure :user_application, :belongs_to_association   #   # Found columns:
-  #     configure :_type, :text         # Hidden 
-  #     configure :_id, :bson_object_id 
-  #     configure :created_at, :datetime 
-  #     configure :updated_at, :datetime 
-  #     configure :key, :text 
+  #     configure :_type, :text         # Hidden
+  #     configure :_id, :bson_object_id
+  #     configure :created_at, :datetime
+  #     configure :updated_at, :datetime
+  #     configure :key, :text
   #     configure :user_application_id, :bson_object_id         # Hidden   #   # Sections:
   #   list do; end
   #   export do; end
@@ -98,11 +100,11 @@ RailsAdmin.config do |config|
   # config.model ApplicationRequest do
   #   # Found associations:
   #     configure :time_bucket, :belongs_to_association   #   # Found columns:
-  #     configure :_type, :text         # Hidden 
-  #     configure :_id, :text 
-  #     configure :name, :string 
-  #     configure :request_id, :text 
-  #     configure :actions, :serialized 
+  #     configure :_type, :text         # Hidden
+  #     configure :_id, :text
+  #     configure :name, :string
+  #     configure :request_id, :text
+  #     configure :actions, :serialized
   #     configure :time_bucket_id, :bson_object_id         # Hidden   #   # Sections:
   #   list do; end
   #   export do; end
@@ -114,11 +116,11 @@ RailsAdmin.config do |config|
   # config.model CollectorWorker do
   #   # Found associations:
   #   # Found columns:
-  #     configure :_type, :text         # Hidden 
-  #     configure :_id, :bson_object_id 
-  #     configure :created_at, :datetime 
-  #     configure :updated_at, :datetime 
-  #     configure :url, :text 
+  #     configure :_type, :text         # Hidden
+  #     configure :_id, :bson_object_id
+  #     configure :created_at, :datetime
+  #     configure :updated_at, :datetime
+  #     configure :url, :text
   #     configure :connection_count, :integer   #   # Sections:
   #   list do; end
   #   export do; end
@@ -130,12 +132,12 @@ RailsAdmin.config do |config|
   # config.model Deployment do
   #   # Found associations:
   #     configure :user_application, :belongs_to_association   #   # Found columns:
-  #     configure :_type, :text         # Hidden 
-  #     configure :_id, :bson_object_id 
-  #     configure :created_at, :datetime 
-  #     configure :updated_at, :datetime 
-  #     configure :commit_id, :text 
-  #     configure :commit_info, :serialized 
+  #     configure :_type, :text         # Hidden
+  #     configure :_id, :bson_object_id
+  #     configure :created_at, :datetime
+  #     configure :updated_at, :datetime
+  #     configure :commit_id, :text
+  #     configure :commit_info, :serialized
   #     configure :user_application_id, :bson_object_id         # Hidden   #   # Sections:
   #   list do; end
   #   export do; end
@@ -147,11 +149,11 @@ RailsAdmin.config do |config|
   # config.model Role do
   #   # Found associations:
   #     configure :users, :has_and_belongs_to_many_association   #   # Found columns:
-  #     configure :_type, :text         # Hidden 
-  #     configure :_id, :bson_object_id 
-  #     configure :created_at, :datetime 
-  #     configure :updated_at, :datetime 
-  #     configure :name, :string 
+  #     configure :_type, :text         # Hidden
+  #     configure :_id, :bson_object_id
+  #     configure :created_at, :datetime
+  #     configure :updated_at, :datetime
+  #     configure :name, :string
   #     configure :user_ids, :serialized         # Hidden   #   # Sections:
   #   list do; end
   #   export do; end
@@ -162,12 +164,12 @@ RailsAdmin.config do |config|
   # end
   # config.model TimeBucket do
   #   # Found associations:
-  #     configure :user_application, :belongs_to_association 
+  #     configure :user_application, :belongs_to_association
   #     configure :application_requests, :has_many_association   #   # Found columns:
-  #     configure :_type, :text         # Hidden 
-  #     configure :_id, :bson_object_id 
-  #     configure :created_at, :datetime 
-  #     configure :updated_at, :datetime 
+  #     configure :_type, :text         # Hidden
+  #     configure :_id, :bson_object_id
+  #     configure :created_at, :datetime
+  #     configure :updated_at, :datetime
   #     configure :user_application_id, :bson_object_id         # Hidden   #   # Sections:
   #   list do; end
   #   export do; end
@@ -179,21 +181,21 @@ RailsAdmin.config do |config|
   # config.model User do
   #   # Found associations:
   #     configure :roles, :has_and_belongs_to_many_association   #   # Found columns:
-  #     configure :_type, :text         # Hidden 
-  #     configure :_id, :bson_object_id 
-  #     configure :email, :text 
-  #     configure :password, :password         # Hidden 
-  #     configure :password_confirmation, :password         # Hidden 
-  #     configure :reset_password_token, :text         # Hidden 
-  #     configure :reset_password_sent_at, :datetime 
-  #     configure :remember_created_at, :datetime 
-  #     configure :sign_in_count, :integer 
-  #     configure :current_sign_in_at, :datetime 
-  #     configure :last_sign_in_at, :datetime 
-  #     configure :current_sign_in_ip, :text 
-  #     configure :last_sign_in_ip, :text 
-  #     configure :first_name, :text 
-  #     configure :last_name, :text 
+  #     configure :_type, :text         # Hidden
+  #     configure :_id, :bson_object_id
+  #     configure :email, :text
+  #     configure :password, :password         # Hidden
+  #     configure :password_confirmation, :password         # Hidden
+  #     configure :reset_password_token, :text         # Hidden
+  #     configure :reset_password_sent_at, :datetime
+  #     configure :remember_created_at, :datetime
+  #     configure :sign_in_count, :integer
+  #     configure :current_sign_in_at, :datetime
+  #     configure :last_sign_in_at, :datetime
+  #     configure :current_sign_in_ip, :text
+  #     configure :last_sign_in_ip, :text
+  #     configure :first_name, :text
+  #     configure :last_name, :text
   #     configure :role_ids, :serialized         # Hidden   #   # Sections:
   #   list do; end
   #   export do; end
@@ -204,12 +206,12 @@ RailsAdmin.config do |config|
   # end
   # config.model UserApplication do
   #   # Found associations:
-  #     configure :deployments, :has_many_association 
-  #     configure :time_buckets, :has_many_association 
+  #     configure :deployments, :has_many_association
+  #     configure :time_buckets, :has_many_association
   #     configure :access_tokens, :has_many_association   #   # Found columns:
-  #     configure :_type, :text         # Hidden 
-  #     configure :_id, :bson_object_id 
-  #     configure :name, :string 
+  #     configure :_type, :text         # Hidden
+  #     configure :_id, :bson_object_id
+  #     configure :name, :string
   #     configure :owner, :text   #   # Sections:
   #   list do; end
   #   export do; end
