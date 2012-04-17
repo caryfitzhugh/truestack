@@ -3,11 +3,6 @@
  * Import this file using the following HTML or equivalent:
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 
-@import 'compass';
-@import 'compass/reset';
-@import "compass/css3";
-@import "compass/utilities/print";
-
 // Set the correct sprite paths
 $iconSpritePath: image-path('glyphicons-halflings.png');
 $iconWhiteSpritePath: image-path('glyphicons-halflings-white.png');
