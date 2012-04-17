@@ -1,8 +1,7 @@
 Truestack::Application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
+
   devise_for :users, path_names: { sign_in: 'login', sign_out: 'logout' }
-  namespace :admin do
-    resources :users
-  end
 
   get "about" => "static#about"
 
@@ -11,9 +10,6 @@ Truestack::Application.routes.draw do
   end
 
   root to: 'static#home'
-  #root to: 'user_applications#index', :constraints => lambda {|r| r.env["warden"].authenticate? }
-  #root to: "static#home"
-  #get "/" => "user_applications#index", as: "user_root"
 
   resources :user_applications, :path => "apps"
 
