@@ -12,7 +12,7 @@ html
         .container
           a.btn.btn-navbar 'data-toggle'='collapse', 'data-target'='.nav-collapse'
           - if user_signed_in?
-            a.brand href=(user_application_path) Truestack.com
+            a.brand href=(root_path) Truestack.com
           - else
             a.brand href='/' Truestack.com
           .nav-collapse

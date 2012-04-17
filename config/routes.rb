@@ -5,10 +5,17 @@ Truestack::Application.routes.draw do
   end
 
   get "about" => "static#about"
-  root to: "static#home"
+
+  authenticated :user do
+    root to: 'user_applications#index'
+  end
+
+  root to: 'static#home'
+  #root to: 'user_applications#index', :constraints => lambda {|r| r.env["warden"].authenticate? }
+  #root to: "static#home"
+  #get "/" => "user_applications#index", as: "user_root"
 
   resources :user_applications, :path => "apps"
-  match "/apps" => "user_applications#index", as: :user_root
 
   get   "/app/browser_event"     => "user_applications#create_browser_event"
   match "/app/request"           => "user_applications#create_request_event"

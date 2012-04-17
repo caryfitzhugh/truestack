@@ -15,4 +15,4 @@ table
         td= "#{u.email}"
         td= u.roles.map(&:name).join(', ')
         td= link_to_if(can?(:edit, User), "Edit", edit_admin_user_path(u.id), class: 'btn btn-mini')
-        td= link_to_if(can?(:delete, u), "Delete", admin_user_path, confirm: "Are you sure?", method: :delete, class: 'btn btn-mini')
+        td= link_to_if(can?(:delete, u), "Delete", admin_user_path(u.id), confirm: "Are you sure?", method: :delete, class: 'btn btn-mini')
