@@ -2,10 +2,12 @@ doctype 5
 html
   head
     title Truestack
-    = stylesheet_link_tag    "application", :media => "screen, projection"
-    = stylesheet_link_tag    "print", :media => "print"
+    = stylesheet_link_tag    "application", media: "screen, projection"
+    = stylesheet_link_tag    "print", media: "print"
+    = javascript_include_tag "https://js.stripe.com/v1/"
     = javascript_include_tag "application"
     = csrf_meta_tags
+    = tag :meta, name: "stripe-key", content: STRIPE_PUBLIC_KEY
   body
     .navbar.navbar-fixed-top
       .navbar-inner
