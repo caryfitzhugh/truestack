@@ -1,6 +1,24 @@
 class UserApplicationsController < ApplicationController
-  before_filter :access_token_required, :only => [:create_event, :create_browser_event, :create_request_event]
-  before_filter :authenticate_user!
+  TOKEN_METHODS = [:create_event, :create_browser_event, :create_request_event, :create_exception_event]
+  before_filter :access_token_required, :only => TOKEN_METHODS
+  before_filter :authenticate_user!, :except =>  TOKEN_METHODS
+
+  def create_exception_event
+    message = ActiveSupport::JSON.decode(request.body).symbolize_keys
+    ::Rails.logger.info "Caught exception event "
+    ::Rails.logger.info message.to_yaml
+
+    app = @access_token.user_application
+    req_name = message.delete(:request_name)
+    name     = message.delete(:exception_name)
+    backtrace= message.delete(:backtrace)              || []
+    tstart   = Time.parse(message.delete(:tstart))     rescue Time.now
+    env      = message.delete(:env)                    || {}
+
+    app.add_exception(req_name, name, tstart, backtrace, env)
+
+    head :accepted
+  end
 
   def create_browser_event
     ::Rails.logger.info "Caught browser event "

@@ -42,6 +42,11 @@ class UserApplication
     current_bucket.save
   end
 
+  def add_exception(req_name, exception_name, tstart, backtrace, env)
+    Rails.logger.info "Add exception #{req_name} #{exception_name}"
+    current_bucket.add_exception(req_name, exception_name, tstart, backtrace, env)
+  end
+
   # Get the latest bucket
   def current_bucket
     timestamp = (Time.now.to_i / BUCKET_RESOLUTION_IN_SECONDS) * BUCKET_RESOLUTION_IN_SECONDS

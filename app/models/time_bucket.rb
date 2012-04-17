@@ -4,6 +4,14 @@ class TimeBucket
 
   belongs_to :user_application
   has_many :application_requests
+  has_many :application_exceptions
+
+  def add_exception(request_name, exception_name, tstart, backtrace, env)
+    exception = application_exceptions.create(name: request_name)
+    exception.update_exception(:backtrace => backtrace, :tstart => tstart, :env => env)
+    exception.exception_name = exception_name
+    exception.save!
+  end
 
   def add_browser_request(id, tstart, tend)
     request = application_requests.find_by(request_id: name)
