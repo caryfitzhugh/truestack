@@ -47,6 +47,7 @@ gem 'jquery-rails'
 gem 'bourbon'
 gem 'simple_form'
 gem 'stripe'
+gem 'rails_admin'
 
 # Collector
 gem 'eventmachine'

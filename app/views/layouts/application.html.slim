@@ -19,14 +19,9 @@ html
             a.brand href='/' Truestack.com
           .nav-collapse
             ul.nav.pull-right
-              - if (current_user && current_user.role?(:admin))
-                li.dropdown
-                  a.dropdown-toggle data-toggle==('dropdown') href='#'
-                    | Admin
-                    b.caret
-                  ul.dropdown-menu
-                    li
-                      a href=(admin_users_path) Users
+              - if (current_user && current_user.admin?)
+                li
+                  a href=(rails_admin_path) Admin
               - if user_signed_in?
                 li
                   = link_to 'Log Out', destroy_user_session_path, method: :delete

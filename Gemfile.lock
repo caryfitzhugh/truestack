@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/pry/pry.git
-  revision: b5d044eeb202891c6934c49e397b7f0963522f00
+  revision: 5993c4521522c4cf5b55de42f8f43a7c3db4f9ff
   specs:
     pry (0.9.8.4)
       coderay (~> 1.0.5)
@@ -9,9 +9,9 @@ GIT
 
 GIT
   remote: git@github.com:caryfitzhugh/truestack_client.git
-  revision: 783d5758210f87134b559e8ac9ce1b8cf2f363b2
+  revision: ff127988b735200b00f831a1f18526defb3b2cee
   specs:
-    truestack_client (0.0.24)
+    truestack_client (0.0.25)
 
 GIT
   remote: https://github.com/nixme/pry-nav.git
@@ -60,6 +60,7 @@ GEM
       multi_json (~> 1.0)
     addressable (2.2.7)
     arel (3.0.2)
+    bbenezech-nested_form (0.0.6)
     bcrypt-ruby (3.0.1)
     bootstrap-sass (2.0.2)
     bootswatch-rails (0.0.11)
@@ -106,12 +107,20 @@ GEM
       haml (~> 3.0)
       railties (~> 3.0)
     hike (1.2.1)
+    hpricot (0.8.6)
     i18n (0.6.0)
     journey (1.0.3)
     jquery-rails (2.0.2)
       railties (>= 3.2.0, < 5.0)
       thor (~> 0.14)
+    jquery-ui-rails (0.2.2)
+      jquery-rails
+      railties (>= 3.1.0)
     json (1.6.6)
+    kaminari (0.13.0)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
+      railties (>= 3.0.0)
     machinist (2.0)
     mail (2.4.4)
       i18n (>= 0.4.0)
@@ -126,7 +135,7 @@ GEM
       activemodel (~> 3.1)
       mongo (~> 1.3)
       tzinfo (~> 0.3.22)
-    multi_json (1.3.1)
+    multi_json (1.3.2)
     orm_adapter (0.0.7)
     polyglot (0.3.3)
     quiet_assets (1.0.0)
@@ -134,6 +143,9 @@ GEM
     rack (1.4.1)
     rack-cache (1.2)
       rack (>= 0.4)
+    rack-pjax (0.5.9)
+      hpricot (~> 0.8.6)
+      rack (~> 1.3)
     rack-ssl (1.3.2)
       rack
     rack-test (0.6.1)
@@ -146,6 +158,19 @@ GEM
       activesupport (= 3.2.1)
       bundler (~> 1.0)
       railties (= 3.2.1)
+    rails_admin (0.0.1)
+      bbenezech-nested_form (~> 0.0.6)
+      bootstrap-sass (~> 2.0)
+      builder (~> 3.0)
+      coffee-rails (~> 3.1)
+      haml (~> 3.1)
+      jquery-rails (>= 1.0)
+      jquery-ui-rails (~> 0.2.2)
+      kaminari (~> 0.12)
+      rack-pjax (~> 0.5)
+      rails (~> 3.1)
+      remotipart (~> 1.0)
+      sass-rails (~> 3.1)
     railties (3.2.1)
       actionpack (= 3.2.1)
       activesupport (= 3.2.1)
@@ -156,6 +181,7 @@ GEM
     rake (0.9.2.2)
     rdoc (3.12)
       json (~> 1.4)
+    remotipart (1.0.2)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     sass (3.1.15)
@@ -218,6 +244,7 @@ DEPENDENCIES
   pry-nav!
   quiet_assets
   rails (= 3.2.1)
+  rails_admin
   sass-rails (~> 3.2.5)
   simple_form
   slim-rails
