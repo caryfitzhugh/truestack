@@ -28,15 +28,15 @@ group :assets do
 end
 
 group :development do
-  gem 'pry', :git => "git://github.com/pry/pry.git"
-  gem 'pry-nav', :git => "https://github.com/nixme/pry-nav.git"
+  gem 'pry'
+  gem 'pry-nav'
   gem 'debugger'
   gem 'quiet_assets'
 end
 
 group :test do
-  gem 'pry', :git => "git://github.com/pry/pry.git"
-  gem 'pry-nav', :git => "https://github.com/nixme/pry-nav.git"
+  gem 'pry'
+  gem 'pry-nav'
   gem "minitest"
   gem 'truestack_client', :git => "git@github.com:caryfitzhugh/truestack_client.git"
   gem 'machinist', '>= 2.0.0.beta2'

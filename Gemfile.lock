@@ -1,24 +1,8 @@
 GIT
-  remote: git://github.com/pry/pry.git
-  revision: b5d044eeb202891c6934c49e397b7f0963522f00
-  specs:
-    pry (0.9.8.4)
-      coderay (~> 1.0.5)
-      method_source (~> 0.7.1)
-      slop (>= 2.4.4, < 3)
-
-GIT
   remote: git@github.com:caryfitzhugh/truestack_client.git
-  revision: ff127988b735200b00f831a1f18526defb3b2cee
+  revision: 7d278da59757889bd6836d500811bb24a45b8c27
   specs:
-    truestack_client (0.0.25)
-
-GIT
-  remote: https://github.com/nixme/pry-nav.git
-  revision: bbd9f715e4efede102d2520031d12632bf2dde72
-  specs:
-    pry-nav (0.2.0)
-      pry (~> 0.9.8.1)
+    truestack_client (0.0.27)
 
 GIT
   remote: https://github.com/nmerouze/machinist_mongo.git
@@ -135,9 +119,15 @@ GEM
       activemodel (~> 3.1)
       mongo (~> 1.3)
       tzinfo (~> 0.3.22)
-    multi_json (1.3.1)
+    multi_json (1.3.2)
     orm_adapter (0.0.7)
     polyglot (0.3.3)
+    pry (0.9.8.4)
+      coderay (~> 1.0.5)
+      method_source (~> 0.7.1)
+      slop (>= 2.4.4, < 3)
+    pry-nav (0.2.0)
+      pry (~> 0.9.8.1)
     quiet_assets (1.0.0)
       rails (~> 3.1)
     rack (1.4.1)
@@ -236,8 +226,8 @@ DEPENDENCIES
   machinist_mongo!
   minitest
   mongoid (~> 2.4)
-  pry!
-  pry-nav!
+  pry
+  pry-nav
   quiet_assets
   rails (= 3.2.1)
   rails_admin
