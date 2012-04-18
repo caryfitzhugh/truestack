@@ -32,6 +32,10 @@ module Truestack
               while !messages.empty?
                 queued_message = messages.pop
                 message = ActiveSupport::JSON.decode(queued_message).symbolize_keys rescue {}
+
+
+                app = access_token.user_application
+
                 #  request:
                 #    name: controller#action
                 #    request_id:  (unique token)
@@ -42,9 +46,6 @@ module Truestack
                 #           name: klass#method
                 #      }
                 #    ]
-
-                app = access_token.user_application
-
                 if (message[:type] == 'request')
                   name  = message.delete(:name)
                   request_id  = message.delete(:request_id)
@@ -52,6 +53,25 @@ module Truestack
                   Rails.logger.info "Adding request: #{name} #{request_id} #{actions.to_yaml}"
                   app.add_request(name, request_id, actions)
                   Rails.logger.info "Added request: #{name}"
+
+                # Exception:
+                # websocket_or_http.write_data(JSON.generate({
+                #                   :type => :exception,
+                #                   :request_name=>action_name,
+                #                   :exception_name => e.to_s,
+                #                   :tstart => start_time,
+                #                   :backtrace => e.backtrace,
+                #                   :env => request.env
+                #                  }))
+                elsif (message[:type] == 'exception')
+                  req_name = message.delete(:request_name)
+                  name     = message.delete(:exception_name)
+                  backtrace= message.delete(:backtrace) || []
+                  tstart   = Time.parse(params.delete(:tstart))     rescue Time.now
+                  env      = message.delete(:env)       || {}
+                  Rails.logger.info "Adding exception: #{name} #{req_name}"
+                  app.add_exception(req_name, name, tstart, backtrace, env)
+                  Rails.logger.info "Added exception!"
                 end
               end
             end
