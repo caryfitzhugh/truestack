@@ -47,15 +47,25 @@ class CollectorTest < MiniTest::Unit::TestCase
     assert_equal TruestackClient::Websocket, TruestackClient.websocket_or_http.class
   end
 
+  test "that exceptions are passed in" do
+    before_ae = ApplicationException.count
+    begin
+      raise "An Exception"
+    rescue Exception => e
+      TruestackClient.exception("Foo#foo", Time.now, e, { request: "env"})
+      sleep 5
+    end
+    assert_equal 1 + before_ae, ApplicationException.count
+  end
+
   test "that request events are queued" do
-    TruestackClient.request('test_request', Time.now.to_i, [{tstart: 0, tend: 10, type: 'controller'}])
-    TruestackClient.request('test_request', Time.now.to_i, [{tstart: 0, tend: 10, type: 'controller'}])
+    before_ar = ApplicationRequest.count
+
+    TruestackClient.request('test_request', SecureRandom.hex(4), [{tstart: 0, tend: 10, type: 'controller'}])
 
     # Should only show up in correct spots
     sleep 5
-
-    @access_token.user_application.current_bucket.reload
-    assert_equal 1, @access_token.user_application.time_buckets.map(&:application_requests).flatten.count
+    assert_equal 1 + before_ar, ApplicationRequest.count
   end
 
   private
