@@ -1,7 +1,21 @@
 class UserApplicationsController < ApplicationController
-  TOKEN_METHODS = [:create_event, :create_browser_event, :create_request_event, :create_exception_event]
+  TOKEN_METHODS = [ :create_metric_event, :create_browser_event, :create_request_event, :create_exception_event ]
   before_filter :access_token_required, :only => TOKEN_METHODS
   before_filter :authenticate_user!, :except =>  TOKEN_METHODS
+  def create_metric_event
+    message = ActiveSupport::JSON.decode(request.body).symbolize_keys
+    ::Rails.logger.info "Caught metric event"
+    ::Rails.logger.info message.to_yaml
+
+    app = @access_token.user_application
+    tstart = message.delete(:tstart)
+    name   = message.delete(:name)
+    value  = message.delete(:value)
+
+    app.add_metric(tstart, name, value)
+
+    head :accepted
+  end
 
   def create_exception_event
     message = ActiveSupport::JSON.decode(request.body).symbolize_keys
@@ -43,16 +57,6 @@ class UserApplicationsController < ApplicationController
     app = @access_token.user_application
     app.add_request(message[:name], message[:request_id], message[:actions])
 
-    head :accepted
-  end
-
-  def create_event
-    message = ActiveSupport::JSON.decode(request.body).symbolize_keys
-    app = @access_token.user_application
-    if (message[:type] == 'request' )
-      #name, timestamp, data
-      app.add_request(message[:name], message[:timestamp], message[:actions])
-    end
     head :accepted
   end
 

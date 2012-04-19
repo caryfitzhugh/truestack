@@ -1,6 +1,21 @@
 require 'test_helper'
 
 class ClientApiTest < ActionDispatch::IntegrationTest
+  test "can ingest a metric from webhook" do
+    access_token = AccessToken.make!
+    body = {
+      name:     'active_users',
+      value:    400,
+      tstart:   Time.now.to_s
+    }.to_json
+
+    post "app/metric", body,
+        { 'TrueStack-Access-Key' => access_token.key ,
+          :type => :json}
+
+    assert_response :accepted
+  end
+
   test "can ingest an exception from webhook" do
     access_token = AccessToken.make!
     body = {

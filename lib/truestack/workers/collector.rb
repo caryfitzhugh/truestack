@@ -72,6 +72,13 @@ module Truestack
                   Rails.logger.info "Adding exception: #{name} #{req_name}"
                   app.add_exception(req_name, name, tstart, backtrace, env)
                   Rails.logger.info "Added exception!"
+                elsif (message[:type] == 'metric')
+                  tstart = message.delete(:tstart)
+                  name   = message.delete(:name)
+                  value  = message.delete(:value)
+                  ::Rails.logger.info "Adding metric"
+                  app.add_metric(tstart, name, value)
+                  ::Rails.logger.info "Added metric"
                 end
               end
             end

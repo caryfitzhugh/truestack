@@ -1,9 +1,7 @@
 require 'test_helper'
 require 'net/http'
 
-# Start up collector
-
-class CollectorTest < MiniTest::Unit::TestCase
+class CollectorFallbackTest < MiniTest::Unit::TestCase
   def self.test(name, &block)
     define_method("test_"+name.gsub(/\W/,'_'), block)
   end
@@ -13,13 +11,6 @@ class CollectorTest < MiniTest::Unit::TestCase
     @test_url = "http://127.0.0.1:10000"
     @server_pid = Process.spawn({'RAILS_ENV' => ENV['RAILS_ENV']},   "bundle exec rails s -p 3005",
       [:err, :out] => [Rails.root.join('log','test.log').to_s, 'a'])
-    @collector_pid = Process.spawn({'RAILS_ENV' => ENV['RAILS_ENV']},"bundle exec rake workers:collector:start[#{@test_url}] --trace",
-      [:err, :out] => [Rails.root.join('log','test.log').to_s, 'a'])
-    tries = 0
-    while !is_port_open?('127.0.0.1', 10000) && tries < 20
-      tries += 1
-      sleep 1
-    end
     tries = 0
     while !is_port_open?('127.0.0.1', 3005) && tries < 20
       tries += 1
@@ -38,13 +29,12 @@ class CollectorTest < MiniTest::Unit::TestCase
 
   def teardown
     AccessToken.destroy_all
-    Process.kill("SIGTERM", @collector_pid)
     Process.kill("SIGKILL", @server_pid)
     super
   end
 
   test "websocket is directed to" do
-    assert_equal TruestackClient::Websocket, TruestackClient.websocket_or_http.class
+    assert_equal TruestackClient::HTTP, TruestackClient.websocket_or_http.class
   end
 
   test "that exceptions are passed in" do
@@ -52,9 +42,9 @@ class CollectorTest < MiniTest::Unit::TestCase
     begin
       raise "An Exception"
     rescue Exception => e
-      assert_equal TruestackClient::Websocket, TruestackClient.websocket_or_http.class
+      assert_equal TruestackClient::HTTP, TruestackClient.websocket_or_http.class
       TruestackClient.exception("Foo#foo", Time.now, e, { request: "env"})
-      sleep 5
+      sleep 1
     end
     assert_equal 1 + before_ae, ApplicationException.count
   end
@@ -62,21 +52,21 @@ class CollectorTest < MiniTest::Unit::TestCase
   test "that metric events are queued" do
     before_am = ApplicationMetric.count
 
-    assert_equal TruestackClient::Websocket, TruestackClient.websocket_or_http.class
+    assert_equal TruestackClient::HTTP, TruestackClient.websocket_or_http.class
     TruestackClient.metric(Time.now, "name", "value")
 
-    sleep 5
+    sleep 1
     assert_equal 1 + before_am, ApplicationMetric.count
   end
 
   test "that request events are queued" do
     before_ar = ApplicationRequest.count
 
-    assert_equal TruestackClient::Websocket, TruestackClient.websocket_or_http.class
+    assert_equal TruestackClient::HTTP, TruestackClient.websocket_or_http.class
     TruestackClient.request('test_request', SecureRandom.hex(4), [{tstart: 0, tend: 10, type: 'controller'}])
 
     # Should only show up in correct spots
-    sleep 5
+    sleep 1
     assert_equal 1 + before_ar, ApplicationRequest.count
   end
 
