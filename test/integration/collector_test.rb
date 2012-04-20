@@ -63,7 +63,7 @@ class CollectorTest < MiniTest::Unit::TestCase
     before_am = ApplicationMetric.count
 
     assert_equal TruestackClient::Websocket, TruestackClient.websocket_or_http.class
-    TruestackClient.metric(Time.now, "name", "value")
+    TruestackClient.metric(Time.now, "name", "value", {user: 1})
 
     sleep 5
     assert_equal 1 + before_am, ApplicationMetric.count

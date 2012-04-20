@@ -38,7 +38,7 @@ group :test do
   gem 'pry'
   gem 'pry-nav'
   gem "minitest"
-  gem 'truestack_client', :git => "git@github.com:caryfitzhugh/truestack_client.git"
+  gem 'truestack_client', :git => "git@github.com:caryfitzhugh/truestack_client.git", :branch => 'cwhf/custom-metrics'
   gem 'machinist', '>= 2.0.0.beta2'
   gem 'machinist_mongo', :git => 'https://github.com/nmerouze/machinist_mongo.git', :require => 'machinist/mongoid', :branch => 'machinist2'
 end

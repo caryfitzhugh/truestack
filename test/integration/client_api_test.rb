@@ -6,7 +6,8 @@ class ClientApiTest < ActionDispatch::IntegrationTest
     body = {
       name:     'active_users',
       value:    400,
-      tstart:   Time.now.to_s
+      tstart:   Time.now.to_s,
+      meta_data: { user: 1 }
     }.to_json
 
     post "app/metric", body,

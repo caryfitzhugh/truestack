@@ -7,8 +7,8 @@ class TimeBucket
   has_many :application_exceptions
   has_many :application_metrics
 
-  def add_metric(tstart, name, value)
-    application_metrics.create(name: name, created_at: tstart, value: value)
+  def add_metric(tstart, name, value, meta_data= {})
+    application_metrics.create(name: name, created_at: tstart, value: value, meta_data: meta_data)
   end
 
   def add_exception(request_name, exception_name, tstart, backtrace, env)
