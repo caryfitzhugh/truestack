@@ -1,7 +1,6 @@
 GIT
   remote: git@github.com:caryfitzhugh/truestack_client.git
-  revision: a25f38addf9179ae7c085ed44fd82ee539a8a331
-  branch: cwhf/custom-metrics
+  revision: e55bab0460538d2459409bc79b66d150dabafcee
   specs:
     truestack_client (0.0.27)
 
@@ -72,7 +71,7 @@ GEM
       debugger-ruby_core_source (~> 1.1)
     debugger-linecache (1.1.1)
       debugger-ruby_core_source (>= 1.1.1)
-    debugger-ruby_core_source (1.1.1)
+    debugger-ruby_core_source (1.1.2)
     devise (2.0.4)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.0.3)
