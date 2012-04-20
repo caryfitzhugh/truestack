@@ -1,6 +1,6 @@
 GIT
   remote: git@github.com:caryfitzhugh/truestack_client.git
-  revision: 7d278da59757889bd6836d500811bb24a45b8c27
+  revision: e55bab0460538d2459409bc79b66d150dabafcee
   specs:
     truestack_client (0.0.27)
 
@@ -71,7 +71,7 @@ GEM
       debugger-ruby_core_source (~> 1.1)
     debugger-linecache (1.1.1)
       debugger-ruby_core_source (>= 1.1.1)
-    debugger-ruby_core_source (1.1.1)
+    debugger-ruby_core_source (1.1.2)
     devise (2.0.4)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.0.3)

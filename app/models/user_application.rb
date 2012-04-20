@@ -30,6 +30,10 @@ class UserApplication
     deployment = Deployment.create!(commit_id: commit_id, commit_info: message, methods: all_actions, user_application: self)
   end
 
+  def add_metric(tstart, name, value, meta_data = {})
+    current_bucket.add_metric(tstart, name, value, meta_data)
+  end
+
   def add_browser_event(id, tstart, tend)
     Rails.logger.info "Add browser request #{id} #{tstart} - #{tend}"
     current_bucket.add_browser_request(name, id, actions)
