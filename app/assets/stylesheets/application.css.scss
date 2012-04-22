@@ -8,3 +8,21 @@ body { padding-top: 60px; }
 
 @import "bootstrap-responsive";
 @import "bootswatch/simplex/theme";
+
+@font-face{
+  font-family: "monofur";
+  src: url('/assets/fonts/monofur.eot');
+  src: local("monofur"), url('/assets/fonts/monofur.ttf') format("truetype");
+}
+.monofur {
+  font-family: "monofur";
+}
+
+.brand {
+  font-family: "monofur";
+  font-size: 25px;
+  padding-top: 3px;
+}
+.brand-logo {
+  float: left;
+  }

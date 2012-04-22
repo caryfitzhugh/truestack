@@ -11,10 +11,11 @@ html
       .navbar-inner
         .container
           a.btn.btn-navbar 'data-toggle'='collapse', 'data-target'='.nav-collapse'
+          = image_tag "truestack-icon-35x35.png", class: "brand-logo"
           - if user_signed_in?
-            a.brand href=(root_path) Truestack.com
+            a.brand href=(root_path) truestack
           - else
-            a.brand href='/' Truestack.com
+            a.brand href='/' truestack
           .nav-collapse
             ul.nav.pull-right
               - if (current_user && current_user.admin?)
