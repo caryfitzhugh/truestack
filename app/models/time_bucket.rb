@@ -6,6 +6,11 @@ class TimeBucket
   has_many :application_requests
   has_many :application_exceptions
   has_many :application_metrics
+  has_many :application_startups
+
+  def add_startup(tstart, host_id, commit_id, methods)
+    application_startups.create(tstart: tstart, host_id: host_id, commit_id: commit_id, methods: methods)
+  end
 
   def add_metric(tstart, name, value, meta_data= {})
     application_metrics.create(name: name, created_at: tstart, value: value, meta_data: meta_data)

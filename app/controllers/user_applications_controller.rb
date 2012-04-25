@@ -1,7 +1,29 @@
 class UserApplicationsController < ApplicationController
-  TOKEN_METHODS = [ :create_metric_event, :create_browser_event, :create_request_event, :create_exception_event ]
+  TOKEN_METHODS = [ :create_metric_event, :create_browser_event, :create_request_event, :create_exception_event , :create_startup_event]
   before_filter :access_token_required, :only => TOKEN_METHODS
   before_filter :authenticate_user!, :except =>  TOKEN_METHODS
+
+  #    :type => :startup,
+  #    :host_id   => host_id,
+  #    :commit_id => commit_id,
+  #    :tstart    => Time.now,
+  #    :methods => instrumented_method_names
+  def create_startup_event
+    message = ActiveSupport::JSON.decode(request.body).symbolize_keys
+    ::Rails.logger.info "Caught startup event"
+    ::Rails.logger.info message.to_yaml
+
+    app = @access_token.user_application
+
+    tstart = message.delete(:tstart)
+    host_id = message.delete(:host_id)
+    commit_id  = message.delete(:commit_id)
+    methods  = message.delete(:methods) || []
+
+    app.add_startup(tstart, host_id, commit_id, methods)
+
+    head :accepted
+  end
 
   def create_metric_event
     message = ActiveSupport::JSON.decode(request.body).symbolize_keys
@@ -64,7 +86,6 @@ class UserApplicationsController < ApplicationController
 
   def show
     @user_application = UserApplication.find(params[:id])
-    @user_application.latest_deployment
   end
 
   def index

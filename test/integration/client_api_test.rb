@@ -1,6 +1,21 @@
 require 'test_helper'
 
 class ClientApiTest < ActionDispatch::IntegrationTest
+  test "can ingest a startup from webhook" do
+    access_token = AccessToken.make!
+    body = {
+      commit_id:     '12312312312312123',
+      host_id:    "112j3jk133/asdfasdf/192.323.33.21/4",
+      tstart:   Time.now.to_s,
+      methods:  ["klass#method"]
+    }.to_json
+
+    post "app/startup", body,
+        { 'TrueStack-Access-Key' => access_token.key ,
+          :type => :json}
+
+    assert_response :accepted
+  end
   test "can ingest a metric from webhook" do
     access_token = AccessToken.make!
     body = {
@@ -65,13 +80,4 @@ class ClientApiTest < ActionDispatch::IntegrationTest
 
     assert_response :accepted
   end
-
-  test "posting that deployment is done (and validate the POST)" do
-    access_token = AccessToken.make!
-
-    post "/app/deployments", { commit_id: 'foo'}.to_json,
-        {'TrueStack-Access-Key' => access_token.key}
-    assert_response :accepted
-  end
-
 end

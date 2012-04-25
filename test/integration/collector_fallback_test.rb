@@ -49,6 +49,14 @@ class CollectorFallbackTest < MiniTest::Unit::TestCase
     assert_equal 1 + before_ae, ApplicationException.count
   end
 
+  test "that startups are passed in" do
+    before_as = ApplicationStartup.count
+    assert_equal TruestackClient::HTTP, TruestackClient.websocket_or_http.class
+    TruestackClient.startup("Applesauce", "192.168.1.1", ['klass#method'])
+    sleep 5
+    assert_equal 1 + before_as, ApplicationStartup.count
+  end
+
   test "that metric events are queued" do
     before_am = ApplicationMetric.count
 

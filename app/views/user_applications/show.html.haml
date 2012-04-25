@@ -1,13 +1,5 @@
 .hero-unit
-  %p Here is the overview graph for the current deploy
-
-
-- @user_application.deployments.each do |deployment|
-  %h1 Deployments
-  .row
-    %h2= deployment.created_at
-    %p
-      %a{href: deployment_path(deployment)} View Latest
+  %p Here is the overview graph
 
 - @user_application.time_buckets.sort_by {|tb| -1 * tb.created_at.to_i }.each do |time_bucket|
   .row

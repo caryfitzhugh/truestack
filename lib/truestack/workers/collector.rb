@@ -23,6 +23,7 @@ module Truestack
           at_exit do
             Rails.logger.info "Shutting down collector..."
           end
+
           Rails.logger.info "Starting collector on #{@url.host} #{@url.port}"
           EventMachine::WebSocket.start(:host => @url.host, :port => @url.port) do |ws|
             access_token = nil
@@ -72,12 +73,23 @@ module Truestack
                   Rails.logger.info "Adding exception: #{name} #{req_name}"
                   app.add_exception(req_name, name, tstart, backtrace, env)
                   Rails.logger.info "Added exception!"
+
+                elsif (message[:type] == 'startup')
+                  tstart = message.delete(:tstart)
+                  host_id   = message.delete(:host_id)
+                  commit_id  = message.delete(:commit_id)
+                  methods= message.delete(:methods)
+                  ::Rails.logger.info "Adding startup"
+                  app.add_startup(tstart, host_id, commit_id, methods)
+                  ::Rails.logger.info "Added startup"
+
                 elsif (message[:type] == 'metric')
                   tstart = message.delete(:tstart)
                   name   = message.delete(:name)
                   value  = message.delete(:value)
+                  meta_data = message.delete(:meta_data)
                   ::Rails.logger.info "Adding metric"
-                  app.add_metric(tstart, name, value)
+                  app.add_metric(tstart, name, value, meta_data)
                   ::Rails.logger.info "Added metric"
                 end
               end
@@ -104,6 +116,7 @@ module Truestack
               @collector_record.connection_count -= 1
               Rails.logger.info "Connection closed"
             }
+
             ws.onmessage  {|msg|
               Rails.logger.info "Recieved message: [#{msg}]"
               messages << msg
@@ -129,6 +142,7 @@ module Truestack
 
       def heartbeat
         @collector_record.updated_at = Time.now
+        # Saves connection count
         @collector_record.save!
       end
 

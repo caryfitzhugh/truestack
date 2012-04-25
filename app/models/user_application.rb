@@ -4,7 +4,6 @@ class UserApplication
   field :name, type: String
   field :owner, type: String
 
-  has_many :deployments
   has_many :time_buckets
   has_many :access_tokens
 
@@ -12,25 +11,15 @@ class UserApplication
 
   BUCKET_RESOLUTION_IN_SECONDS = 120  # 2 minutes
 
-  # Get the latest deployment for a user application
-  def latest_deployment
-    deploy = deployments.desc(:created_at).limit(1).first
-    if (deploy)
-      deploy
-    else
-      deploy!(:commit_id => "Initial Deploy")
-    end
-  end
-
   # This user application was deployed to it's server
   # And so - create a new deployment record
-  def deploy!( message )
-    commit_id = message.delete(:commit_id)
-    all_actions = message.delete(:all_actions) || {}
-    deployment = Deployment.create!(commit_id: commit_id, commit_info: message, methods: all_actions, user_application: self)
+  def add_startup( tstart, host_id, commit_id, methods = [] )
+    Rails.logger.info "Add startup event #{commit_id} : #{host_id}"
+    current_bucket.add_startup(tstart, host_id, commit_id, methods)
   end
 
   def add_metric(tstart, name, value, meta_data = {})
+    Rails.logger.info "Add metric event #{name} : #{value} - #{tstart}"
     current_bucket.add_metric(tstart, name, value, meta_data)
   end
 

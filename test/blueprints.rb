@@ -8,12 +8,6 @@ AccessToken.blueprint do
   user_application { UserApplication.make! }
 end
 
-Deployment.blueprint do
-  commit_id   { "commit_#{sn}" }
-  commit_info { {'name' => 'test_commit', 'description' => 'foo'} }
-  user_application { UserApplication.make! }
-end
-
 UserApplication.blueprint do
   name { "#{sn}_application"}
 end

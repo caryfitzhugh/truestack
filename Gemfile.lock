@@ -1,8 +1,8 @@
 GIT
   remote: git@github.com:caryfitzhugh/truestack_client.git
-  revision: e55bab0460538d2459409bc79b66d150dabafcee
+  revision: 5eb9ab5672bd677e7438a60ee80c599b4647943d
   specs:
-    truestack_client (0.0.27)
+    truestack_client (0.0.30)
 
 GIT
   remote: https://github.com/nmerouze/machinist_mongo.git
@@ -115,19 +115,19 @@ GEM
     minitest (2.12.1)
     mongo (1.6.2)
       bson (~> 1.6.2)
-    mongoid (2.4.8)
+    mongoid (2.4.9)
       activemodel (~> 3.1)
       mongo (~> 1.3)
       tzinfo (~> 0.3.22)
     multi_json (1.3.2)
     orm_adapter (0.0.7)
     polyglot (0.3.3)
-    pry (0.9.8.4)
+    pry (0.9.9.3)
       coderay (~> 1.0.5)
       method_source (~> 0.7.1)
       slop (>= 2.4.4, < 3)
-    pry-nav (0.2.0)
-      pry (~> 0.9.8.1)
+    pry-nav (0.2.1)
+      pry (~> 0.9.9)
     quiet_assets (1.0.0)
       rails (~> 3.1)
     rack (1.4.1)
@@ -172,7 +172,7 @@ GEM
     rdoc (3.12)
       json (~> 1.4)
     remotipart (1.0.2)
-    sass (3.1.15)
+    sass (3.1.16)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
       sass (>= 3.1.10)

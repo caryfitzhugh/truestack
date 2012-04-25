@@ -8,6 +8,7 @@ class CollectorTest < MiniTest::Unit::TestCase
     define_method("test_"+name.gsub(/\W/,'_'), block)
   end
   def setup
+    TruestackClient.reset
     # Clean out mongo
     Mongoid.master.collections.select {|c| c.name !~ /system/ }.each(&:drop)
     @test_url = "http://127.0.0.1:10000"
@@ -38,6 +39,8 @@ class CollectorTest < MiniTest::Unit::TestCase
 
   def teardown
     AccessToken.destroy_all
+    TruestackClient.reset
+
     Process.kill("SIGTERM", @collector_pid)
     Process.kill("SIGKILL", @server_pid)
     super
@@ -47,6 +50,14 @@ class CollectorTest < MiniTest::Unit::TestCase
     assert_equal TruestackClient::Websocket, TruestackClient.websocket_or_http.class
   end
 
+  test "that startups are passed in" do
+    before_as = ApplicationStartup.count
+    assert_equal TruestackClient::Websocket, TruestackClient.websocket_or_http.class
+    #def self.startup(commit_id, host_id, instrumented_method_names)
+    TruestackClient.startup("Applesauce", "192.168.1.1", ['klass#method'])
+    sleep 1
+    assert_equal 1 + before_as, ApplicationStartup.count
+  end
   test "that exceptions are passed in" do
     before_ae = ApplicationException.count
     begin
@@ -54,8 +65,8 @@ class CollectorTest < MiniTest::Unit::TestCase
     rescue Exception => e
       assert_equal TruestackClient::Websocket, TruestackClient.websocket_or_http.class
       TruestackClient.exception("Foo#foo", Time.now, e, { request: "env"})
-      sleep 5
     end
+    sleep 1
     assert_equal 1 + before_ae, ApplicationException.count
   end
 
@@ -65,7 +76,7 @@ class CollectorTest < MiniTest::Unit::TestCase
     assert_equal TruestackClient::Websocket, TruestackClient.websocket_or_http.class
     TruestackClient.metric(Time.now, "name", "value", {user: 1})
 
-    sleep 5
+    sleep 1
     assert_equal 1 + before_am, ApplicationMetric.count
   end
 
@@ -73,10 +84,11 @@ class CollectorTest < MiniTest::Unit::TestCase
     before_ar = ApplicationRequest.count
 
     assert_equal TruestackClient::Websocket, TruestackClient.websocket_or_http.class
+
     TruestackClient.request('test_request', SecureRandom.hex(4), [{tstart: 0, tend: 10, type: 'controller'}])
 
     # Should only show up in correct spots
-    sleep 5
+    sleep 1
     assert_equal 1 + before_ar, ApplicationRequest.count
   end
 
