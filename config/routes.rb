@@ -1,4 +1,5 @@
 Truestack::Application.routes.draw do
+
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
   devise_for :users, path_names: { sign_in: 'login', sign_out: 'logout' }
@@ -9,7 +10,11 @@ Truestack::Application.routes.draw do
     root to: 'user_applications#index'
   end
 
-  root to: 'static#home'
+  root to: 'signups#new'
+
+  get  "signups/thanks" => "signups#thanks"
+  post "signups" => "signups#create"
+  get  "signups" => "signups#new"
 
   resources :user_applications, :path => "apps"
 

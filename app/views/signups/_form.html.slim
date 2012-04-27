@@ -1,0 +1,8 @@
+= simple_form_for(@signup) do |f|
+  = f.error_notification
+
+  .form-inputs
+    h3 Signup to get email notifications when we launch
+    = f.input :email_address, :label => false , :placeholder => 'Email Address'
+    = f.button :submit, "Sign Up", :id => "stupid", :class => "awesome"
+    p We won't do anything nasty with your email like share it for anyone. It will only be used to send your updates about Truestack.

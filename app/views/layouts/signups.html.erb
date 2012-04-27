@@ -1,0 +1,284 @@
+
+<html>
+  <head>
+    <title>Truestack - How does your Rails app stack up?</title>
+    <meta name="keywords" content="ruby, rails, analytics, metrics, profile, profiling" />
+    <meta name="description" content="Discover how your app stacks up with truestack" />
+    <style type="text/css">
+
+@font-face{
+  font-family: "monofur";
+  src: url('/assets/fonts/monofur.eot');
+  src: local("monofur"), url('/assets/fonts/monofur.ttf') format("truetype");
+}
+.monofur {
+  font-family: "monofur";
+}
+
+
+      /*
+      awesome buttons are based on a blog post by ZERB
+      Read there blog post for more information:
+      [Super awesome Buttons with CSS3 and RGBA](http://www.zurb.com/article/266/super-awesome-buttons-with-css3-and-rgba)
+
+      this buttons are even more awesome, as the need only one color for all three states, and have an super awesome onclick state
+      Licensed under the MIT license
+      http://swik.net/License:MIT/License+Text
+      */
+
+      /* set an awesome color for the buttons, feel free to add new colors like an .awesome.green or .awesome.secondary */
+      .awesome {
+        background-color: #f90 !important;
+        color: #fff !important;
+      }
+
+      /* the awesome size gets set here. Feel free to add new sizes, like .awesome.small or .small.large */
+      .awesome { padding: 5px 10px 6px !important; font-size: 13px !important; }
+      .awesome:active { padding: 6px 10px 5px !important; }
+
+      /* Touch the rest at your onw risk. */
+      .awesome {
+        border: 0 !important;
+        cursor: pointer !important;
+        font: inherit !important;
+        font-style: normal !important;
+        font-weight: bold !important;
+        line-height: 1em !important;
+        position: relative !important;
+        text-align: center !important;
+        text-decoration: none !important;
+
+        /* vertical margin is the opposite of button's awesomeness */
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+
+        /* not all browser support these, but who cares? */
+        text-shadow: 0 -1px 1px rgba(0,0,0,0.25), -2px 0 1px rgba(0,0,0,0.25) !important;
+
+        border-radius: 5px !important;
+        -moz-border-radius: 5px !important;
+        -webkit-border-radius: 5px !important;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.5) !important;
+        -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.5) !important;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.5) !important;
+
+        /* who needs images these days? */
+        background-image: -moz-linear-gradient(top, rgba(255,255,255,.2), rgba(150,150,150,.2), rgba(0,0,0,.0)) !important;
+        background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255,255,255,.2)), color-stop(0.5, rgba(150,150,150,.2)), to(rgba(0,0,0,.0))) !important;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#30ffffff,endColorstr=#10000000) progid:DXImageTransform.Microsoft.Shadow(color=#000000,direction=135,strength=2);
+
+        /* cross browser inline block hack
+        see http://blog.mozilla.com/webdev/2009/02/20/cross-browser-inline-block/ */
+        display: -moz-inline-stack;
+        display: inline-block;
+        vertical-align: middle !important;
+        *display: inline !important;
+        position: relative;
+
+        /* IE luv */
+        zoom: 1;
+
+        /* disable text selection (Firefox only) */
+        -moz-user-select: none;
+
+        /* no text selection for iOS */
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+      }
+
+      /* OPERA only
+      if there is no border set, Opera shows a transparent background-color if border-radius is set. */
+      @media all and (-webkit-min-device-pixel-ratio:10000),not all and (-webkit-min-device-pixel-ratio:0) {
+        input.awesome {
+          border: 1px solid RGBa(0,0,0,0) !important;
+        }
+      }
+
+      /* hide selection background color */
+      .awesome::selection {
+        background: transparent;
+      }
+
+      .awesome {
+        outline: 0; /* remove dotted line, works for links only */
+      }
+      .awesome::-moz-focus-inner {
+        border: none; /* remove dotted lines for buttons */
+      }
+      .awesome:focus,
+      .awesome:hover {
+        background-image: -moz-linear-gradient(top, rgba(255,255,255,.4), rgba(150,150,150,.3), rgba(0,0,0,.0)) !important;
+        background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255,255,255,.4)), color-stop(0.5, rgba(150,150,150,.3)), to(rgba(0,0,0,.0))) !important;
+        #filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#50ffffff,endColorstr=#20000000) progid:DXImageTransform.Microsoft.Shadow(color=#000000,direction=135,strength=2);
+      }
+      .awesome:active {
+        background-image: -moz-linear-gradient(top, rgba(0,0,0,.2), rgba(150,150,150,.2), rgba(255,255,255,.2)) !important;
+        background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(0,0,0,.2)), color-stop(0.5, rgba(150,150,150,.2)), to(rgba(255,255,255,.2))) !important;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#20000000,endColorstr=#50ffffff) progid:DXImageTransform.Microsoft.Shadow(color=#000000,direction=315,strength=1);
+
+        box-shadow: inset 0 1px 2px rgba(0,0,0,0.7) !important;
+        -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.7) !important;
+        -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.7) !important;
+      }
+
+      /* Safari doesn't support inset box shadow, so we better remove it */
+      @media screen and (-webkit-min-device-pixel-ratio:0){
+        .awesome:active {
+          -webkit-box-shadow: none;
+        }
+      }
+
+      body, html { padding: 0; margin: 0; font-family: Helvetica, Geneva, Arial, sans-serif; }
+      .focus { width: 770px; margin: 0 auto; position: relative; }
+      header {
+        background: #451a00;
+        background: #384a56
+        background: #717867;
+        font-size: 3em
+        overflow: hidden;
+        margin: 0;
+        border: 1px solid #300;
+        text-align: center;
+      }
+      h2 { clear: both }
+      footer {
+        background: #444;
+        color: #fff;
+        margin: 0;
+        padding: 1em;
+        border: 1px solide #444;
+      }
+      blockquote {
+        color: #303A41;
+        padding: 0.2em 0.5em;
+        background: #BECCD5;
+        font-size: 1.3em;
+        font-family: Georgia, Times, serif;
+        border-radius: 9px;
+      }
+      p em { background-color: #ffe; }
+      .image, .intro {
+        width: 50%;
+        float: left;
+      }
+      .image {
+        text-align: right;
+      }
+      .signup-button {
+        font-size: 1.2em;
+      }
+      .signup-botton a {
+      }
+      .up-and-over {
+        position: absolute;
+        top: -2em;
+        right: 3em;
+      }
+      .headshot {
+        margin: 0 1em 1em 0;
+        float: left;
+      }
+      .book, .aside {
+        float: right;
+        margin: 1em;
+      }
+      .aside {
+        width: 180px;
+      }
+      .big {
+        font-size: 1.3em;
+        width: 98%;
+      }
+      .masthead {
+        height: 250px;
+        width:650px;
+        margin: 0 auto;
+
+      }
+      .masthead-truestack-logo {
+        height: 200px;
+        width: 164px;
+        float:left;
+      }
+      .masthead-copy {
+        padding: 20px;
+        float:left;
+        width:440px;
+        text-align: left;
+        font-size:30px;
+        color: #A26A49;
+      }
+      .masthead-copy .name {
+        font-size:95px;
+        font-weight:bolder;
+        font-family: "monofur";
+        451a00
+        color: #384a56
+        color: #451a00;
+        color:white;
+        color: #E6E6E6;
+      }
+      p { line-height: 1.3 }
+      form {
+        color: #384a56
+      }
+      input {
+        color: #303A41;
+        font-size:30px;
+      }
+      input.email {
+        color: blue;
+        font-size: 20px;
+        width: 400px;
+        margin-left:50px;
+        padding:4px;
+        border-radius: 4px;
+      }
+      input.btn {
+        font-size: 20px;
+        display:inline-block;
+      }
+      #stupid {
+        width: 130px;
+height: 33px;
+border: none;
+margin: 0;
+padding: 0;
+top: -6px;
+left: 20px;
+       }
+      div.control-group {
+        display:inline-block;
+      }
+      .form-inputs {
+        color: #303A41;
+        padding: 0.2em 0.5em;
+        background: #BECCD5;
+        font-family: Georgia, Times, serif;
+        border-radius: 9px;
+        width: 670px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+    <div class="masthead">
+      <img class="masthead-truestack-logo" src="assets/truestack-logo.svg" type="image/svg+xml">
+      <div  class="masthead-copy">
+        <div class="name">Truestack</div>
+        Learn how your rails app stacks up, and where it breaks down.
+    </div>
+    </div>
+    </header>
+
+    <%=yield%>
+
+    <footer>
+    <div class="focus">
+      <p>Truestack is a Greenfry Labs creation, built with love. Copyright 2012. All rights reserved.</p>
+    </div>
+    </footer>
+   </body>
+ </html>
