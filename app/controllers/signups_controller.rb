@@ -1,12 +1,6 @@
 class SignupsController < ApplicationController
   layout "signups"
   def thanks
-    @signup = Signup.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @signup }
-    end
   end
 
   def new
