@@ -11,7 +11,7 @@ html
       .navbar-inner
         .container
           a.btn.btn-navbar 'data-toggle'='collapse', 'data-target'='.nav-collapse'
-          img.truestack-logo src="assets/truestack-logo.svg" type="image/svg+xml"
+          = image_tag "truestack-logo.svg", type: "image/svg+xml", class: "truestack-logo"
           - if user_signed_in?
             a.brand href=(root_path) truestack
           - else
