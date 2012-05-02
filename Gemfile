@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.1'
 
 # Database
+gem "mongo"
 gem "mongoid", "~> 2.4"
 gem "bson_ext", "~> 1.5"
 
