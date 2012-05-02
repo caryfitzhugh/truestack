@@ -10,6 +10,9 @@ Truestack::Application.routes.draw do
     root to: 'user_applications#index'
   end
 
+  get 'bootstrap/base-css' => 'static#base_css'
+  get 'bootstrap/scaffolding' => 'static#scaffolding'
+  get 'bootstrap/components' => 'static#components'
   root to: 'signups#new'
 
   get  "signups/thanks" => "signups#thanks"
