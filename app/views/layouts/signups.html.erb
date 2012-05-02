@@ -129,7 +129,11 @@
         }
       }
 
-      body, html { padding: 0; margin: 0; font-family: Helvetica, Geneva, Arial, sans-serif; }
+      body, html {
+        padding: 0; margin: 0; font-family: Helvetica, Geneva, Arial, sans-serif;
+        background: url(/assets/signups_background.png);
+
+      }
       .focus { width: 770px; margin: 0 auto; position: relative; }
       header {
         background: #451a00;
@@ -260,12 +264,25 @@ left: 20px;
         width: 670px;
         margin: 0 auto;
       }
+      .form-inputs p, .form-inputs h3 {
+        margin: 15px 50px;
+      }
+      .thanks h2 {
+        font-size:95px;
+        font-family: Georgia, Times, serif;
+        font-weight:bolder;
+        text-align: center;
+      }
+      .thanks p {
+        font-size:30px;
+        text-align: center;
+      }
     </style>
   </head>
   <body>
     <header>
     <div class="masthead">
-      <img class="masthead-truestack-logo" src="assets/truestack-logo.svg" type="image/svg+xml">
+      <img class="masthead-truestack-logo" src="/assets/truestack-logo-dyn-color.svg" type="image/svg+xml">
       <div  class="masthead-copy">
         <div class="name">Truestack</div>
         Learn how your rails app stacks up, and where it breaks down.
