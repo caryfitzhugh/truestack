@@ -4,6 +4,12 @@ http://truestack.herokuapp.com
 
 We give you insight into your code, what makes it slow, how it is faring, etc. over time / deploys.
 
+Homepage / Dashboard / Specific Application:
+  *
+
+
+
+
 == Displaying
 On index page, you view the 'latest' deploy.
 
@@ -17,6 +23,7 @@ It shows you the
 * All the requests show a variance rating -- how variable are the request times.
 * your overall performance rating compared to last deploy.
 * A selector to hop back to previous deploys
+
 Sections below that:
 * the slowest action (Laggin')
 * the most used action ( Popular)
