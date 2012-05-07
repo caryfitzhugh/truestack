@@ -10,11 +10,18 @@ body { padding-top: 60px; }
 @import "bootstrap-responsive";
 @import "bootswatch/simplex/theme";
 
-@font-face{
-  font-family: "monofur";
-  src: url('/assets/fonts/monofur.eot');
-  src: local("monofur"), url('/assets/fonts/monofur.ttf') format("truetype");
+
+@font-face {
+    font-family: 'monofurRegular';
+    src: url('/fonts/monofur-webfont.eot');
+    src: url('/fonts/monofur-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/monofur-webfont.woff') format('woff'),
+         url('/fonts/monofur-webfont.ttf') format('truetype'),
+         url('/fonts/monofur-webfont.svg#monofurRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
+
 .monofur {
   font-family: "monofur";
 }
