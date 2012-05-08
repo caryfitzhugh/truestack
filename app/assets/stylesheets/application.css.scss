@@ -1,6 +1,6 @@
 @import "bourbon";
 
-@import "bootswatch/simplex/variables";
+@import "variables";
 @import "bootstrap";
 @import 'font-awesome';
 
@@ -8,8 +8,6 @@
 body { padding-top: 60px; }
 
 @import "bootstrap-responsive";
-@import "bootswatch/simplex/theme";
-
 
 @font-face {
     font-family: 'monofurRegular';
@@ -26,10 +24,15 @@ body { padding-top: 60px; }
   font-family: "monofur";
 }
 
-.brand {
-  font-family: "monofur";
-  font-size: 25px;
-  padding-top: 3px;
+.navbar {
+  color: $navbarText;
+  // Hover and active states
+  .brand {
+    font-family: "monofur";
+    font-size: 25px;
+    padding-top: 6px;
+    color: $tsLightBlue;
+  }
 }
 .brand-logo {
   float: left;
