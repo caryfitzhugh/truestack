@@ -1,0 +1,37 @@
+function(collection, id, key, timing) {
+  var count_key     = (key ? key + "." : '') + "_count";
+  var mean_key      = (key ? key + "." : '') + "_mean";
+  var square_key    = (key ? key + "." : '') + "_square";
+  var deviation_key = (key ? key + "." : '') + "_stddev";
+
+  var doc = db[collection].findOne({_id: ObjectId(id)});
+  if (!doc) {
+    return;
+  }
+
+  var old_count = doc[count_key]  || 0;
+  var old_mean  = doc[mean_key];
+  var old_square= doc[square_key];
+
+  var new_count = old_count + 1;
+  var new_mean  = old_mean;
+  var new_square= old_square;
+
+  if (old_count === 0) {
+    new_mean = timing;
+    new_square = 0;
+    new_count  = 1;
+  } else {
+    new_count   = old_count + 1;
+    new_mean    = old_mean + ( timing - old_mean) / (new_count);
+    new_square  = old_square + ( timing - old_mean) * ( timing - new_mean);
+  }
+
+  doc[mean_key]   = new_mean;
+  doc[count_key]  = new_count;
+  doc[square_key] = new_square;
+  doc[deviation_key] = (new_count > 1) ? new_square / (new_count-1) : 0;
+  db[collection].save(doc);
+
+  return {count: new_count, mean: new_mean, square: new_square, devitation: doc[deviation_key]};
+}

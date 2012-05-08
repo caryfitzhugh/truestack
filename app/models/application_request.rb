@@ -2,8 +2,7 @@ class ApplicationRequest
   include Mongoid::Document
 
   field :name,          type: String
-  field :request_id,    type: String
-  field :actions,          type: Array, default: []
+  field :actions,       type: Array, default: []
   key   :name
   validates_presence_of :name
   belongs_to :time_bucket

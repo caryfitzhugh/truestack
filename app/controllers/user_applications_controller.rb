@@ -63,23 +63,22 @@ class UserApplicationsController < ApplicationController
     ::Rails.logger.info params.to_yaml
 
     app = @access_token.user_application
-    app.add_request(params[:request_id], params[:tstart], params[:tend])
+    app.add_request(params[:action], params[:tstart], params[:tend])
 
     head :accepted
   end
 
-  # request_id:  (unique token)
   # name: controller#action
   # actions:
   #   type => controller | model | helper | view | browser | lib
+  #   name: klass#method
   #   tstart
   #   tend
-  #   name: klass#method
   #
   def create_request_event
     message = ActiveSupport::JSON.decode(request.body).symbolize_keys
     app = @access_token.user_application
-    app.add_request(message[:name], message[:request_id], message[:actions])
+    app.add_request(message[:name], message[:actions])
 
     head :accepted
   end

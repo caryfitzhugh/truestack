@@ -3,7 +3,7 @@ require 'test_helper'
 class UserApplicationTest < ActiveSupport::TestCase
   test "we can create an app and push in some request data" do
     application = UserApplication.make!
-    application.add_request("Controller#action", "1111",
+    application.add_request("Controller#action",
       {
         'klass#method1' => [{
           tstart: 0,

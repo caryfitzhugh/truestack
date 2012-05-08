@@ -23,15 +23,15 @@ class UserApplication
     current_bucket.add_metric(tstart, name, value, meta_data)
   end
 
-  def add_browser_event(id, tstart, tend)
-    Rails.logger.info "Add browser request #{id} #{tstart} - #{tend}"
-    current_bucket.add_browser_request(name, id, actions)
+  def add_browser_event(action_name, tstart, tend)
+    Rails.logger.info "Add browser request #{action_name} #{tstart} - #{tend}"
+    current_bucket.add_browser_request(action_name, tstart, tend)
   end
 
-  def add_request(name, id, actions)
-    Rails.logger.info "Add request #{name} #{id} #{actions.to_yaml}"
+  def add_request(name, actions)
+    Rails.logger.info "Add request #{name} #{actions.to_yaml}"
 
-    current_bucket.add_request(name, id, actions)
+    current_bucket.add_request(name, actions)
     current_bucket.save
   end
 

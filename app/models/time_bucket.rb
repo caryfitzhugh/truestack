@@ -24,14 +24,12 @@ class TimeBucket
   end
 
   def add_browser_request(id, tstart, tend)
-    request = application_requests.find_by(request_id: name)
-    if (request)
-      request.add_browser_data(tstart, tend)
-      request.save!
-    end
+    # TODO -- Look up the request method on the latest deploy. Make it a method called #browser ?
+    #
+    #
   end
 
-  def add_request(name, id, actions)
+  def add_request(name, actions)
     # We need to process the actions to get their actual durations
     # subtracting subsequent things from the tree
     # so that we can extract each individual method's timing data
@@ -41,7 +39,6 @@ class TimeBucket
 ::Rails.logger.error "Need to pre-process the start/end times on the requests!"
 
     request = application_requests.create(name: name)
-    request.request_id = id
     request.update_request(actions)
     request.save!
 

@@ -49,10 +49,9 @@ module Truestack
                 #    ]
                 if (message[:type] == 'request')
                   name  = message.delete(:name)
-                  request_id  = message.delete(:request_id)
                   actions = message.delete(:actions)
-                  Rails.logger.info "Adding request: #{name} #{request_id} #{actions.to_yaml}"
-                  app.add_request(name, request_id, actions)
+                  Rails.logger.info "Adding request: #{name} #{actions.to_yaml}"
+                  app.add_request(name, actions)
                   Rails.logger.info "Added request: #{name}"
 
                 # Exception:
