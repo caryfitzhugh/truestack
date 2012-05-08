@@ -5,13 +5,34 @@ module MongoRaw
     @db ||= self.connect!
   end
   def self.connect!
-    config = YAML.load_file("#{Rails.root}/config/mongoid.yml")[Rails.env]
-    if (config[:uri])
+    config = YAML.load_file("#{Rails.root}/config/mongoid.yml")[Rails.env].symbolize_keys
+    database = if (config[:uri])
       conn = Mongo::Connection.from_uri(config[:uri])
       conn.db(URI.parse(config[:uri]).path.gsub(/^\//, ''))
     else
       conn = Mongo::Connection.new(config[:host], config[:port])
       conn[config[:database]]
+    end
+    self.store_procedures!(database)
+    database
+  end
+
+  # Wrap the args in an anon fuction (hope to make injection a tad harder).
+  # Calls it!
+  #
+  # method_name, arg1, arg2, arg3......
+  def self.eval(*args)
+    name = args.shift
+    arg_names = (1..args.length).map {|i| "a#{i}"}.join(',')
+    eval_str = "return function(#{arg_names}) { return #{name}(#{arg_names});}(#{args.map {|v| v.to_json}.join(',')});"
+    self.db.eval(eval_str)
+  end
+
+  def self.store_procedures!(database = MongoRaw.db)
+    Dir[Rails.root.join('db','mongo_procedures', "*")].each do |file|
+      name = File.basename(file)
+      contents = File.read(file)
+      database['system.js'].save({_id:name, value:BSON::Code.new(contents)});
     end
   end
 end
