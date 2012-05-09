@@ -12,6 +12,7 @@ class CollectorFallbackTest < MiniTest::Unit::TestCase
     @server_pid = Process.spawn({'RAILS_ENV' => ENV['RAILS_ENV']},   "bundle exec rails s -p 3005",
       [:err, :out] => [Rails.root.join('log','test.log').to_s, 'a'])
     tries = 0
+
     while !is_port_open?('127.0.0.1', 3005) && tries < 20
       tries += 1
       sleep 1
@@ -55,16 +56,6 @@ class CollectorFallbackTest < MiniTest::Unit::TestCase
     TruestackClient.startup("Applesauce", "192.168.1.1", ['klass#method'])
     sleep 5
     assert_equal 1 + before_as, ApplicationStartup.count
-  end
-
-  test "that metric events are queued" do
-    before_am = ApplicationMetric.count
-
-    assert_equal TruestackClient::HTTP, TruestackClient.websocket_or_http.class
-    TruestackClient.metric(Time.now, "name", "value", {user: 1})
-
-    sleep 1
-    assert_equal 1 + before_am, ApplicationMetric.count
   end
 
   test "that request events are queued" do

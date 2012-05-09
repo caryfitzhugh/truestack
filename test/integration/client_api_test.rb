@@ -16,21 +16,6 @@ class ClientApiTest < ActionDispatch::IntegrationTest
 
     assert_response :accepted
   end
-  test "can ingest a metric from webhook" do
-    access_token = AccessToken.make!
-    body = {
-      name:     'active_users',
-      value:    400,
-      tstart:   Time.now.to_s,
-      meta_data: { user: 1 }
-    }.to_json
-
-    post "app/metric", body,
-        { 'TrueStack-Access-Key' => access_token.key ,
-          :type => :json}
-
-    assert_response :accepted
-  end
 
   test "can ingest an exception from webhook" do
     access_token = AccessToken.make!
@@ -55,7 +40,6 @@ class ClientApiTest < ActionDispatch::IntegrationTest
     access_token = AccessToken.make!
     body = {
       name: 'Controller#action',
-      request_id: SecureRandom.hex(8),
       actions: {
         'klass#method1' => [{
           tstart: 0,
@@ -63,12 +47,12 @@ class ClientApiTest < ActionDispatch::IntegrationTest
         }],
         'klass#method2' => [
           {
-            tstart: 0,
-            tend:   4
-          },
-          {
             tstart: 5,
             tend:   10
+          },
+          {
+            tstart: 0,
+            tend:   4
           }
         ]
       }

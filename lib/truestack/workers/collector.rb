@@ -34,7 +34,6 @@ module Truestack
                 queued_message = messages.pop
                 message = ActiveSupport::JSON.decode(queued_message).symbolize_keys rescue {}
 
-
                 app = access_token.user_application
 
                 #  request:
@@ -81,15 +80,6 @@ module Truestack
                   ::Rails.logger.info "Adding startup"
                   app.add_startup(tstart, host_id, commit_id, methods)
                   ::Rails.logger.info "Added startup"
-
-                elsif (message[:type] == 'metric')
-                  tstart = message.delete(:tstart)
-                  name   = message.delete(:name)
-                  value  = message.delete(:value)
-                  meta_data = message.delete(:meta_data)
-                  ::Rails.logger.info "Adding metric"
-                  app.add_metric(tstart, name, value, meta_data)
-                  ::Rails.logger.info "Added metric"
                 end
               end
             end

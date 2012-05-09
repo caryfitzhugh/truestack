@@ -70,16 +70,6 @@ class CollectorTest < MiniTest::Unit::TestCase
     assert_equal 1 + before_ae, ApplicationException.count
   end
 
-  test "that metric events are queued" do
-    before_am = ApplicationMetric.count
-
-    assert_equal TruestackClient::Websocket, TruestackClient.websocket_or_http.class
-    TruestackClient.metric(Time.now, "name", "value", {user: 1})
-
-    sleep 1
-    assert_equal 1 + before_am, ApplicationMetric.count
-  end
-
   test "that request events are queued" do
     before_ar = ApplicationRequest.count
 

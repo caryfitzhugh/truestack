@@ -18,11 +18,6 @@ class UserApplication
     current_bucket.add_startup(tstart, host_id, commit_id, methods)
   end
 
-  def add_metric(tstart, name, value, meta_data = {})
-    Rails.logger.info "Add metric event #{name} : #{value} - #{tstart}"
-    current_bucket.add_metric(tstart, name, value, meta_data)
-  end
-
   def add_browser_event(action_name, tstart, tend)
     Rails.logger.info "Add browser request #{action_name} #{tstart} - #{tend}"
     current_bucket.add_browser_request(action_name, tstart, tend)
