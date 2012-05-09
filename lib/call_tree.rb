@@ -15,23 +15,40 @@ class CallTree
     @tree[:tend]   = tend
   end
 
+  def for_each(&block)
+    for_each_r(@tree, &block)
+  end
+  def root
+    @tree
+  end
+
   def to_hash
     @tree || {}
   end
 
   private
 
-  def create_tree(parent, stack)
+  def for_each_r(root, &block)
+    block.call root
+    root[:calls].each do |other_root|
+      for_each_r(other_root, &block)
+    end
+  end
+
+  def create_tree(parent, stack, path = [])
     if (parent.nil?)
       top  = stack.shift
-      parent = top.merge({:duration => 0, :calls => [] })
+      path << top[:name]
+      parent = top.merge({:duration => 0, :calls => [], :path => path.join('.')})
     end
 
     if stack.first && parent[:tend] > stack.first[:tstart]
       top = stack.shift
-      top = top.merge({:duration => 0, :calls => [] })
-      parent[:calls] << create_tree(top, stack)
-      create_tree(parent, stack)
+      path << top[:name]
+      top = top.merge({:duration => 0, :calls => [] , :path => path.join(".")})
+
+      parent[:calls] << create_tree(top, stack, path.clone)
+      create_tree(parent, stack, path.clone)
     else stack.first.nil?
       parent[:duration] = calc_duration(parent)
       return parent

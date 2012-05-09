@@ -44,18 +44,40 @@ class TimeSlice
   #
   #
   def self.add_request(app_id, deploy_key, method_name, actions)
+  pp actions
     # Convert array of methods to tree, start with the root!
+    # Actions are:
+    #   {
+    #     method#name => [
+    #       { tstart: , tend:}
+    #     ]
+    #   }
+    #
     # Tree is
     #   { :name, :tstart, :tend, :duration, :calls => [] }
-    tree = CallTree.new(method_name, actions).to_hash
-    time_modulo = (24 * 60 * 60 * 1000)
-    id = "#{app_id}-hour-#{(tree[:tstart] % time_modulo) * time_modulo}"
-
+    tree = CallTree.new(method_name, actions)
+    time_modulos = { :hour => 1000*60*60,
+                     :quad => 1000*60*60*4,
+                     :day  => 1000*60*60*24
+                   }
+    time_modulos.each_pair do |slice_name, slice_mod|
+      add_request_to_slice(deploy_key, slice_name, slice_mod, app_id, tree)
+    end
+  end
+  def self.add_request_to_slice(deploy_key, slice_name, time_modulo, app_id, tree)
+    id = "#{app_id}-#{slice_name}-#{(tree.root[:tstart] % time_modulo) * time_modulo}"
+    pp "SLICE -- #{id}"
     # Slice level
-    MongoRaw.eval('update_timings', self.collection_name, id, nil, tree[:duration])
+    MongoRaw.eval('update_timings', self.collection_name, id, nil, tree.root[:duration])
 
     # Deploy level
-    MongoRaw.eval('update_timings', self.collection_name, id, deploy_key, tree[:duration])
+    path = [deploy_key];
+    tree.for_each do |node|
+      # For each of the actions , traverse the tree and then call update_timings on them.
+      # DO THE TOP_LEVEL METHOD TYPE AGGREGATION
+
+      pp MongoRaw.eval('update_timings', self.collection_name, id, ([deploy_key] + [node[:path]]).join('.'), node[:duration])
+    end
   end
 
   # This will look up the timeslices and return to you
