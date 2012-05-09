@@ -3,15 +3,17 @@ function(collection, id, key, timing) {
   var mean_key      = (key ? key + "." : '') + "_mean";
   var square_key    = (key ? key + "." : '') + "_square";
   var deviation_key = (key ? key + "." : '') + "_stddev";
+  var collection = db[collection];
+  var doc = collection.findOne({_id: id});
 
-  var doc = db[collection].findOne({_id: ObjectId(id)});
   if (!doc) {
-    return;
+    doc = {_id: id};
+    collection.save(doc);
   }
 
-  var old_count = doc[count_key]  || 0;
-  var old_mean  = doc[mean_key];
-  var old_square= doc[square_key];
+  var old_count = nested_value(doc,count_key)  || 0;
+  var old_mean  = nested_value(doc,mean_key);
+  var old_square= nested_value(doc, square_key);
 
   var new_count = old_count + 1;
   var new_mean  = old_mean;
@@ -27,11 +29,15 @@ function(collection, id, key, timing) {
     new_square  = old_square + ( timing - old_mean) * ( timing - new_mean);
   }
 
-  doc[mean_key]   = new_mean;
-  doc[count_key]  = new_count;
-  doc[square_key] = new_square;
-  doc[deviation_key] = (new_count > 1) ? new_square / (new_count-1) : 0;
-  db[collection].save(doc);
+  var deviation =   (new_count > 1) ? new_square / (new_count-1) : 0;
 
-  return {count: new_count, mean: new_mean, square: new_square, devitation: doc[deviation_key]};
+  var update = {};
+  update[mean_key] = new_mean;
+  update[count_key] = new_count;
+  update[square_key] = new_square;
+  update[deviation_key] = deviation;
+
+  collection.update(doc, {$set : update });
+
+  return update;
 }

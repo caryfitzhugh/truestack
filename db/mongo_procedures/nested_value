@@ -1,0 +1,16 @@
+function(doc, path) {
+  var val = doc;
+  try {
+    if (typeof(path) === 'string') {
+      path = path.split('.');
+    }
+
+    for (var i=0; i < path.length; i += 1) {
+     var key = path[i];
+     val = val[key];
+    }
+  } catch(e) {
+    val = null;
+  }
+  return val;
+}

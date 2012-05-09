@@ -45,6 +45,17 @@ class TimeSlice
   #
   def self.add_request(app_id, deploy_key, method_name, actions)
     # Convert array of methods to tree, start with the root!
+    # Tree is
+    #   { :name, :tstart, :tend, :duration, :calls => [] }
+    tree = CallTree.new(method_name, actions).to_hash
+    time_modulo = (24 * 60 * 60 * 1000)
+    id = "#{app_id}-hour-#{(tree[:tstart] % time_modulo) * time_modulo}"
+
+    # Slice level
+    MongoRaw.eval('update_timings', self.collection_name, id, nil, tree[:duration])
+
+    # Deploy level
+    MongoRaw.eval('update_timings', self.collection_name, id, deploy_key, tree[:duration])
   end
 
   # This will look up the timeslices and return to you

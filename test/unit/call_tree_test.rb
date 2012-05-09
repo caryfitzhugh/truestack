@@ -26,6 +26,5 @@ class CallTreeTest < ActiveSupport::TestCase
         ]
       }
     tree = CallTree.new("controller#action", methods)
-    pp tree.to_hash
   end
 end
