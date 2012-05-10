@@ -1,5 +1,7 @@
 class TimeSlice
-  SLICE_TYPES = {:day => 60 * 60 * 24, :quad => 60 * 60 * 4, :hour => 60 * 60}
+  SLICE_TYPES = {:day  => 60 * 60 * 24,
+                 :quad => 60 * 60 * 4,
+                 :hour => 60 * 60}
   include Mongoid::Document
 
   # @CMS = Count. Mean. StdDev
@@ -44,7 +46,6 @@ class TimeSlice
   #
   #
   def self.add_request(app_id, deploy_key, method_name, actions)
-  pp actions
     # Convert array of methods to tree, start with the root!
     # Actions are:
     #   {
@@ -56,16 +57,16 @@ class TimeSlice
     # Tree is
     #   { :name, :tstart, :tend, :duration, :calls => [] }
     tree = CallTree.new(method_name, actions)
-    time_modulos = { :hour => 1000*60*60,
-                     :quad => 1000*60*60*4,
-                     :day  => 1000*60*60*24
-                   }
-    time_modulos.each_pair do |slice_name, slice_mod|
+    SLICE_TYPES.each_pair do |slice_name, slice_mod|
       add_request_to_slice(deploy_key, slice_name, slice_mod, app_id, tree)
     end
   end
+
   def self.add_request_to_slice(deploy_key, slice_name, time_modulo, app_id, tree)
-    id = "#{app_id}-#{slice_name}-#{(tree.root[:tstart] % time_modulo) * time_modulo}"
+    # Convert to MS
+    timestamp = (tree.root[:tstart] / (time_modulo * 1000)).to_i * 1000 * time_modulo
+
+    id = "#{app_id}-#{slice_name}-#{timestamp}"
     pp "SLICE -- #{id}"
     # Slice level
     MongoRaw.eval('update_timings', self.collection_name, id, nil, tree.root[:duration])
@@ -76,7 +77,7 @@ class TimeSlice
       # For each of the actions , traverse the tree and then call update_timings on them.
       # DO THE TOP_LEVEL METHOD TYPE AGGREGATION
 
-      pp MongoRaw.eval('update_timings', self.collection_name, id, ([deploy_key] + [node[:path]]).join('.'), node[:duration])
+      MongoRaw.eval('update_timings', self.collection_name, id, ([deploy_key] + [node[:path]]).join('.'), node[:duration])
     end
   end
 
