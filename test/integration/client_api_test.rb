@@ -4,8 +4,8 @@ class ClientApiTest < ActionDispatch::IntegrationTest
   test "can ingest a startup from webhook" do
     access_token = AccessToken.make!
     body = {
-      commit_id:     '12312312312312123',
-      host_id:    "112j3jk133/asdfasdf/192.323.33.21/4",
+      commit_id:'12312312312312123',
+      host_id:  "112j3jk133/asdfasdf/192.323.33.21/4",
       tstart:   TruestackClient.to_timestamp(Time.now),
       methods:  mock_methods
     }.to_json
