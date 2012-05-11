@@ -6,8 +6,8 @@ class ClientApiTest < ActionDispatch::IntegrationTest
     body = {
       commit_id:     '12312312312312123',
       host_id:    "112j3jk133/asdfasdf/192.323.33.21/4",
-      tstart:   Time.now.to_s,
-      methods:  ["klass#method"]
+      tstart:   TruestackClient.to_timestamp(Time.now),
+      methods:  mock_methods
     }.to_json
 
     post "app/startup", body,
@@ -36,26 +36,12 @@ class ClientApiTest < ActionDispatch::IntegrationTest
 
     assert_response :accepted
   end
+
   test "can ingest a request from webhook" do
     access_token = AccessToken.make!
     body = {
       name: 'Controller#action',
-      actions: {
-        'klass#method1' => [{
-          tstart: 0,
-          tend:   10
-        }],
-        'klass#method2' => [
-          {
-            tstart: 5,
-            tend:   10
-          },
-          {
-            tstart: 0,
-            tend:   4
-          }
-        ]
-      }
+      actions: mock_actions,
     }.to_json
 
     post "app/request", body,

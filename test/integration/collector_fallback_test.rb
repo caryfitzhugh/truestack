@@ -53,7 +53,7 @@ class CollectorFallbackTest < MiniTest::Unit::TestCase
   test "that startups are passed in" do
     before_as = ApplicationStartup.count
     assert_equal TruestackClient::HTTP, TruestackClient.websocket_or_http.class
-    TruestackClient.startup("Applesauce", "192.168.1.1", ['klass#method'])
+    TruestackClient.startup("Applesauce", "192.168.1.1", mock_methods)
     sleep 5
     assert_equal 1 + before_as, ApplicationStartup.count
   end
@@ -62,7 +62,7 @@ class CollectorFallbackTest < MiniTest::Unit::TestCase
     before_ar = ApplicationRequest.count
 
     assert_equal TruestackClient::HTTP, TruestackClient.websocket_or_http.class
-    TruestackClient.request('test_request', SecureRandom.hex(4), [{tstart: 0, tend: 10, type: 'controller'}])
+    TruestackClient.request('test_request', mock_actions)
 
     # Should only show up in correct spots
     sleep 1

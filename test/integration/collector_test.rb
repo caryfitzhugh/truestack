@@ -54,7 +54,7 @@ class CollectorTest < MiniTest::Unit::TestCase
     before_as = ApplicationStartup.count
     assert_equal TruestackClient::Websocket, TruestackClient.websocket_or_http.class
     #def self.startup(commit_id, host_id, instrumented_method_names)
-    TruestackClient.startup("Applesauce", "192.168.1.1", ['klass#method'])
+    TruestackClient.startup("Applesauce", "192.168.1.1", mock_methods)
     sleep 1
     assert_equal 1 + before_as, ApplicationStartup.count
   end
@@ -75,7 +75,7 @@ class CollectorTest < MiniTest::Unit::TestCase
 
     assert_equal TruestackClient::Websocket, TruestackClient.websocket_or_http.class
 
-    TruestackClient.request('test_request', SecureRandom.hex(4), [{tstart: 0, tend: 10, type: 'controller'}])
+    TruestackClient.request('test_request#action', mock_actions)
 
     # Should only show up in correct spots
     sleep 1

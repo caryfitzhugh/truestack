@@ -39,13 +39,13 @@ module Truestack
                 #  request:
                 #    name: controller#action
                 #    request_id:  (unique token)
-                #    actions: [
-                #      {    type => controller | model | helper | view | browser | lib
-                #           tstart
-                #           tend
-                #           name: klass#method
-                #      }
-                #    ]
+                #    actions: {
+                #       klass#method =>
+                #         [{
+                #             tstart
+                #             tend
+                #         }, ...]
+                #     }
                 if (message[:type] == 'request')
                   name  = message.delete(:name)
                   actions = message.delete(:actions)

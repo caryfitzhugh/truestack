@@ -53,7 +53,7 @@ class TimeSlice
     #       { tstart: , tend:}
     #     ]
     #   }
-    #
+
     # Tree is
     #   { :name, :tstart, :tend, :duration, :calls => [] }
     tree = CallTree.new(method_name, actions)
@@ -67,7 +67,7 @@ class TimeSlice
     timestamp = (tree.root[:tstart] / (time_modulo * 1000)).to_i * 1000 * time_modulo
 
     id = "#{app_id}-#{slice_name}-#{timestamp}"
-    pp "SLICE -- #{id}"
+
     # Slice level
     MongoRaw.eval('update_timings', self.collection_name, id, nil, tree.root[:duration])
 
