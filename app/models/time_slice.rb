@@ -57,15 +57,15 @@ class TimeSlice
 
     id = "#{app_id}-#{slice_name}-#{timestamp}"
 
-    # Slice level
-    MongoRaw.eval('update_timings', self.collection_name, id, nil, tree.root[:duration])
+    # Top-deploy level
+    MongoRaw.eval('update_timings', self.collection_name, id, deploy_key, tree.root[:duration])
 
     # Deploy level
     path = [deploy_key];
     tree.for_each do |node|
-      # For each of the actions , traverse the tree and then call update_timings on them.
       # DO THE TOP_LEVEL METHOD TYPE AGGREGATION
 
+      # For each of the actions , traverse the tree and then call update_timings on them.
       MongoRaw.eval('update_timings', self.collection_name, id, ([deploy_key] + [node[:path]]).join('.'), node[:duration])
 
       # Do this just for the individual methods
@@ -73,8 +73,23 @@ class TimeSlice
       # Method detail page!
       MongoRaw.eval('update_timings', self.collection_name, id,"methods.#{node[:name]}", node[:duration])
     end
+  end
 
 
+  def self.add_browser_method(app_id, deploy_key, request_method_name, tstart, duration)
+    SLICE_TYPES.each_pair do |slice_name, slice_mod|
+      # Convert to MS
+      timestamp = (tstart / (slice_mod * 1000)).to_i * 1000 * slice_mod
+
+      id = "#{app_id}-#{slice_name}-#{timestamp}"
+
+      method_name = "browser#ready"
+      MongoRaw.eval('update_timings_but_not_count', self.collection_name, id, "#{deploy_key}", duration)
+      MongoRaw.eval('update_timings_but_not_count', self.collection_name, id, "#{deploy_key}.#{request_method_name}", duration)
+      MongoRaw.eval('update_timings_but_not_count', self.collection_name, id, "#{deploy_key}.#{request_method_name}.browser#ready", duration)
+
+      MongoRaw.eval('update_timings', self.collection_name, id, "methods.#{method_name}", duration)
+    end
   end
 
   # This will look up the timeslices and return to you

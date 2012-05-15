@@ -1,4 +1,10 @@
-function(collection, id, key, timing) {
+function(collection, id, key, timing, count_modifier) {
+  // You can modify the count by 0 or 1 or whatever.
+  // Adding timings to the request after the fact.
+  if (count_modifier === undefined) {
+    count_modifier = 1;
+  }
+
   var count_key     = (key ? key + "." : '') + "_count";
   var mean_key      = (key ? key + "." : '') + "_mean";
   var square_key    = (key ? key + "." : '') + "_square";
@@ -15,17 +21,15 @@ function(collection, id, key, timing) {
   var old_mean  = nested_value(doc,mean_key);
   var old_square= nested_value(doc, square_key);
 
-  var new_count = old_count + 1;
-  var new_mean  = old_mean;
-  var new_square= old_square;
+  var new_count, new_mean, new_square;
 
   if (old_count === 0) {
     new_mean = timing;
     new_square = 0;
     new_count  = 1;
   } else {
-    new_count   = old_count + 1;
-    new_mean    = old_mean + ( timing - old_mean) / (new_count);
+    new_count   = old_count + count_modifier;
+    new_mean    = old_mean   + ( timing - old_mean) / (new_count);
     new_square  = old_square + ( timing - old_mean) * ( timing - new_mean);
   }
 
