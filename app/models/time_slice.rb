@@ -46,17 +46,13 @@ class TimeSlice
     #   { :name, :tstart, :tend, :duration, :calls => [] }
     tree = CallTree.new(method_name, actions)
 
-    SLICE_TYPES.each_pair do |slice_name, slice_mod|
-      add_request_to_slice(deploy_key, slice_name, slice_mod, app_id, tree)
+    SLICE_TYPES.keys.each do |slice_name|
+      add_request_to_slice(deploy_key, slice_name, app_id, tree)
     end
   end
 
-  def self.add_request_to_slice(deploy_key, slice_name, time_modulo, app_id, tree)
-    # Convert to MS
-    timestamp = (tree.root[:tstart] / (time_modulo * 1000)).to_i * 1000 * time_modulo
-
-    id = "#{app_id}-#{slice_name}-#{timestamp}"
-
+  def self.add_request_to_slice(deploy_key, slice_name, app_id, tree)
+    id = self.slice_id(tree.root[:tstart], slice_name, app_id)
     # Top-deploy level
     MongoRaw.eval('update_timings', self.collection_name, id, deploy_key, tree.root[:duration])
 
@@ -77,10 +73,7 @@ class TimeSlice
 
   def self.add_browser_ready_timing(app_id, deploy_key, request_method_name, tstart, duration)
     SLICE_TYPES.each_pair do |slice_name, slice_mod|
-      # Convert to MS
-      timestamp = (tstart / (slice_mod * 1000)).to_i * 1000 * slice_mod
-
-      id = "#{app_id}-#{slice_name}-#{timestamp}"
+      id = self.slice_id(tstart, slice_name, app_id)
 
       method_name = "browser#ready"
       MongoRaw.eval('update_timings_but_not_count', self.collection_name, id, "#{deploy_key}", duration)
@@ -91,7 +84,24 @@ class TimeSlice
     end
   end
 
-  def self.add_exception(app_id, deploy_key, exception_name, tstart, backtrace, env)
+  def self.add_exception(app_id, deploy_key, exception_name, failed_in_method, actions, tstart, backtrace, env)
+    # Look up the last timing for the given failed in method.
+    # That is the 'instance' which has an exception
+    # Add the request, with this extra data.
+    pp failed_in_method
 
+    SLICE_TYPES.each_pair do |slice_name, slice_mod|
+      #add_request_to_slice(deploy_key, slice_name, slice_mod, app_id, tree)
+    end
+  end
+
+  private
+
+  def self.slice_id(start, slice, app_id)
+    time_modulo = SLICE_TYPES[slice]
+    # Convert to MS
+    timestamp = (start / (time_modulo * 1000)).to_i * 1000 * time_modulo
+
+    "#{app_id}-#{slice.to_s}-#{timestamp}"
   end
 end

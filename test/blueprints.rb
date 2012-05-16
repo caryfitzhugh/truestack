@@ -20,6 +20,9 @@ User.blueprint do
   last_name  {"Last#{sn}" }
 end
 
+def  mock_failed_in_method
+  "klass#method3"
+end
 def mock_actions(now = (Time.now.to_f * 1000).to_i)
     methods = {
         'klass#method1' => [{

@@ -59,6 +59,7 @@ module Truestack
                 #                   :request_name=>action_name,
                 #                   :exception_name => e.to_s,
                 #                   :tstart => start_time,
+                #                   :actions => actions,
                 #                   :backtrace => e.backtrace,
                 #                   :env => request.env
                 #                  }))
@@ -66,10 +67,12 @@ module Truestack
                   req_name = message.delete(:request_name)
                   name     = message.delete(:exception_name)
                   backtrace= message.delete(:backtrace) || []
+                  failed_in_method = message.delete(:failed_in_method)
+                  action   = message.delete(:actions)
                   tstart   = Time.parse(params.delete(:tstart))     rescue Time.now
                   env      = message.delete(:env)       || {}
                   Rails.logger.info "Adding exception: #{name} #{req_name}"
-                  app.add_exception(req_name, name, tstart, backtrace, env)
+                  app.add_exception(req_name, name, failed_in_method, actions, tstart, backtrace, env)
                   Rails.logger.info "Added exception!"
 
                 elsif (message[:type] == 'startup')

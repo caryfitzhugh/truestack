@@ -8,9 +8,9 @@ class TimeSliceTest < ActiveSupport::TestCase
   end
 
   test "do create a browser timing event" do
-    TimeSlice.add_browser_method('app_id', 'deploy:123', 'controller#action', (Time.now.to_f * 1000).to_i, 400)
+    TimeSlice.add_browser_ready_timing('app_id', 'deploy:123', 'controller#action', (Time.now.to_f * 1000).to_i, 400)
     assert_equal TimeSlice.first['deploy:123']['_count'], 1
-    TimeSlice.add_browser_method('app_id', 'deploy:123', 'controller#action', (Time.now.to_f * 1000).to_i, 400)
+    TimeSlice.add_browser_ready_timing('app_id', 'deploy:123', 'controller#action', (Time.now.to_f * 1000).to_i, 400)
     assert_equal TimeSlice.first['deploy:123']['_count'], 1
   end
 end

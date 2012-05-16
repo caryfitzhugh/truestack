@@ -43,7 +43,7 @@ class CollectorFallbackTest < MiniTest::Unit::TestCase
       raise "An Exception"
     rescue Exception => e
       assert_equal TruestackClient::HTTP, TruestackClient.websocket_or_http.class
-      TruestackClient.exception("Foo#foo", Time.now, e, { request: "env"})
+      TruestackClient.exception("Foo#foo", Time.now, mock_failed_in_method, mock_actions, e, { request: "env"})
       sleep 1
     end
   end

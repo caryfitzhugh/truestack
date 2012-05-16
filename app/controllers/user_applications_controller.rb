@@ -32,12 +32,14 @@ class UserApplicationsController < ApplicationController
 
     app = @access_token.user_application
     req_name = message.delete(:request_name)
+    tstart   = Time.parse(message.delete(:tstart))     rescue Time.now
     name     = message.delete(:exception_name)
     backtrace= message.delete(:backtrace)              || []
-    tstart   = Time.parse(message.delete(:tstart))     rescue Time.now
+    failed_in_method  = message.delete(:failed_in_method)
+    actions  = message.delete(:actions)
     env      = message.delete(:env)                    || {}
 
-    app.add_exception(req_name, name, tstart, backtrace, env)
+    app.add_exception(req_name, name, failed_in_method, actions, tstart, backtrace, env)
 
     head :accepted
   end

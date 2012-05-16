@@ -36,6 +36,8 @@ class ClientApiTest < ActionDispatch::IntegrationTest
     body = {
       exception_name:     'ActiveRecord::NotFoundException',
       request_name:       'Controller#action',
+      failed_in_method: mock_failed_in_method,
+      actions:          mock_actions,
       tstart:   Time.now.to_s,
       backtrace: [
         'a/b/c:45',
