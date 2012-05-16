@@ -17,6 +17,8 @@ class SignupsController < ApplicationController
 
     respond_to do |format|
       if @signup.save
+        Pony.mail(:to => 'keep.me.posted@truestack.com', :from => 'email@truestack.com', :subject => 'User is interested in following us', :body =>params[:signup].to_yaml)
+
         format.html { redirect_to action:"thanks", notice: 'Signup was successfully created.' }
         format.json { render json: @signup, status: :created, location: @signup }
       else

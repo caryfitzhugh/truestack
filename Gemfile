@@ -50,6 +50,8 @@ gem 'bourbon'
 gem 'simple_form'
 gem 'rails_admin'
 
+gem 'pony'
+
 # Collector
 gem 'eventmachine'
 gem 'em-websocket'
