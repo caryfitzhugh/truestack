@@ -5,7 +5,8 @@ module MongoRaw
     @db ||= self.connect!
   end
   def self.connect!
-    config = YAML.load_file("#{Rails.root}/config/mongoid.yml")[Rails.env].symbolize_keys
+    config = YAML.load(ERB.new(File.read(Rails.root.join("config","mongoid.yml"))).result)[Rails.env].symbolize_keys
+
     database = if (config[:uri])
       db = URI.parse(config[:uri])
       db_name = db.path.gsub(/^\//, '')
