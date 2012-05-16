@@ -1,6 +1,20 @@
 require 'test_helper'
 
 class ClientApiTest < ActionDispatch::IntegrationTest
+  test "can ingest a browser report from webhook" do
+    access_token = AccessToken.make!
+    body = {
+      action: "truestack#method",
+      tstart:   TruestackClient.to_timestamp(Time.now),
+      tend:     TruestackClient.to_timestamp(Time.now),
+      'TrueStack-Access-Key' => access_token.key
+    }
+
+    get "app/browser", body
+
+    assert_response :accepted
+  end
+
   test "can ingest a startup from webhook" do
     access_token = AccessToken.make!
     body = {
@@ -40,7 +54,7 @@ class ClientApiTest < ActionDispatch::IntegrationTest
   test "can ingest a request from webhook" do
     access_token = AccessToken.make!
     body = {
-      name: 'Controller#action',
+      name: 'controller#action',
       actions: mock_actions,
     }.to_json
 

@@ -1,0 +1,3 @@
+function(collection, id, key, timing) {
+  return update_timings(collection, id, key, timing, 0);
+}

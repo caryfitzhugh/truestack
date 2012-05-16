@@ -75,8 +75,7 @@ class TimeSlice
     end
   end
 
-
-  def self.add_browser_method(app_id, deploy_key, request_method_name, tstart, duration)
+  def self.add_browser_ready_timing(app_id, deploy_key, request_method_name, tstart, duration)
     SLICE_TYPES.each_pair do |slice_name, slice_mod|
       # Convert to MS
       timestamp = (tstart / (slice_mod * 1000)).to_i * 1000 * slice_mod
@@ -92,9 +91,7 @@ class TimeSlice
     end
   end
 
-  # This will look up the timeslices and return to you
-  # All the hashes of data (for now!)
-  def self.find_by_range(start_time, end_time)
+  def self.add_exception(app_id, deploy_key, exception_name, tstart, backtrace, env)
 
   end
 end

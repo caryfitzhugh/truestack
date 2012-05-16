@@ -2,9 +2,9 @@ class CallTree
   def initialize(start_method, methods)
     flat_methods = []
     # methods are { :method_name => [{ tstart, tend }, {tstart, tend} ]
-    methods.each_pair {|k,v| flat_methods += v.map {|vv| vv.merge(:name=>k)} }
+    methods.each_pair {|k,v| flat_methods += v.map {|vv| vv.merge(:name=>k).symbolize_keys} }
     # Flat methods are [ method_name, { tstart, tend } ]
-    sorted_flat_methods = flat_methods.sort_by {|m| [m[:tstart], -1*m[:tend]] }
+    sorted_flat_methods = flat_methods.sort_by {|m| [m[:tstart], -1 * m[:tend]] }
 
     # Set the tstart/end correctly on the top-level
     tstart = sorted_flat_methods.first[:tstart]

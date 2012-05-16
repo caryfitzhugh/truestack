@@ -24,7 +24,10 @@ Truestack::Application.routes.draw do
   post  "/app/startup"           => "user_applications#create_startup_event"
   post  "/app/metric"            => "user_applications#create_metric_event"
   post  "/app/exception"         => "user_applications#create_exception_event"
+
+  get   "/app/browser"           => "user_applications#create_browser_event"
   get   "/app/browser_event"     => "user_applications#create_browser_event"
+
   match "/app/request"           => "user_applications#create_request_event"
 
   match "/director" => "director#index"

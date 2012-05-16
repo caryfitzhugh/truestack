@@ -39,7 +39,6 @@ class CollectorFallbackTest < MiniTest::Unit::TestCase
   end
 
   test "that exceptions are passed in" do
-    before_ae = ApplicationException.count
     begin
       raise "An Exception"
     rescue Exception => e
@@ -47,7 +46,6 @@ class CollectorFallbackTest < MiniTest::Unit::TestCase
       TruestackClient.exception("Foo#foo", Time.now, e, { request: "env"})
       sleep 1
     end
-    assert_equal 1 + before_ae, ApplicationException.count
   end
 
   test "that startups are passed in" do
@@ -59,14 +57,12 @@ class CollectorFallbackTest < MiniTest::Unit::TestCase
   end
 
   test "that request events are queued" do
-    before_ar = ApplicationRequest.count
-
     assert_equal TruestackClient::HTTP, TruestackClient.websocket_or_http.class
     TruestackClient.request('test_request', mock_actions)
 
     # Should only show up in correct spots
     sleep 1
-    assert_equal 1 + before_ar, ApplicationRequest.count
+    assert_equal 1, TimeSlice.first['default-deploy-key']['_count']
   end
 
   private

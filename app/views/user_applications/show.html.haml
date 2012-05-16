@@ -1,19 +1,10 @@
 .hero-unit
   %p Here is the overview graph
 
-- @user_application.time_buckets.sort_by {|tb| -1 * tb.created_at.to_i }.each do |time_bucket|
-  .row
-    %h2= time_bucket.created_at
-    %h3 Requests
-    - time_bucket.application_requests.each do |app_request|
-      %h4
-        = app_request.name
-        %h5= app_request.request_id
-      %table.table.table-striped
-        %tr
-          %th Data
-        - app_request.actions.each do |action|
-          %tr
-            %td
-              %pre
-                = action.to_yaml
+%ul
+  - @user_application.application_startups.order_by([:tstart, :desc]).each do |startup|
+    %li
+      = startup.commit_id
+      %ul
+        - startup.hosts.each do |host|
+          %li= host

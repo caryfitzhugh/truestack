@@ -47,6 +47,7 @@ def mock_actions(now = (Time.now.to_f * 1000).to_i)
 
 end
 def mock_methods
+  # From truestack_rails
   #self.instrumented_methods << [klass.to_s, method, location.to_s, classification.to_s]
   [ ["klass", "method1", "app/models/klass.rb:33", "model"],
     ["klass", "method2", "app/views/view.rb:22", 'view'],

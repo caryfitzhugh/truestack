@@ -47,7 +47,7 @@ class UserApplicationsController < ApplicationController
     ::Rails.logger.info params.to_yaml
 
     app = @access_token.user_application
-    app.add_request(params[:action], params[:tstart], params[:tend])
+    app.add_browser_ready_timing(params[:action], params[:tstart].to_i, params[:tend].to_i)
 
     head :accepted
   end

@@ -11,4 +11,14 @@ class UserApplicationTest < ActiveSupport::TestCase
 
     assert_equal 1, app.access_tokens.length
   end
+
+  test "create startups from different hosts, only one startup record" do
+    app = UserApplication.make!
+    app.add_startup(0, "host1", "commt_hash", mock_methods)
+    app.add_startup(0, "host2", "commt_hash", mock_methods)
+    app.add_startup(0, "host3", "commt_hash", mock_methods)
+
+    assert_equal 1, ApplicationStartup.count
+    assert_equal 3, ApplicationStartup.last.hosts.count
+  end
 end
