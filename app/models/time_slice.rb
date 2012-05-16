@@ -88,7 +88,7 @@ class TimeSlice
     # Look up the last timing for the given failed in method.
     # That is the 'instance' which has an exception
     # Add the request, with this extra data.
-    pp failed_in_method
+
 
     SLICE_TYPES.each_pair do |slice_name, slice_mod|
       #add_request_to_slice(deploy_key, slice_name, slice_mod, app_id, tree)
