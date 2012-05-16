@@ -49,11 +49,11 @@ class CollectorFallbackTest < MiniTest::Unit::TestCase
   end
 
   test "that startups are passed in" do
-    before_as = ApplicationStartup.count
+    before_as = Deployment.count
     assert_equal TruestackClient::HTTP, TruestackClient.websocket_or_http.class
     TruestackClient.startup("Applesauce", "192.168.1.1", mock_methods)
     sleep 5
-    assert_equal 1 + before_as, ApplicationStartup.count
+    assert_equal 1 + before_as, Deployment.count
   end
 
   test "that request events are queued" do

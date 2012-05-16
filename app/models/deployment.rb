@@ -1,4 +1,4 @@
-class ApplicationStartup
+class Deployment
   include Mongoid::Document
 
   field :tstart,     type: Time

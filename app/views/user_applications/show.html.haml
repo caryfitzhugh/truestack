@@ -2,9 +2,9 @@
   %p Here is the overview graph
 
 %ul
-  - @user_application.application_startups.order_by([:tstart, :desc]).each do |startup|
+  - @user_application.deployments.order_by([:tstart, :desc]).each do |depoyment|
     %li
-      = startup.commit_id
+      = depoyment.commit_id
       %ul
-        - startup.hosts.each do |host|
+        - depoyment.hosts.each do |host|
           %li= host

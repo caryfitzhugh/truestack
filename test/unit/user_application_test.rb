@@ -18,7 +18,7 @@ class UserApplicationTest < ActiveSupport::TestCase
     app.add_startup(0, "host2", "commt_hash", mock_methods)
     app.add_startup(0, "host3", "commt_hash", mock_methods)
 
-    assert_equal 1, ApplicationStartup.count
-    assert_equal 3, ApplicationStartup.last.hosts.count
+    assert_equal 1, Deployment.count
+    assert_equal 3, Deployment.last.hosts.count
   end
 end

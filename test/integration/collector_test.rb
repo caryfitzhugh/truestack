@@ -51,12 +51,12 @@ class CollectorTest < MiniTest::Unit::TestCase
   end
 
   test "that startups are passed in" do
-    before_as = ApplicationStartup.count
+    before_as = Deployment.count
     assert_equal TruestackClient::Websocket, TruestackClient.websocket_or_http.class
     #def self.startup(commit_id, host_id, instrumented_method_names)
     TruestackClient.startup("Applesauce", "192.168.1.1", mock_methods)
     sleep 1
-    assert_equal 1 + before_as, ApplicationStartup.count
+    assert_equal 1 + before_as, Deployment.count
   end
   test "that exceptions are passed in" do
     begin
