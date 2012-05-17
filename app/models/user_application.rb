@@ -32,7 +32,15 @@ class UserApplication
 
   def add_exception(req_name, exception_name, failed_in_method, actions, tstart, backtrace, env)
     Rails.logger.info "Add exception #{req_name} #{exception_name}"
-    TimeSlice.add_exception(self.id, req_name, exception_name, failed_in_method, actions, tstart, backtrace, env)
+    TimeSlice.add_exception(self.id,
+                            current_deploy_key,
+                            req_name,
+                            exception_name,
+                            failed_in_method,
+                            actions,
+                            tstart,
+                            backtrace,
+                            env)
   end
 
   private

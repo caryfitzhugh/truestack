@@ -18,6 +18,7 @@
 #       methods: {
 #         klass#action => {
 #           @CMS - this_method
+#           _exceptions => []
 #         }
 #       },
 #       exceptions: {
@@ -27,9 +28,36 @@
 #     other_deploy_hash => {
 #     },
 #   },
-class TimeSlice
+module TimeSlice
   module SliceManipulationMethods
-    def add_exception_to_slice(deploy_key, id, exception_name, failed_in_method, actions, tstart, backtrace, env)
+    def add_exception_to_slice(deploy_key, id, req_name, exception_name, failed_path, tstart, backtrace, env)
+      exception_id = "#{exception_name}@#{backtrace.first}"
+
+      # Update the exception list
+      collection.update( { '_id' =>  id },
+        {
+          '$push' =>  {
+            # Top-level aggregate
+            "#{deploy_key}._exceptions" =>  exception_id,
+            # Update in the request map
+            "#{deploy_key}.#{req_name}._exceptions" =>  exception_id,
+            # Update in the call tree.
+            "#{deploy_key}.#{failed_path}._exceptions" =>  exception_id,
+            # Update in the method map
+            "#{deploy_key}.methods.#{req_name}._exceptions" =>  exception_id,
+            # Add to exception timing
+            "#{deploy_key}.exceptions.#{exception_id}._times" =>  tstart
+           },
+           '$set'  =>  {
+            "#{deploy_key}.exceptions.#{exception_id}._backtrace" =>  backtrace.to_json,
+            "#{deploy_key}.exceptions.#{exception_id}._env" =>  env.to_json
+           }
+        },
+        {
+          'upsert' =>  true,
+          'safe' =>  true
+        }
+      )
 
     end
 
@@ -55,6 +83,9 @@ class TimeSlice
         # This rolls them up so that we get an overall timing for each method in the slice
         # Method detail page!
         MongoRaw.eval('update_timings', self.collection_name, id,"methods.#{node[:name]}", node[:duration])
+
+        # Rollup by request calling this method
+        MongoRaw.eval('update_timings', self.collection_name, id,"methods.#{node[:name]}.#{tree.root[:name]}", node[:duration])
       end
     end
 
@@ -111,16 +142,23 @@ class TimeSlice
     end
   end
 
-  def self.add_exception(app_id, deploy_key, exception_name, failed_in_method, actions, tstart, backtrace, env)
+  def self.add_exception(app_id, deploy_key, req_name, exception_name, failed_in_method, actions, tstart, backtrace, env)
     # Look up the last timing for the given failed in method.
     # That is the 'instance' which has an exception
     # Add the request, with this extra data.
+
+    tree = CallTree.new(req_name, actions)
+
+    failed_in = actions[failed_in_method].last
+    failed_method = tree.find_method(failed_in_method, failed_in[:tstart], failed_in[:tend])
+    failed_path = failed_method[:path] + ".#{failed_in_method}"
 
     [TimeSlice::Day, TimeSlice::Hour].each do |slice_klass|
 
       id = slice_klass.slice_id(tstart, app_id)
 
-      slice_klass.add_exception_to_slice(deploy_key, id, tree)
+      slice_klass.add_exception_to_slice(deploy_key, id, req_name, exception_name,
+                                         failed_path, tstart, backtrace, env)
     end
   end
 end

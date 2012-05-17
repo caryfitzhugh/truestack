@@ -15,6 +15,10 @@ class CallTree
     @tree[:tend]   = tend
   end
 
+  def find_method(name, tstart, tend)
+    find_node_r(@tree, name, tstart, tend)
+  end
+
   def for_each(&block)
     for_each_r(@tree, &block)
   end
@@ -27,6 +31,17 @@ class CallTree
   end
 
   private
+
+  def find_node_r(root, name, tstart, tend)
+    if (root[:name] == name && root[:tstart] == tstart && root[:tend] == tend)
+      return root
+    # should we look more here? Is tstart within the root start / end?
+    elsif root[:tstart] <= tstart && root[:tend] >= tend
+      return root[:calls].find {|new_root| find_node_r(new_root, name, tstart, tend)}
+    else
+      nil
+    end
+  end
 
   def for_each_r(root, &block)
     block.call root
