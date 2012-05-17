@@ -4,7 +4,8 @@ class UserApplication
   field :name, type: String
   field :owner, type: String
 
-  has_many :time_slices
+  has_many :time_slice_days,  class_name: "TimeSlice::Day"
+  has_many :time_slice_hours, class_name: "TimeSlice::Hour"
   has_many :access_tokens
   has_many :deployments
 
