@@ -8,11 +8,17 @@ module MongoRaw
     config = YAML.load(ERB.new(File.read(Rails.root.join("config","mongoid.yml"))).result)[Rails.env].symbolize_keys
 
     database = if (config[:uri])
-      db = URI.parse(config[:uri])
-      db_name = db.path.gsub(/^\//, '')
-      db_connection = Mongo::Connection.new(db.host, db.port).db(db_name)
-      db_connection.authenticate(db.user, db.password) unless (db.user.nil? || db.user.nil?)
-      db_connection
+      uri  = URI.parse(config[:uri])
+      conn = Mongo::Connection.from_uri(config[:uri])
+      conn.db(uri.path.gsub(/^\//, ''))
+
+
+      # MongoHQ
+      #db = URI.parse(config[:uri])
+      #db_name = db.path.gsub(/^\//, '')
+      #db_connection = Mongo::Connection.new(db.host, db.port).db(db_name)
+      #db_connection.authenticate(db.user, db.password) unless (db.user.nil? || db.user.nil?)
+      #db_connection
     else
       conn = Mongo::Connection.new(config[:host], config[:port])
       conn[config[:database]]
