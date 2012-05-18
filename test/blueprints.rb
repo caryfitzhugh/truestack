@@ -26,25 +26,25 @@ end
 def mock_actions(now = (Time.now.to_f * 1000).to_i)
     methods = {
         'klass#method1' => [{
-          tstart: now,
-          tend:   now + 10 * 1000
+          tstart: now.to_s,
+          tend:   (now + 10 * 1000).to_s
         }],
         'klass#method2' => [
           {
-            tstart: now,
-            tend:   now + 4 * 1000
+            tstart: (now).to_s,
+            tend:   (now + 4 * 1000).to_s
           },
           {
-            tstart: now + 5 * 1000,
-            tend:   now + 10 * 1000
+            tstart: (now + 5 * 1000).to_s,
+            tend:   (now + 10 * 1000).to_s
           }
         ],
         "klass#method3" => [
-          { tstart: now + 2000, tend: now + 3000 },
-          { tstart: now + 8000, tend: now + 9000 }
+          { tstart: (now + 2000).to_s, tend: (now + 3000).to_s },
+          { tstart: (now + 8000).to_s, tend: (now + 9000).to_s }
         ],
         "klass#method4" => [
-          { type: 'model', tstart: now + 8000, tend: now + 9000 }
+          { type: 'model', tstart: (now + 8000).to_s, tend: (now + 9000).to_s }
         ]
       }
 

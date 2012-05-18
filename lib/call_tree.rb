@@ -2,7 +2,15 @@ class CallTree
   def initialize(methods)
     flat_methods = []
     # methods are { :method_name => [{ tstart, tend }, {tstart, tend} ]
-    methods.each_pair {|k,v| flat_methods += v.map {|vv| vv.merge(:name=>k).symbolize_keys} }
+    methods.each_pair do |k,v|
+      flat_methods += v.map do |vv|
+          vv = vv.merge(:name=>k).symbolize_keys
+          vv[:tstart] = vv[:tstart].to_i
+          vv[:tend]   = vv[:tend].to_i
+          vv
+      end
+    end
+
     # Flat methods are [ method_name, { tstart, tend } ]
     sorted_flat_methods = flat_methods.sort_by {|m| [m[:tstart], -1 * m[:tend]] }
 
@@ -17,7 +25,7 @@ class CallTree
 
   def find_method(name, tstart, tend)
     ::Rails.logger.info("Find method: #{name} #{tstart} #{tend} #{@tree.to_yaml}")
-    find_node_r(@tree, name, tstart, tend)
+    find_node_r(@tree, name, tstart.to_i, tend.to_i)
   end
 
   def for_each(&block)
