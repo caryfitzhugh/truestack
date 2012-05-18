@@ -47,7 +47,7 @@ module TimeSlice
             # Update in the request map
             mongo_path(deploy_key,"_requests",req_name,"_exceptions") =>  exception_id,
             # Update in the call tree.  "Where it was called"
-            mongo_path(deploy_key,"_requests",failed_path,"_exceptions") =>  exception_id,
+            mongo_path(deploy_key,"_requests",req_name, failed_path,"_exceptions") =>  exception_id,
             # Update in the method map (so you can see # of exceptions in a method)
             mongo_path(deploy_key,"_methods",failed_in_method,"_exceptions") =>  exception_id,
            },
