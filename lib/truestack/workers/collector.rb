@@ -69,7 +69,7 @@ module Truestack
                   backtrace= message.delete(:backtrace) || []
                   failed_in_method = message.delete(:failed_in_method)
                   action   = message.delete(:actions)
-                  tstart   = Time.parse(params.delete(:tstart))     rescue Time.now
+                  tstart   = message.delete(:tstart)
                   env      = message.delete(:env)       || {}
                   Rails.logger.info "Adding exception: #{name} #{req_name}"
                   app.add_exception(req_name, name, failed_in_method, actions, tstart, backtrace, env)

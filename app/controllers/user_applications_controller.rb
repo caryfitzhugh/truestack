@@ -32,7 +32,7 @@ class UserApplicationsController < ApplicationController
 
     app = @access_token.user_application
     req_name = message.delete(:request_name)
-    tstart   = Time.parse(message.delete(:tstart))     rescue Time.now
+    tstart   = message.delete(:tstart)
     name     = message.delete(:exception_name)
     backtrace= message.delete(:backtrace)              || []
     failed_in_method  = message.delete(:failed_in_method)

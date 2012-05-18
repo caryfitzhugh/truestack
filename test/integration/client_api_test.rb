@@ -35,10 +35,10 @@ class ClientApiTest < ActionDispatch::IntegrationTest
     access_token = AccessToken.make!
     body = {
       exception_name:     'ActiveRecord::NotFoundException',
-      request_name:       'Controller#action',
+      request_name:       'controller#action',
       failed_in_method: mock_failed_in_method,
       actions:          mock_actions,
-      tstart:   Time.now.to_s,
+      tstart:           TruestackClient.to_timestamp(Time.now),
       backtrace: [
         'a/b/c:45',
         'd/e/f:22'
@@ -50,6 +50,7 @@ class ClientApiTest < ActionDispatch::IntegrationTest
         { 'TrueStack-Access-Key' => access_token.key ,
           :type => :json}
 
+    assert_equal 1, TimeSlice::Day.first['default-deploy-key']['_exceptions']['ActiveRecord::NotFoundException@a/b/c:45']['_times'].count
     assert_response :accepted
   end
 

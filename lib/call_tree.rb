@@ -1,5 +1,5 @@
 class CallTree
-  def initialize(start_method, methods)
+  def initialize(methods)
     flat_methods = []
     # methods are { :method_name => [{ tstart, tend }, {tstart, tend} ]
     methods.each_pair {|k,v| flat_methods += v.map {|vv| vv.merge(:name=>k).symbolize_keys} }
@@ -16,6 +16,7 @@ class CallTree
   end
 
   def find_method(name, tstart, tend)
+    ::Rails.logger.info("Find method: #{name} #{tstart} #{tend} #{@tree.to_yaml}")
     find_node_r(@tree, name, tstart, tend)
   end
 
