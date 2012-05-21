@@ -86,7 +86,7 @@ module TimeSlice
         # For each of the actions , traverse the tree and then call update_timings on them.
         # deploy_key.mylist#show. {  Mylist#before_filter1, Mylist#show, Mylist#after_filter1 .... }
         MongoRaw.eval('update_timings', self.collection_name, id,
-          mongo_path(deploy_key,"_requests", req_name,node[:path]), node[:duration])
+          mongo_path(deploy_key,"_requests", req_name, node[:path].split('.')), node[:duration])
 
         # Do this just for the individual methods
         # This rolls them up so that we get an overall timing for each method in the slice
