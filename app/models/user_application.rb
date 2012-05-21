@@ -2,14 +2,14 @@ class UserApplication
   include Mongoid::Document
 
   field :name, type: String
-  field :owner, type: String
+  belongs_to :account
 
   has_many :time_slice_days,  class_name: "TimeSlice::Day"
   has_many :time_slice_hours, class_name: "TimeSlice::Hour"
-  has_many :access_tokens
   has_many :deployments
+  has_one  :access_token
 
-  after_save :create_default_access_token
+  after_create :create_access_token
 
   # This user application was deployed to it's server
   # And so - create a new deployment record
@@ -44,13 +44,12 @@ class UserApplication
                             env)
   end
 
-  private
-
-  def create_default_access_token
-    if (self.access_tokens.length == 0)
-      self.access_tokens.create!
-    end
+  def create_access_token
+    token = AccessToken.create!(:user_application=>self)
+    self.access_token = token
   end
+
+  private
 
   def current_deploy_key
     deployment = deployments.order_by(['tstart', :desc]).first

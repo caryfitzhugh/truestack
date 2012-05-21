@@ -1,5 +1,12 @@
 class User
   include Mongoid::Document
+  belongs_to :account
+  before_save :add_default_account
+
+  def user_applications
+    account.user_applications rescue []
+  end
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -53,5 +60,15 @@ class User
 
   def full_name
     [first_name, last_name].join(' ')
+  end
+
+  private
+
+  def add_default_account
+    if self.account.nil?
+      account = Account.new
+      account.save
+      self.account = account
+    end
   end
 end

@@ -40,7 +40,6 @@ group :test do
   gem 'pry'
   gem 'pry-nav'
   gem "minitest"
-  gem 'truestack_client', :git => "git@github.com:caryfitzhugh/truestack_client.git"
   gem 'machinist', '>= 2.0.0.beta2'
   gem 'machinist_mongo', :git => 'https://github.com/nmerouze/machinist_mongo.git', :require => 'machinist/mongoid', :branch => 'machinist2'
 end
@@ -51,6 +50,9 @@ gem 'simple_form'
 gem 'rails_admin'
 
 gem 'pony'
+
+# Client interactions
+gem 'truestack_client', :git => "git@github.com:caryfitzhugh/truestack_client.git"
 
 # Collector
 gem 'eventmachine'

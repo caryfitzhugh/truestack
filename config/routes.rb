@@ -19,21 +19,18 @@ Truestack::Application.routes.draw do
   post "signups" => "signups#create"
   get  "signups" => "signups#new"
 
-  resources :user_applications, :path => "apps"
+  resources :user_applications, :path => "apps" , :as => "apps", :path_prefix => "apps" do
+    post :reset_token
+  end
 
-  post  "/app/startup"           => "user_applications#create_startup_event"
-  post  "/app/metric"            => "user_applications#create_metric_event"
-  post  "/app/exception"         => "user_applications#create_exception_event"
+  post  "/app/startup"           => "user_application_fallback_controller#create_startup_event"
+  post  "/app/metric"            => "user_application_fallback_controller#create_metric_event"
+  post  "/app/exception"         => "user_application_fallback_controller#create_exception_event"
 
-  get   "/app/browser"           => "user_applications#create_browser_event"
-  get   "/app/browser_event"     => "user_applications#create_browser_event"
+  get   "/app/browser"           => "user_application_fallback_controller#create_browser_event"
+  get   "/app/browser_event"     => "user_application_fallback_controller#create_browser_event"
 
-  match "/app/request"           => "user_applications#create_request_event"
+  match "/app/request"           => "user_application_fallback_controller#create_request_event"
 
   match "/director" => "director#index"
-
-  resources :collector_workers
-
-# DEBUG
-  post "debug/create_deployment_data/:id" => 'deployments#debug_create_data', as: 'debug_create_deployment_data'
 end

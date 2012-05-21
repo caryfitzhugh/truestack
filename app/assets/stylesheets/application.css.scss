@@ -42,3 +42,20 @@ img.truestack-logo {
   float: left;
   padding: 5px;
 }
+
+.container {
+  .subnav {
+    margin-top: -10px;
+    min-height: 35px;
+    h2 {
+      a {
+        font-size: 12px;
+        padding: 5px;
+        font-weight: normal;
+      }
+    }
+    .btn-group.application-selector {
+      float: right;
+    }
+  }
+}

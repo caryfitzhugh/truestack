@@ -1,8 +1,8 @@
 GIT
   remote: git@github.com:caryfitzhugh/truestack_client.git
-  revision: 91da5fcf3d6f3bca8e7fb66bf344ad90e57f4f48
+  revision: b53ac536dcf7766c179742239d8cae2892043f16
   specs:
-    truestack_client (0.0.38)
+    truestack_client (0.0.39)
 
 GIT
   remote: https://github.com/nmerouze/machinist_mongo.git

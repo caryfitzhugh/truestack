@@ -1,0 +1,11 @@
+.btn-group.application-selector
+  button class='btn dropdown-toggle' data-toggle='dropdown'
+    span class='caret'
+  ul class='dropdown-menu'
+    li class='divider'
+    - current_user.user_applications.each do |application|
+      li
+        a href=user_application_path(application.id) = application.name
+    li class='divider'
+    li
+      a href=new_user_application_path Create New Application

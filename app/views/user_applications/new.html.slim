@@ -1,4 +1,9 @@
-form class='form-horizontal' action=user_applications_path method='post'
+.hero-unit
+  p
+    Create a new user application
+    Fancy images
+
+= form_for :user_application, :url => user_applications_path do |f|
   fieldset
     legend Create A New User Application
     div class='control-group'

@@ -28,6 +28,17 @@
 #   },
 module TimeSlice
   module SliceManipulationMethods
+
+    def find_slices(user_app, since_time)
+      time_end   = Time.now
+      time_start = time_end - since_time
+
+      self.where(
+        :_id.gte => self.slice_id(   time_start, user_app.id),
+        :_id.lte => self.slice_id(time_end,   user_app.id))
+    end
+
+
     def mongo_path(*args)
       array = [args].flatten
       array.map {|v| v.gsub(".", "_") }.join(".")
@@ -102,6 +113,7 @@ module TimeSlice
     end
 
     def slice_id(start, app_id)
+      start = TruestackClient.to_timestamp(start)
       # Convert to MS
       timestamp = (start / (self::SLICE_WINDOW * 1000)).to_i * 1000 * self::SLICE_WINDOW
 
@@ -121,6 +133,11 @@ module TimeSlice
     include Mongoid::Document
     extend SliceManipulationMethods
     belongs_to :user_application
+  end
+
+  def self.decode_window_size(param)
+    # e.g.  [ TimeSlice::Day, 21.days]
+    [TimeSlice::Hour, 1.day]
   end
 
   def self.add_request(app_id, deploy_key, method_name, actions)
