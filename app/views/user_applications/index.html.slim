@@ -2,3 +2,7 @@
   h1 The Dashboard For Your Apps
   p
     Here we may have a blurb about all your applications.
+  ul
+    - current_user.user_applications.each do |application|
+      li
+        a href=app_path(application.id) = application.name

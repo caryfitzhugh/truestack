@@ -2,10 +2,13 @@
   button class='btn dropdown-toggle' data-toggle='dropdown'
     span class='caret'
   ul class='dropdown-menu'
+    li
+      a href=edit_app_path(@current_user_application.id)
+        = "Edit"
     li class='divider'
     - current_user.user_applications.each do |application|
       li
-        a href=user_application_path(application.id) = application.name
+        a href=app_path(application.id) = application.name
     li class='divider'
     li
-      a href=new_user_application_path Create New Application
+      a href=new_app_path Create New Application

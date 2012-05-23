@@ -4,11 +4,15 @@
   %tr
     %th Url
     %th Connection Count
+    %th Started At
+    %th Last Heartbeat
     %th
   - @collector_workers.each do |collector_worker|
     %tr
       %td= collector_worker.url
       %td= collector_worker.connection_count
-      %td= link_to 'Show', collector_worker
+      %td= collector_worker.created_at
+      %td= collector_worker.updated_at
+      %td= link_to 'Show', admin_collector_worker_path(collector_worker)
 
 %br

@@ -9,7 +9,7 @@ class UserApplicationTest < ActiveSupport::TestCase
   test "user app has access_tokens" do
     app = UserApplication.make!
 
-    assert_equal 1, app.access_tokens.length
+    assert !!app.access_token
   end
 
   test "create startups from different hosts, only one startup record" do

@@ -27,10 +27,10 @@ class CollectorTest < MiniTest::Unit::TestCase
       sleep 1
     end
 
-    @access_token = AccessToken.make!
+    @test_app = UserApplication.make!
+    @access_token = @test_app.access_token
     @client = TruestackClient.configure do |c|
-      c.host   = "http://127.0.0.1:3005/"  # This is the server url
-      c.key    = @access_token.key
+      c.resource_uri = "http://#{@access_token.key}@127.0.0.1:3005/director"  # This is the server url
       c.logger = Rails.logger
     end
 

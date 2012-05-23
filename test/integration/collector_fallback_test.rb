@@ -20,9 +20,7 @@ class CollectorFallbackTest < MiniTest::Unit::TestCase
 
     @access_token = AccessToken.make!
     @client = TruestackClient.configure do |c|
-      c.host   = "http://127.0.0.1:3005/"  # This is the server url
-      c.key    = @access_token.key
-      c.logger = Rails.logger
+      c.resource_uri = "http://#{@access_token.key}@127.0.0.1:3005/director" # This is the server url
     end
 
     super
@@ -58,6 +56,7 @@ class CollectorFallbackTest < MiniTest::Unit::TestCase
 
   test "that request events are queued" do
     assert_equal TruestackClient::HTTP, TruestackClient.websocket_or_http.class
+
     TruestackClient.request('test_request', mock_actions)
 
     # Should only show up in correct spots

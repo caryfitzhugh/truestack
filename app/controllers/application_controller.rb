@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   private
 
   def access_token_required
-    key   = params["TrueStack-Access-Key"]   || request.headers['TrueStack-Access-Key']
+    key   = params["Truestack-Access-Key"]   || request.headers['Truestack-Access-Key']
 
     access_token = AccessToken.where(key: key).limit(1).first
     if (access_token)

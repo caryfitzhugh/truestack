@@ -1,8 +1,8 @@
 GIT
   remote: git@github.com:caryfitzhugh/truestack_client.git
-  revision: b53ac536dcf7766c179742239d8cae2892043f16
+  revision: 8b62d66e0acc0c3b77704c320fe724a3fc378341
   specs:
-    truestack_client (0.0.39)
+    truestack_client (0.0.44)
 
 GIT
   remote: https://github.com/nmerouze/machinist_mongo.git
@@ -46,7 +46,7 @@ GEM
     arel (3.0.2)
     bbenezech-nested_form (0.0.6)
     bcrypt-ruby (3.0.1)
-    bootstrap-sass (2.0.2)
+    bootstrap-sass (2.0.3.1)
     bootswatch-rails (0.0.11)
       railties (>= 3.1)
     bourbon (2.1.0)
@@ -63,7 +63,7 @@ GEM
     coffee-script (2.2.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.3.1)
+    coffee-script-source (1.3.3)
     columnize (0.3.6)
     debugger (1.1.3)
       columnize (>= 0.3.1)
@@ -72,9 +72,9 @@ GEM
     debugger-linecache (1.1.1)
       debugger-ruby_core_source (>= 1.1.1)
     debugger-ruby_core_source (1.1.2)
-    devise (2.0.4)
+    devise (2.1.0)
       bcrypt-ruby (~> 3.0)
-      orm_adapter (~> 0.0.3)
+      orm_adapter (~> 0.0.7)
       railties (~> 3.1)
       warden (~> 1.1.1)
     em-websocket (0.3.6)
@@ -82,12 +82,12 @@ GEM
       eventmachine (>= 0.12.9)
     erubis (2.7.0)
     eventmachine (0.12.10)
-    execjs (1.3.2)
+    execjs (1.4.0)
       multi_json (~> 1.0)
     font-awesome-sass-rails (0.2.0)
       railties (>= 3.1.1)
       sass-rails (>= 3.1.1)
-    haml (3.1.5)
+    haml (3.1.6)
     haml-rails (0.3.4)
       actionpack (~> 3.0)
       activesupport (~> 3.0)
@@ -103,7 +103,7 @@ GEM
     jquery-ui-rails (0.2.2)
       jquery-rails
       railties (>= 3.1.0)
-    json (1.7.1)
+    json (1.7.3)
     kaminari (0.13.0)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -118,11 +118,11 @@ GEM
     minitest (3.0.0)
     mongo (1.6.2)
       bson (~> 1.6.2)
-    mongoid (2.4.9)
+    mongoid (2.4.10)
       activemodel (~> 3.1)
       mongo (~> 1.3)
       tzinfo (~> 0.3.22)
-    multi_json (1.3.4)
+    multi_json (1.3.5)
     orm_adapter (0.0.7)
     polyglot (0.3.3)
     pony (1.4)
@@ -153,7 +153,7 @@ GEM
       activesupport (= 3.2.1)
       bundler (~> 1.0)
       railties (= 3.2.1)
-    rails_admin (0.0.2)
+    rails_admin (0.0.3)
       bbenezech-nested_form (~> 0.0.6)
       bootstrap-sass (~> 2.0)
       builder (~> 3.0)
@@ -177,7 +177,7 @@ GEM
     rdoc (3.12)
       json (~> 1.4)
     remotipart (1.0.2)
-    sass (3.1.17)
+    sass (3.1.18)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
@@ -185,7 +185,7 @@ GEM
     simple_form (2.0.2)
       actionpack (~> 3.0)
       activemodel (~> 3.0)
-    slim (1.2.0)
+    slim (1.2.1)
       temple (~> 0.4.0)
       tilt (~> 1.3.3)
     slim-rails (1.0.3)

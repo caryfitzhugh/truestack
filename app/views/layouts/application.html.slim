@@ -38,14 +38,11 @@ html
                 = msg
     .container
       .subnav
-        - if current_user
-          = render :partial=>'shared/application_selector'
         - if @current_user_application
           h2
-            - if @current_user_application
-              = @current_user_application.name
-              a href=edit_user_application_path(@current_user_application.id)
-                = "Edit"
+            = @current_user_application.name
+            - if current_user
+              = render :partial=>'shared/application_selector'
       = yield
 
       hr

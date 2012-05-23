@@ -7,7 +7,7 @@ class ClientApiTest < ActionDispatch::IntegrationTest
       action: "truestack#method",
       tstart:   TruestackClient.to_timestamp(Time.now),
       tend:     TruestackClient.to_timestamp(Time.now),
-      'TrueStack-Access-Key' => access_token.key
+      'Truestack-Access-Key' => access_token.key
     }
 
     get "app/browser", body
@@ -25,7 +25,7 @@ class ClientApiTest < ActionDispatch::IntegrationTest
     }.to_json
 
     post "app/startup", body,
-        { 'TrueStack-Access-Key' => access_token.key ,
+        { 'Truestack-Access-Key' => access_token.key ,
           :type => :json}
 
     assert_response :accepted
@@ -47,7 +47,7 @@ class ClientApiTest < ActionDispatch::IntegrationTest
     }.to_json
 
     post "app/exception", body,
-        { 'TrueStack-Access-Key' => access_token.key ,
+        { 'Truestack-Access-Key' => access_token.key ,
           :type => :json}
 
     assert_equal 1, TimeSlice::Day.first['default-deploy-key']['_exceptions']['ActiveRecord::NotFoundException@a/b/c:45']['_times'].count
@@ -62,7 +62,7 @@ class ClientApiTest < ActionDispatch::IntegrationTest
     }.to_json
 
     post "app/request", body,
-        { 'TrueStack-Access-Key' => access_token.key ,
+        { 'Truestack-Access-Key' => access_token.key ,
           :type => :json}
 
     assert_response :accepted
