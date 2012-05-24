@@ -15,6 +15,6 @@
     button type='submit' class='btn btn-primary' Reset
 
 .hero-unit
-  p Just cut and paste this into your Rails app in config/truestack.yml and add the gem to your Gemfile
+  p Put this value into the ENV["TRUESTACK_URI"] or the file config/truestack_uri
   pre
-    = @user_application.example_config_file
+    = "http://#{@user_application.access_token.key}@director.truestack.com/"

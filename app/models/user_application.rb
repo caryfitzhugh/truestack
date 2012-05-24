@@ -11,10 +11,6 @@ class UserApplication
 
   after_create :create_access_token
 
-  def example_config_file
-    TruestackRails.example_config_file(:key => self.access_token.key)
-  end
-
   # This user application was deployed to it's server
   # And so - create a new deployment record
   def add_startup( tstart, host_id, commit_id, methods = [] )
