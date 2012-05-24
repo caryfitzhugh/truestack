@@ -35,7 +35,7 @@ class UserApplicationsController < ApplicationController
     @user_application.account = current_user.account
 
     if @user_application.save
-      redirect_to user_application_path(@user_application)
+      redirect_to app_path(@user_application)
     else
       render :action => "new"
     end
