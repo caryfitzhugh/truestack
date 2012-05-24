@@ -6,3 +6,6 @@
     - current_user.user_applications.each do |application|
       li
         a href=app_path(application.id) = application.name
+    h2
+      a href=new_app_path
+        Create New App
