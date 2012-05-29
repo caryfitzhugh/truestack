@@ -47,9 +47,10 @@ class UserApplicationFallbackController < ApplicationController
   def create_browser_event
     ::Rails.logger.info "Caught browser event "
     ::Rails.logger.info params.to_yaml
+    ts = params[:truestack]
 
     app = @access_token.user_application
-    app.add_browser_ready_timing(params[:action], params[:tstart].to_i, params[:tend].to_i)
+    app.add_browser_ready_timing(ts[:action], ts[:tstart].to_i, ts[:tend].to_i)
 
     send_blank_gif
   end
