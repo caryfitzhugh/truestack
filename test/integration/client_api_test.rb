@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class ClientApiTest < ActionDispatch::IntegrationTest
-  test "can ingest a browser report from webhook" do
+  test "can ingest a browser report from img src" do
     access_token = AccessToken.make!
     body = {
       action: "truestack#method",
@@ -10,9 +10,22 @@ class ClientApiTest < ActionDispatch::IntegrationTest
       'Truestack-Access-Key' => access_token.key
     }
 
-    get "app/browser", body
+    get "app/browser_event", body, { :type => :json}
 
-    assert_response :accepted
+    assert_response :success
+  end
+  test "can ingest a browser report from webhook" do
+    access_token = AccessToken.make!
+    body = {
+      action: "truestack#method",
+      tstart:   TruestackClient.to_timestamp(Time.now),
+      tend:     TruestackClient.to_timestamp(Time.now)
+    }.to_json
+
+    post "app/browser", body,
+      { 'Truestack-Access-Key' => access_token.key , :type => :json}
+
+    assert_response :success
   end
 
   test "can ingest a startup from webhook" do

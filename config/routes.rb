@@ -28,6 +28,7 @@ Truestack::Application.routes.draw do
   post  "/app/metric"            => "user_application_fallback#create_metric_event"
   post  "/app/exception"         => "user_application_fallback#create_exception_event"
   post  "/app/browser"           => "user_application_fallback#create_browser_event"
+
   # This is from the TS Rails Browser JS
   get   "/app/browser_event"     => "user_application_fallback#create_browser_event"
 

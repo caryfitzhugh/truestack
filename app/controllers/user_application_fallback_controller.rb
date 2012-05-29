@@ -51,7 +51,7 @@ class UserApplicationFallbackController < ApplicationController
     app = @access_token.user_application
     app.add_browser_ready_timing(params[:action], params[:tstart].to_i, params[:tend].to_i)
 
-    head :accepted
+    send_blank_gif
   end
 
   # name: controller#action
@@ -67,5 +67,11 @@ class UserApplicationFallbackController < ApplicationController
     app.add_request(message[:name], message[:actions])
 
     head :accepted
+  end
+
+  private
+
+  def send_blank_gif
+    send_data(Base64.decode64("R0lGODlhAQABAPAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="), :type => "image/gif", :disposition => "inline")
   end
 end
