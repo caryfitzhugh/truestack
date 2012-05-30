@@ -4,7 +4,10 @@
 # { ** timings_stuff
 #   deploys => {
 #     deploy_hash => {
-#       @CMS - all_requests
+#       _browser: {
+#         @CMS - all browser readies
+#         controller#action { @ CMS }
+#       },
 #       _requests: {
 #         method#name : {
 #           @CMS - this request
@@ -17,6 +20,9 @@
 #         klass#action => {
 #           @CMS - this_method
 #           _exceptions => []
+#           _requests => {
+#             controller#action { @CMS }
+#           }
 #         }
 #       },
 #       _exceptions: {
@@ -76,20 +82,27 @@ module TimeSlice
 
     def add_browser_ready_timing_to_slice(deploy_key, id, request_method_name, tstart, duration)
       method_name = "browser#ready"
-      MongoRaw.eval('update_timings_but_not_count', self.collection_name, id,
-        mongo_path(deploy_key), duration)
-      MongoRaw.eval('update_timings_but_not_count', self.collection_name, id,
-        mongo_path(deploy_key,'_requests',request_method_name), duration)
-      MongoRaw.eval('update_timings_but_not_count', self.collection_name, id,
-        mongo_path(deploy_key,"_requests",request_method_name,method_name), duration)
+
       MongoRaw.eval('update_timings', self.collection_name, id,
-        mongo_path(deploy_key,"_methods",method_name), duration)
+        mongo_path(deploy_key,'_browser'), duration)
+
+      MongoRaw.eval('update_timings', self.collection_name, id,
+        mongo_path(deploy_key,'_browser',request_method_name), duration)
+
+      MongoRaw.eval('update_timings', self.collection_name, id,
+        mongo_path(deploy_key,"_browser",request_method_name, method_name), duration)
+
+      MongoRaw.eval('update_timings', self.collection_name, id,
+        mongo_path(deploy_key,"_methods", method_name), duration)
+
+      MongoRaw.eval('update_timings', self.collection_name, id,
+        mongo_path(deploy_key,"_methods", method_name, "_requests", request_method_name), duration)
     end
 
     def add_request_to_slice(deploy_key, id, req_name, tree)
       # Top-deploy level
       MongoRaw.eval('update_timings', self.collection_name, id,
-        mongo_path(deploy_key), tree.root[:duration])
+        mongo_path(deploy_key, "_requests"), tree.root[:duration])
 
       # Deploy level
       path = [deploy_key];
@@ -108,7 +121,7 @@ module TimeSlice
 
         # Rollup by request calling this method
         MongoRaw.eval('update_timings', self.collection_name, id,
-          mongo_path(deploy_key,"_methods",node[:name],req_name), node[:duration])
+          mongo_path(deploy_key,"_methods",node[:name], "_requests", req_name), node[:duration])
       end
     end
 

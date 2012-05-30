@@ -1,10 +1,4 @@
-function(collection, id, key, timing, count_modifier) {
-  // You can modify the count by 0 or 1 or whatever.
-  // Adding timings to the request after the fact.
-  if (count_modifier === undefined) {
-    count_modifier = 1;
-  }
-
+function(collection, id, key, timing) {
   var count_key     = (key ? key + "." : '') + "_count";
   var mean_key      = (key ? key + "." : '') + "_mean";
   var square_key    = (key ? key + "." : '') + "_square";
@@ -28,7 +22,7 @@ function(collection, id, key, timing, count_modifier) {
     new_square = 0;
     new_count  = 1;
   } else {
-    new_count   = old_count + count_modifier;
+    new_count   = old_count + 1;
     new_mean    = old_mean   + ( timing - old_mean) / (new_count);
     new_square  = old_square + ( timing - old_mean) * ( timing - new_mean);
   }

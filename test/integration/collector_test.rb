@@ -76,7 +76,7 @@ class CollectorTest < MiniTest::Unit::TestCase
 
     # Should only show up in correct spots
     sleep 1
-    assert_equal 1, TimeSlice::Day.first['default-deploy-key']['_count']
+    assert_equal 1, TimeSlice::Day.first['default-deploy-key']['_requests']['_count']
   end
 
   private

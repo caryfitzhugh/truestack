@@ -21,4 +21,27 @@ class UserApplicationTest < ActiveSupport::TestCase
     assert_equal 1, Deployment.count
     assert_equal 3, Deployment.last.hosts.count
   end
+
+  test "create request and browser and see correct timings" do
+    application = UserApplication.make!
+    now = TruestackClient.to_timestamp(Time.now)
+    application.add_request("Controller#action", 'klass#method1' => [{
+          tstart: now.to_s,
+          tend:   (now + 1000).to_s
+        }])
+
+    application.add_browser_ready_timing("Controller#action", now, now+500)
+    ts = TimeSlice::Hour.last['default-deploy-key']
+    assert_equal 1, TimeSlice::Hour.count
+    assert_equal 1, ts["_requests"]["_count"]
+    assert_equal 1000, ts["_requests"]["_mean"]
+    assert_equal 1, ts["_browser"]["_count"]
+    assert_equal 500, ts["_browser"]["_mean"]
+
+    # Test _methods
+    assert_equal 1,   ts["_methods"]["browser#ready"]["_count"]
+    assert_equal 500, ts["_methods"]["browser#ready"]["_mean"]
+    assert_equal 1,   ts["_methods"]["browser#ready"]["_requests"]["Controller#action"]["_count"]
+    assert_equal 500, ts["_methods"]["browser#ready"]["_requests"]["Controller#action"]["_mean"]
+  end
 end
