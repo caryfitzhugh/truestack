@@ -5,6 +5,7 @@ class UserApplicationsController < ApplicationController
   def show
     @user_application = UserApplication.find(params[:id])
     type, duration    = TimeSlice.decode_window_size(params[:window_size])
+    @deployments      = @user_application.deployments.where(:tstart.gte => Time.now - duration)
     @slices           = type.find_slices(@user_application, duration)
   end
 

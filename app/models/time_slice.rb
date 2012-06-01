@@ -140,7 +140,14 @@ module TimeSlice
 
   def self.decode_window_size(param)
     # e.g.  [ TimeSlice::Day, 21.days]
-    [TimeSlice::Hour, 1.day]
+    case (param || 'default').downcase
+    when '1_day'
+      [TimeSlice::Hour, 1.day]
+    when '7_day'
+      [TimeSlice::Day,  7.day]
+    else
+      [TimeSlice::Day,  30.day]
+    end
   end
 
   def self.add_request(app_id, deploy_key, method_name, actions)

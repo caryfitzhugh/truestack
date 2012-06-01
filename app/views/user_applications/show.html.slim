@@ -1,6 +1,10 @@
-h2 Stats
+.r
+  a href=url_for(:window_size=>'1_day') 1-day
+  a href=url_for(:window_size=>'7_day') 7-day
+  a href=url_for(:window_size=>'1_month') 1-mo
+hr
 
-textarea style="height:200px"
+textarea style="width:100%;height:200px"
   = @slices.to_a.to_yaml
 
 h2 Actions
@@ -11,7 +15,7 @@ table class='table table-condensed'
   tr
     th Deployment Hash
     th Hosts
-  - @user_application.deployments.order_by([:tstart, :desc]).each do |deployment|
+  - @deployments.each do |deployment|
     tr
       td
         = deployment.commit_id
