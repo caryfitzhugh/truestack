@@ -24,4 +24,4 @@
 #     [ -f .rvmrc.default ] && source .rvmrc.default || echo "Warning: No .rvmrc.default found"
 #
 
-rvm use --create ruby-1.9.3-p125@truestack
+rvm use --create ruby-1.9.3@truestack
