@@ -1,7 +1,6 @@
 class User
   include Mongoid::Document
-  belongs_to :account
-  before_save :add_default_account
+  has_many :user_applications
 
   def user_applications
     account.user_applications rescue []
@@ -60,15 +59,5 @@ class User
 
   def full_name
     [first_name, last_name].join(' ')
-  end
-
-  private
-
-  def add_default_account
-    if self.account.nil?
-      account = Account.new
-      account.save
-      self.account = account
-    end
   end
 end

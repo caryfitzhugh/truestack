@@ -31,7 +31,7 @@ class UserApplicationTest < ActiveSupport::TestCase
         }])
 
     application.add_browser_ready_timing("Controller#action", now, now+500)
-    ts = TimeSlice::Hour.last['default-deploy-key']
+    ts = TimeSlice::Hour.last
     assert_equal 1, TimeSlice::Hour.count
     assert_equal 1, ts["_requests"]["_count"]
     assert_equal 1000, ts["_requests"]["_mean"]

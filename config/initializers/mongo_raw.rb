@@ -4,6 +4,7 @@ module MongoRaw
   def self.db
     @db ||= self.connect!
   end
+
   def self.connect!
     config = YAML.load(ERB.new(File.read(Rails.root.join("config","mongoid.yml"))).result)[Rails.env].symbolize_keys
 

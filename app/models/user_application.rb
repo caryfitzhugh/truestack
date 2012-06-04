@@ -2,14 +2,21 @@ class UserApplication
   include Mongoid::Document
 
   field :name, type: String
-  belongs_to :account
+  belongs_to :user
 
-  has_many :time_slice_days,  class_name: "TimeSlice::Day"
-  has_many :time_slice_hours, class_name: "TimeSlice::Hour"
   has_many :deployments
   has_one  :access_token
 
   after_create :create_access_token
+
+  def find_deployment_at(tstart)
+    deployment = deployments.where(:tstart.gte => tstart).order_by(:tstart => Mongo::ASCENDING).limit(1).first
+    if deployment
+      deployment
+    else
+      Deployment.new
+    end
+  end
 
   # This user application was deployed to it's server
   # And so - create a new deployment record
@@ -22,26 +29,30 @@ class UserApplication
 
   def add_browser_ready_timing(browser_action_name, tstart, tend)
     Rails.logger.info "Add browser request #{browser_action_name} #{tstart} - #{tend}"
-    TimeSlice.add_browser_ready_timing(self.id, current_deploy_key, browser_action_name, tstart, tend-tstart)
+    ApplicationTimeSlice.add_browser_ready(self, browser_action_name, tstart, tend - tstart)
+
+    #TimeSlice.add_browser_ready_timing(self.id, browser_action_name, tstart, tend-tstart)
   end
 
   def add_request(method_name, actions)
     Rails.logger.info "Add request #{name} #{actions.to_yaml}"
-    TimeSlice.add_request(self.id, current_deploy_key, method_name, actions)
+
+    ApplicationTimeSlice.add_request(self.id, method_name, actions)
   end
 
   def add_exception(req_name, exception_name, failed_in_method, actions, tstart, backtrace, env)
     Rails.logger.info "Add exception #{req_name} #{exception_name}"
 
-    TimeSlice.add_exception(self.id,
-                            current_deploy_key,
-                            req_name,
-                            exception_name,
-                            failed_in_method,
-                            actions,
-                            tstart,
-                            backtrace,
-                            env)
+    ApplicationTimeSlice.add_exception(self, req_name, exception_name, tstart)
+
+    #TimeSlice.add_exception(self.id,
+    #                        req_name,
+    #                        exception_name,
+    #                        failed_in_method,
+    #                        actions,
+    #                        tstart,
+    #                        backtrace,
+    #                        env)
   end
 
   def create_access_token

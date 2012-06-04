@@ -11,16 +11,35 @@ class CallTree
       end
     end
 
+    tstart = nil
+    tend   = nil
     # Flat methods are [ method_name, { tstart, tend } ]
-    sorted_flat_methods = flat_methods.sort_by {|m| [m[:tstart], -1 * m[:tend]] }
-
-    # Set the tstart/end correctly on the top-level
-    tstart = sorted_flat_methods.first[:tstart]
-    tend   = sorted_flat_methods.last[:tend]
+    sorted_flat_methods = flat_methods.sort_by do |m|
+      # Keep track of max and min
+      tstart = [tstart, m[:tstart]].compact.min
+      tend   = [tend,   m[:tend]  ].compact.max
+      [m[:tstart], -1 * m[:tend]]
+    end
 
     @tree = create_tree(nil, sorted_flat_methods)
+
     @tree[:tstart] = tstart
     @tree[:tend]   = tend
+    @tree[:duration]   = tend - tstart
+  end
+
+  def apply_method_classification(user_application)
+    deployment = user_application.find_deployment_at(@tree[:tstart])
+    total_times = Hash.new {|h,k| h[k] = 0 }
+
+    for_each do |node|
+      # Don't include the root
+      if (node != @tree)
+        node[:classification] = deployment.classify_method(node[:name])
+        total_times[node[:classification]] += node[:duration]
+      end
+    end
+    total_times
   end
 
   def find_method(name, tstart, tend)
