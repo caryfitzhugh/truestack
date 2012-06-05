@@ -10,7 +10,7 @@ class UserApplication
   after_create :create_access_token
 
   def find_deployment_at(tstart)
-    deployment = deployments.where(:tstart.gte => tstart).order_by(:tstart => Mongo::ASCENDING).limit(1).first
+    deployment = deployments.where(:tstart.gte => tstart).asc(:tstart).first
     if deployment
       deployment
     else

@@ -3,10 +3,13 @@ module TimeSlices
 
   def self.included(base)
     base.send(:extend, TimeSlices::ClassMethods)
+
+    base.send(:field, :timestamp)
+    base.send(:field, :slice_type)
   end
 
   module ClassMethods
-    def find_slices(user_app, since_time)
+    def slices_in_range(user_app, since_time)
       time_end   = Time.now
       time_start = time_end - since_time
 
@@ -28,20 +31,20 @@ module TimeSlices
       array.map {|v| v.gsub(".", "_") }.join(".")
     end
 
-    def slice_id(start, app_id, window)
+    def to_timeslice(start, window)
       start = TruestackClient.to_timestamp(start)
 
       # Convert to MS
       timestamp = (start / (TimeSlices::SLICES[window] * 1000)).to_i * 1000 * TimeSlices::SLICES[window]
 
-      self.mongo_path("#{app_id}-#{window}-#{timestamp}")
+      timestamp
     end
 
     # This will update slices based on the given ID.
-    def update_slices(tstart, app_id)
+    def update_slices(tstart, app)
       TimeSlices::SLICES.each_pair do |name, duration|
-        slice_id = self.slice_id(tstart, app_id, name)
-        yield slice_id
+        data = {:slice_type => name, :user_application_id => app.id, :timestamp => self.to_timeslice(tstart, name)}
+        yield data
       end
     end
 

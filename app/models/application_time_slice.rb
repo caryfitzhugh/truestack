@@ -1,6 +1,7 @@
 class ApplicationTimeSlice
-  include TimeSlices
   include Mongoid::Document
+  include TimeSlices
+  belongs_to :user_application
 
   # DOCUMENT
   #   classifications.all.count:    # of requests in this slice
@@ -12,8 +13,6 @@ class ApplicationTimeSlice
   #
   #   exceptions.<name> => [ time, time, time, time, ....]
   def self.add_browser_ready(user_application, req_name, tstart, duration)
-    collection = MongoRaw.db[self.collection_name]
-
     increments = {
       "classifications.all.count"         => 0,
       "classifications.all.duration"      => duration,
@@ -21,31 +20,18 @@ class ApplicationTimeSlice
       "classifications.browser.duration"  => duration
     }
 
-    update_slices(tstart, user_application.id) do |slice_id|
-      collection.update({ '_id' => slice_id }, {
-          '$inc' => increments
-        },
-        :upsert =>  true,
-        :safe =>  true
-      )
+    update_slices(tstart, user_application) do |slice_args|
+      collection.find(slice_args).upsert("$inc" => increments)
     end
   end
 
   def self.add_exception(user_application, req_name, exception_name, tstart)
-    collection = MongoRaw.db[self.collection_name]
-
-    update_slices(tstart, user_application.id) do |slice_id|
-      collection.update({ '_id' => slice_id }, {
-          '$push' => {mongo_path("exceptions",exception_name) => [tstart]}
-        },
-        :upsert =>  true,
-        :safe =>  true
-      )
+    update_slices(tstart, user_application) do |slice_args|
+      collection.find(slice_args).upsert('$push' => {mongo_path("exceptions",exception_name) => [tstart]})
     end
   end
 
   def self.add_request(user_application, method_name, actions)
-    collection = MongoRaw.db[self.collection_name]
 
     tree = CallTree.new(actions)
     tstart = tree.root[:tstart]
@@ -58,18 +44,14 @@ class ApplicationTimeSlice
               "classifications.all.count" => 1,
               "classifications.all.duration" => request_duration
             }
+
     total_times.each_pair do |classification, duration|
       increments[mongo_path('classifications',classification,'count')] = 1
       increments[mongo_path('classifications',classification,'duration')] = duration
     end
 
-    update_slices(tstart, user_application.id) do |slice_id|
-      collection.update({ '_id' => slice_id }, {
-          '$inc' => increments
-        },
-        :upsert =>  true,
-        :safe =>  true
-      )
+    update_slices(tstart, user_application) do |slice_args|
+      collection.find(slice_args).upsert( '$inc' => increments )
     end
 
   end

@@ -11,6 +11,6 @@ class ActiveSupport::TestCase
   private
 
   def clean_out_mongo
-    Mongoid.master.collections.select {|c| c.name !~ /system/ }.each(&:drop)
+    Mongoid.purge!
   end
 end

@@ -3,9 +3,9 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.1'
 
 # Database
-gem "mongo"
-gem "mongoid", "~> 2.4"
-gem "bson_ext", "~> 1.5"
+gem "mongoid", "~> 3.0.0.rc"
+#gem "mongo"
+#gem "bson_ext", "~> 1.5"
 
 # Templating
 gem 'haml-rails'
