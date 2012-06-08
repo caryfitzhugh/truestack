@@ -1,0 +1,34 @@
+h1 New subscription
+
+= form_for @subscription do |f|
+  - if @subscription.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@subscription.errors.count, "error")} prohibited this subscription from being saved:"
+      ul
+        - @subscription.errors.full_messages.each do |message|
+          li = message
+
+  -# There is only one plan in stripe
+  = f.hidden_field :plan_id, :value => "1"
+
+  - if @subscription.stripe_card_token.present?
+    | Credit card has been provided.
+  - else
+    .field
+      = label_tag :card_number, "Credit Card Number"
+      = text_field_tag :card_number, nil, name: nil
+    .field
+      = label_tag :card_code, "Security Code on Card (CVV)"
+      = text_field_tag :card_code, nil, name: nil
+    .field
+      = label_tag :card_month, "Card Expiration"
+      = select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month"}
+      = select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year"}
+  #stripe_error
+    noscript JavaScript is not enabled and is required for this form. First enable it in your web browser settings.
+
+
+
+  .actions= f.submit 'Save', :class => 'btn btn-primary'
+
+= link_to 'Back', subscriptions_path
