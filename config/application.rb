@@ -64,7 +64,7 @@ module Truestack
     config.assets.version = '1.0'
     config.generators do |g|
       g.orm :mongoid
-      g.template_engine :haml
+      g.template_engine :slim
       g.test_framework :test_unit, :fixture => true, :helpers => false, :views => false
       g.fixture_replacement :machinist
     end
