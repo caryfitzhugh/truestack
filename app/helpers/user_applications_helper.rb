@@ -41,11 +41,37 @@ module UserApplicationsHelper
         end]
     end
   end
+
   def extract_deployment_data_for_app_show(deploys)
     deploys.map do |deploy|
       [deploy.tstart, deploy.commit_id]
     end
   end
+
+  def extract_request_data_for_app_show(slices, deployments)
+    method_names = deployments.map {|deploy| deploy.methods.keys.map(&:underscore) }.flatten.uniq
+    # Method name => has this data:
+    #   {:avg_duration / slice
+    #    :avg_requests / slice
+    #    :avg_exceptions / slice
+    #    :
+    binding.pry
+    method_names.sort.map do |name|
+      req_times = slices.map {|slice| slice.actions[name]['method_types']['all']['duration']  rescue 0}
+      req_count = slices.map {|slice| slice.actions[name]['method_types']['all']['count'] rescue 0 }
+      exception_count = slices.map {|slice| slice.actions[name]['exceptions'].length rescue 0}
+
+      { :name => name,
+        :req_times => req_times,
+        :req_count => req_count,
+        :exception_count => exception_count,
+        :slope_times => get_slope(req_times),
+        :slope_count => get_slope(req_count),
+        :slope_exceptions => get_slope(exception_count)
+      }
+    end
+  end
+
   def extract_exception_data_for_app_show(slices)
     exceptions = slices.map do |slice|
       slice.actions.map do |req_name, data|

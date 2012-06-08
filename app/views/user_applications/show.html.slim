@@ -12,3 +12,4 @@ hr
     var deployments            = #{extract_deployment_data_for_app_show(@deployments).to_json.html_safe};
     var stacked_response_times = #{extract_stacked_response_times_for_app_show(@slices).to_json.html_safe};
     var request_counts         = #{extract_request_counts_for_app_show(@slices).to_json.html_safe};
+    var request_data_groups    = #{extract_request_data_for_app_show(@slices, @deployments).to_json.html_safe};

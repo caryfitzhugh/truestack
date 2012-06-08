@@ -5,6 +5,12 @@ GIT
     truestack_client (0.0.49)
 
 GIT
+  remote: https://github.com/escline/linefit.git
+  revision: 2512b0fe3b114adf17a394415d7a7596ef79c85a
+  specs:
+    linefit (0.3.0)
+
+GIT
   remote: https://github.com/nmerouze/machinist_mongo.git
   revision: fa4819c4e1233a4e3ce527b68af8aeee85dfc6c3
   branch: machinist2
@@ -225,6 +231,7 @@ DEPENDENCIES
   font-awesome-sass-rails
   haml-rails
   jquery-rails
+  linefit!
   machinist (>= 2.0.0.beta2)
   machinist_mongo!
   minitest

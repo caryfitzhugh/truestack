@@ -4,8 +4,6 @@ gem 'rails', '3.2.1'
 
 # Database
 gem "mongoid", "~> 3.0.0.rc"
-#gem "mongo"
-#gem "bson_ext", "~> 1.5"
 
 # Templating
 gem 'haml-rails'
@@ -57,3 +55,5 @@ gem 'truestack_client', :git => "git@github.com:caryfitzhugh/truestack_client.gi
 # Collector
 gem 'eventmachine'
 gem 'em-websocket'
+
+gem "linefit", :git => "https://github.com/escline/linefit.git"

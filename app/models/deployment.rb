@@ -35,7 +35,7 @@ class Deployment
       method = data[1]
       location = data[2]
       classification = data[3]
-      self.methods["#{klass}##{method}"] = {:location => location, :classification => classification}
+      self.methods["#{klass}##{method}".downcase] = {:location => location, :classification => classification}
     end
   end
 end

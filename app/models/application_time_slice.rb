@@ -26,7 +26,11 @@ class ApplicationTimeSlice
       "method_types.all.count"         => 0,
       "method_types.all.duration"      => duration,
       "method_types.browser.count"     => 1,
-      "method_types.browser.duration"  => duration
+      "method_types.browser.duration"  => duration,
+      mongo_path("actions", req_name.underscore, "method_types","all","count") => 0,
+      mongo_path("actions", req_name.underscore, "method_types","all","duration") => duration,
+      mongo_path("actions", req_name.underscore, "method_types","browser","count") => 0,
+      mongo_path("actions", req_name.underscore, "method_types","browser","duration") => underscore,
     }
 
     update_slices(tstart, user_application) do |slice_args|
@@ -36,7 +40,7 @@ class ApplicationTimeSlice
 
   def self.add_exception(user_application, req_name, exception_name, tstart)
     update_slices(tstart, user_application) do |slice_args|
-      collection.find(slice_args).upsert('$push' => {mongo_path("actions", req_name, "exceptions") => [tstart, exception_name]})
+      collection.find(slice_args).upsert('$push' => {mongo_path("actions", req_name.underscore, "exceptions") => [tstart, exception_name]})
     end
   end
 
@@ -44,6 +48,7 @@ class ApplicationTimeSlice
     tree = CallTree.new(actions)
     tstart = tree.root[:tstart]
     request_duration = tree.root[:duration]
+    method_name = method_name.underscore
 
     # Look up the deployment data at the given time, and
     # return the classified method timings
