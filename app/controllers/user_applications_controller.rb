@@ -4,13 +4,12 @@ class UserApplicationsController < ApplicationController
 
   def show
     @user_application = UserApplication.find(params[:id])
-    type, duration    = TimeSlice.decode_window_size(params[:window_size])
-    @deployments      = @user_application.deployments.where(:tstart.gte => Time.now - duration).order_by([:tstart, :desc])
-    @slices           = type.find_slices(@user_application, duration)
+    @deployments      = @user_application.deployments.where(:tstart.gte => get_window_start_time).asc(:tstart)
+    @slices           = ApplicationTimeSlice.slices_for(@user_application, get_window_start_time).asc(:timestamp)
   end
 
   def index
-    @user_applications = UserApplication.all
+    @user_applications = UserApplication.where(user: current_user)
   end
 
   def new
@@ -33,7 +32,7 @@ class UserApplicationsController < ApplicationController
 
   def create
     @user_application = UserApplication.new(params[:user_application])
-    @user_application.account = current_user.account
+    @user_application.user = current_user
 
     if @user_application.save
       redirect_to app_path(@user_application)
@@ -46,5 +45,16 @@ class UserApplicationsController < ApplicationController
 
   def set_current_user_application
     @current_user_application = UserApplication.where(:_id => params[:id]).first
+  end
+
+  def get_window_start_time
+    case (params[:window_size] || 'default').downcase
+    when '1_day'
+      1.day.ago
+    when '7_day'
+      7.day.ago
+    else
+      30.days.ago
+    end
   end
 end

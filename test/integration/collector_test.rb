@@ -10,7 +10,7 @@ class CollectorTest < MiniTest::Unit::TestCase
   def setup
     TruestackClient.reset
     # Clean out mongo
-    Mongoid.master.collections.select {|c| c.name !~ /system/ }.each(&:drop)
+    Mongoid.purge!
     @test_url = "http://127.0.0.1:10000"
     @server_pid = Process.spawn({'RAILS_ENV' => ENV['RAILS_ENV']},   "bundle exec rails s -p 3005",
       [:err, :out] => [Rails.root.join('log','test.log').to_s, 'a'])
@@ -63,7 +63,7 @@ class CollectorTest < MiniTest::Unit::TestCase
       raise "An Exception"
     rescue Exception => e
       assert_equal TruestackClient::Websocket, TruestackClient.websocket_or_http.class
-      TruestackClient.exception("Foo#foo", Time.now, mock_failed_in_method, mock_actions, e, { request: "env"})
+      TruestackClient.exception("Foo#foo", Time.now, mock_failed_in_method, mock_actions, e)
     end
     sleep 1
   end
@@ -76,7 +76,7 @@ class CollectorTest < MiniTest::Unit::TestCase
 
     # Should only show up in correct spots
     sleep 1
-    assert_equal 1, TimeSlice::Day.first['default-deploy-key']['_requests']['_count']
+    assert_equal 1, ApplicationTimeSlice.by_day.count
   end
 
   private

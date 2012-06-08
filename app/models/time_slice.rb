@@ -121,17 +121,6 @@ module TimeSlice
     belongs_to :user_application
   end
 
-  def self.decode_window_size(param)
-    # e.g.  [ TimeSlice::Day, 21.days]
-    case (param || 'default').downcase
-    when '1_day'
-      [TimeSlice::Hour, 1.day]
-    when '7_day'
-      [TimeSlice::Day,  7.day]
-    else
-      [TimeSlice::Day,  30.day]
-    end
-  end
 
   def self.add_request(app_id, method_name, actions)
     # Convert array of methods to tree, start with the root!

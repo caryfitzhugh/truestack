@@ -11,24 +11,22 @@ html
     .navbar.navbar-fixed-top
       .navbar-inner
         .container
-          a.btn.btn-navbar 'data-toggle'='collapse', 'data-target'='.nav-collapse'
           = image_tag "truestack-logo.svg", type: "image/svg+xml", class: "truestack-logo"
           - if user_signed_in?
             a.brand href=(root_path) truestack
           - else
             a.brand href='/' truestack
-          .nav-collapse
-            ul.nav.pull-right
-              - if (current_user && current_user.admin?)
-                li
-                  a href=(rails_admin_path) Admin
-              - if user_signed_in?
-                li
-                  = link_to 'Log Out', destroy_user_session_path, method: :delete
+          ul.nav.pull-right
+            - if (current_user && current_user.admin?)
+              li
+                a href=(rails_admin_path) Admin
+            - if user_signed_in?
+              li
+                = link_to 'Log Out', destroy_user_session_path, method: :delete
 
-              - else
-                li.pull-right
-                  a href=(new_user_session_path) Log In
+            - else
+              li.pull-right
+                a href=(new_user_session_path) Log In
     - unless flash.empty?
       .container
         .content
