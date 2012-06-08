@@ -1,0 +1,18 @@
+h1 Editing subscription
+
+= form_for @subscription do |f|
+  - if @subscription.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@subscription.errors.count, "error")} prohibited this subscription from being saved:"
+      ul
+        - @subscription.errors.full_messages.each do |message|
+          li = message
+
+  h1 Are you sure you want to cancel your subscription?
+
+  .actions= f.submit 'Cancel'
+
+= link_to 'Show', @subscription
+'|
+= link_to 'Back', subscriptions_path
+

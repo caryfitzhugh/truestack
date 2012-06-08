@@ -25,3 +25,6 @@
 #
 
 rvm use --create ruby-1.9.3@truestack
+ENVRC="$( cd "$( dirname "$0" )" && pwd )/.envrc"
+echo $ENVRC
+[ -f $ENVRC ] && source $ENVRC || echo "Warning: No .envrc file found"

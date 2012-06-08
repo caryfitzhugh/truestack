@@ -11,6 +11,8 @@ gem "mongoid", "~> 3.0.0.rc"
 gem 'haml-rails'
 gem 'slim-rails'
 
+gem 'stripe'
+
 # Roles & Permissions
 gem 'devise'
 # NOTE: cancan must come after mongoid in this file

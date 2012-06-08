@@ -1,0 +1,9 @@
+p#notice = notice
+
+p
+  strong Plan:
+  = @subscription.plan_id
+
+= link_to 'Edit', edit_subscription_path(@subscription)
+'|
+= link_to 'Back', subscriptions_path
