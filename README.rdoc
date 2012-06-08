@@ -1,3 +1,17 @@
+== Setup
+
+To configure the local install of truestack you will need to set enviroment variables. This can be done with yoru .rvmrc if you are using rvm, or in your shell's rc files.
+
+To use RVM:
+
+Create a file with the name .envrc and add the following to it:
+
+    echo "Go, Truestack, go!"
+    export STRIPE_SECRET_KEY="secret key"
+    export STRIPE_PUBLIC_KEY="publishable key"
+    export MONGOLAB_URI="mongo url if not localhost"
+
+
 == Welcome to TrueStack
 
 http://truestack.herokuapp.com
