@@ -7,8 +7,6 @@
 // Bootstrap body padding for fixed navbar
 body { padding-top: 60px; }
 
-@import "bootstrap-responsive";
-
 @font-face {
     font-family: 'monofurRegular';
     src: url('/fonts/monofur-webfont.eot');
@@ -62,3 +60,9 @@ img.truestack-logo {
 
 .r { float: right; }
 .l { float: left; }
+
+
+// Subscriptions
+#stripe_error {
+  color: $tsRed;
+}

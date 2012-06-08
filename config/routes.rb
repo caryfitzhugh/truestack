@@ -1,4 +1,6 @@
 Truestack::Application.routes.draw do
+  resources :subscriptions
+
   match "/director" => "director#index"
   constraints(:subdomain => 'director') do
     match "/" => "director#index"
