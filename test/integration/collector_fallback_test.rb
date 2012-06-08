@@ -7,7 +7,7 @@ class CollectorFallbackTest < MiniTest::Unit::TestCase
   end
   def setup
     # Clean out mongo
-    Mongoid.master.collections.select {|c| c.name !~ /system/ }.each(&:drop)
+    Mongoid.purge!
     @test_url = "http://127.0.0.1:10000"
     @server_pid = Process.spawn({'RAILS_ENV' => ENV['RAILS_ENV']},   "bundle exec rails s -p 3005",
       [:err, :out] => [Rails.root.join('log','test.log').to_s, 'a'])
@@ -19,6 +19,7 @@ class CollectorFallbackTest < MiniTest::Unit::TestCase
     end
 
     @access_token = AccessToken.make!
+
     @client = TruestackClient.configure do |c|
       c.resource_uri = "http://#{@access_token.key}@127.0.0.1:3005/director" # This is the server url
     end
@@ -41,7 +42,7 @@ class CollectorFallbackTest < MiniTest::Unit::TestCase
       raise "An Exception"
     rescue Exception => e
       assert_equal TruestackClient::HTTP, TruestackClient.websocket_or_http.class
-      TruestackClient.exception("Foo#foo", Time.now, mock_failed_in_method, mock_actions, e, { request: "env"})
+      TruestackClient.exception("Foo#foo", Time.now, mock_failed_in_method, mock_actions, e)
       sleep 1
     end
   end
@@ -61,7 +62,7 @@ class CollectorFallbackTest < MiniTest::Unit::TestCase
 
     # Should only show up in correct spots
     sleep 1
-    assert_equal 1, TimeSlice::Day.first['default-deploy-key']['_requests']['count']
+    assert_equal 1, ApplicationTimeSlice.by_day.count
   end
 
   private

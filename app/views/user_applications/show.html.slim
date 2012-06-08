@@ -4,29 +4,11 @@
   a href=url_for(:window_size=>'1_month') 1-mo
 hr
 
-textarea style="width:100%;height:200px"
-  = @slices.to_a.to_yaml
-
-/ Deployment times
-- deployment_slices = @deployments.map {|deploy| [ deploy.tstart, deploy.name ] }
-textarea style="width:100%;height:200px"
-  = deployment_slices.to_yaml
-/ Exception data
-
-- exception_slices = @time_slices.map {|slice| slice
-h2 Actions
-table class='table table-striped table-bordered table-condensed'
-
-h2 Deployments
-table class='table table-condensed'
-  tr
-    th Deployment Hash
-    th Hosts
-  - @deployments.each do |deployment|
-    tr
-      td
-        = deployment.commit_id
-      td
-        - deployment.hosts.each do |host|
-          = host
-          br
+- if @slices.length > 0
+  javascript:
+    var app_load               = #{get_app_load(@slices).to_json.html_safe};
+    var slice_data             = #{@slices.to_json.html_safe};
+    var exceptions             = #{extract_exception_data_for_app_show(@slices).to_json.html_safe};
+    var deployments            = #{extract_deployment_data_for_app_show(@deployments).to_json.html_safe};
+    var stacked_response_times = #{extract_stacked_response_times_for_app_show(@slices).to_json.html_safe};
+    var request_counts         = #{extract_request_counts_for_app_show(@slices).to_json.html_safe};

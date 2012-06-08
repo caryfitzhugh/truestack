@@ -29,6 +29,7 @@ class UserApplication
 
   def add_browser_ready_timing(browser_action_name, tstart, tend)
     Rails.logger.info "Add browser request #{browser_action_name} #{tstart} - #{tend}"
+
     ApplicationTimeSlice.add_browser_ready(self, browser_action_name, tstart, tend - tstart)
 
     #TimeSlice.add_browser_ready_timing(self.id, browser_action_name, tstart, tend-tstart)
@@ -37,7 +38,7 @@ class UserApplication
   def add_request(method_name, actions)
     Rails.logger.info "Add request #{name} #{actions.to_yaml}"
 
-    ApplicationTimeSlice.add_request(self.id, method_name, actions)
+    ApplicationTimeSlice.add_request(self, method_name, actions)
   end
 
   def add_exception(req_name, exception_name, failed_in_method, actions, tstart, backtrace, env)

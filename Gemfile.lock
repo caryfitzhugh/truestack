@@ -1,8 +1,8 @@
 GIT
   remote: git@github.com:caryfitzhugh/truestack_client.git
-  revision: 8b62d66e0acc0c3b77704c320fe724a3fc378341
+  revision: a5fa4057b9279d2af8d6b1d8cec58863c3796cdd
   specs:
-    truestack_client (0.0.44)
+    truestack_client (0.0.49)
 
 GIT
   remote: https://github.com/nmerouze/machinist_mongo.git
@@ -68,7 +68,7 @@ GEM
       debugger-ruby_core_source (~> 1.1.2)
     debugger-linecache (1.1.1)
       debugger-ruby_core_source (>= 1.1.1)
-    debugger-ruby_core_source (1.1.2)
+    debugger-ruby_core_source (1.1.3)
     devise (2.1.0)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.0.7)
@@ -81,7 +81,7 @@ GEM
     eventmachine (0.12.10)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    font-awesome-sass-rails (0.2.0)
+    font-awesome-sass-rails (2.0.0.0)
       railties (>= 3.1.1)
       sass-rails (>= 3.1.1)
     haml (3.1.6)
@@ -112,15 +112,15 @@ GEM
       treetop (~> 1.4.8)
     method_source (0.7.1)
     mime-types (1.18)
-    minitest (3.0.0)
+    minitest (3.0.1)
     mongoid (3.0.0.rc)
       activemodel (~> 3.1)
       moped (~> 1.0.0.rc)
       origin (~> 1.0.0.rc)
       tzinfo (~> 0.3.22)
     moped (1.0.0.rc)
-    multi_json (1.3.5)
-    origin (1.0.0.rc)
+    multi_json (1.3.6)
+    origin (1.0.0)
     orm_adapter (0.0.7)
     polyglot (0.3.3)
     pony (1.4)
@@ -151,9 +151,9 @@ GEM
       activesupport (= 3.2.1)
       bundler (~> 1.0)
       railties (= 3.2.1)
-    rails_admin (0.0.3)
+    rails_admin (0.0.4)
       bbenezech-nested_form (~> 0.0.6)
-      bootstrap-sass (~> 2.0)
+      bootstrap-sass (~> 2.0, >= 2.0.3)
       builder (~> 3.0)
       coffee-rails (~> 3.1)
       haml (~> 3.1)
@@ -175,7 +175,7 @@ GEM
     rdoc (3.12)
       json (~> 1.4)
     remotipart (1.0.2)
-    sass (3.1.18)
+    sass (3.1.19)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
       sass (>= 3.1.10)

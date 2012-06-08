@@ -38,21 +38,15 @@ class ClientApiTest < ActionDispatch::IntegrationTest
     body = {
       exception_name:     'ActiveRecord::NotFoundException',
       request_name:       'controller#action',
-      failed_in_method: mock_failed_in_method,
-      actions:          mock_actions,
-      tstart:           TruestackClient.to_timestamp(Time.now),
-      backtrace: [
-        'a/b/c:45',
-        'd/e/f:22'
-      ],
-      env: { 'http_accept' => "Anything" }
+      failed_in_method:   mock_failed_in_method,
+      actions:            mock_actions,
+      tstart:             TruestackClient.to_timestamp(Time.now)
     }.to_json
 
     post "app/exception", body,
         { 'Truestack-Access-Key' => access_token.key ,
           :type => :json}
 
-    assert_equal 1, TimeSlice::Day.first['default-deploy-key']['_exceptions']['ActiveRecord::NotFoundException@a/b/c:45']['_times'].count
     assert_response :accepted
   end
 
