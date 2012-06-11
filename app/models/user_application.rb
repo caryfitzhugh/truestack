@@ -6,6 +6,7 @@ class UserApplication
 
   has_many :deployments
   has_one  :access_token
+  has_many :application_time_slices
 
   after_create :create_access_token
 
@@ -61,14 +62,12 @@ class UserApplication
     self.access_token = token
   end
 
-  private
-
-  def current_deploy_key
-    deployment = deployments.order_by(['tstart', :desc]).first
-    if (deployment)
-      deployment.commit_id
-    else
-      'default-deploy-key'
-    end
+  def purge!
+    application_time_slices.destroy_all
+    deployments_list = deployments.asc(:tstart).to_a
+    binding.pry
+    deployment_saved = deployments_list.pop
+    deployments_list.each {|deploy| deploy.destroy}
   end
+
 end

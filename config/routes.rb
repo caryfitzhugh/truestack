@@ -24,6 +24,7 @@ Truestack::Application.routes.draw do
 
   resources :user_applications, :path => "apps" , :as => "apps" do
     post :reset_token
+    post :purge_data
   end
 
   post  "/app/startup"           => "user_application_fallback#create_startup_event"

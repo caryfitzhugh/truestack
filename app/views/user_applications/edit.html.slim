@@ -9,11 +9,14 @@
       div class='form-actions'
         button type='submit' class='btn btn-primary' Update
 .hero-unit
-  Here you can reset the access token
+  p Here you can reset the access token
   h1 = @user_application.access_token.key rescue "No Token"
   = form_for @user_application, :url => app_reset_token_path(@user_application), :method => :post do |f|
     button type='submit' class='btn btn-primary' Reset
-
+.hero-unit
+  p Purge all data about this app
+  = form_for @user_application, :url => app_purge_data_path(@user_application), :method => :post do |f|
+    button type='submit' class='btn btn-primary' Purge Data
 .hero-unit
   p Put this value into the ENV["TRUESTACK_URI"] or the file config/truestack_uri
   pre

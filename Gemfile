@@ -32,7 +32,6 @@ end
 group :development do
   gem 'pry'
   gem 'pry-nav'
-  gem 'debugger'
   gem 'quiet_assets'
 end
 

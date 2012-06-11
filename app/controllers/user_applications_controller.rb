@@ -21,6 +21,12 @@ class UserApplicationsController < ApplicationController
 
   end
 
+  def purge_data
+    @user_application = UserApplication.find(params[:app_id])
+    @user_application.purge!
+    redirect_to edit_app_path(@user_application)
+  end
+
   def reset_token
     @user_application = UserApplication.find(params[:app_id])
     @user_application.access_token.destroy if @user_application.access_token

@@ -5,7 +5,7 @@ module UserApplicationsHelper
   # That's your app's "load"
   def get_app_load(slices)
     tstart = slices.first.timestamp
-    tend   = slices.last.timestamp
+    tend = TruestackClient.to_timestamp(Time.now)
 
     total  = slices.inject(0) do |sum, slice|
       sum + (slice.method_types['all']['duration'] || 0)
@@ -49,7 +49,14 @@ module UserApplicationsHelper
   end
 
   def extract_request_data_for_app_show(slices, deployments)
-    method_names = deployments.map {|deploy| deploy.methods.keys.map(&:underscore) }.flatten.uniq
+    method_names = deployments.map do |deploy|
+                    deploy.methods.keys
+                   end + slices.map do |slice|
+                    slice.actions.keys
+                   end
+
+    method_names = method_names.flatten.map(&:underscore).uniq
+
     # Method name => has this data:
     #   {:avg_duration / slice
     #    :avg_requests / slice
