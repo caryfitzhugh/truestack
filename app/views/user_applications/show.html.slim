@@ -1,12 +1,15 @@
 .r
+  a href=url_for(:window_size=>'1_hour') 1-hour
   a href=url_for(:window_size=>'1_day') 1-day
   a href=url_for(:window_size=>'7_day') 7-day
   a href=url_for(:window_size=>'1_month') 1-mo
 hr
+= @slices.map(&:timestamp).to_json
 
 - if @slices.length > 0
   javascript:
     var app_load               = #{get_app_load(@slices).to_json.html_safe};
+    var app_uptime             = #{get_app_uptime(@slices).to_json.html_safe};
     var slice_data             = #{@slices.to_json.html_safe};
     var exceptions             = #{extract_exception_data_for_app_show(@slices).to_json.html_safe};
     var deployments            = #{extract_deployment_data_for_app_show(@deployments).to_json.html_safe};

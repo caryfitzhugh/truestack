@@ -55,6 +55,8 @@ class UserApplicationsController < ApplicationController
 
   def get_window_start_time
     case (params[:window_size] || 'default').downcase
+    when '1_hour'
+      1.hour.ago
     when '1_day'
       1.day.ago
     when '7_day'

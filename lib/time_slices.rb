@@ -1,5 +1,5 @@
 module TimeSlices
-  SLICES = { :day => 1.day, :hour => 1.hour }
+  SLICES = { :day => 1.day, :hour => 1.hour , :minute => 1.minute }
 
   def self.included(base)
     base.send(:extend, TimeSlices::ClassMethods)
@@ -18,9 +18,12 @@ module TimeSlices
 
         # Which one do we use?
         slice_desc = TimeSlices::SLICES.map do |name, duration|
-          [(time_end - time_start) / duration, name]
+
+          data = [(time_end - time_start) / duration, name]
+          pp data
+          data
         end.select do |data|
-          # Need more than 10
+          # Need more than 10 and < 200
           data.first > 10 && data.first < 200
         end.sort_by do |data|
           data.first

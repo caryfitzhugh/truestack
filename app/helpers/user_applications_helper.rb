@@ -1,4 +1,10 @@
 module UserApplicationsHelper
+  def get_app_uptime(slices)
+    tstart = slices.first.timestamp
+    tend = TruestackClient.to_timestamp(Time.now)
+    return tend - tstart
+  end
+
   # Like TOP, but CPU
   # Find oldest timestamp and newest slice.
   # Compare the duration, vs the total of slice.methods.all.duration
@@ -62,7 +68,6 @@ module UserApplicationsHelper
     #    :avg_requests / slice
     #    :avg_exceptions / slice
     #    :
-    binding.pry
     method_names.sort.map do |name|
       req_times = slices.map {|slice| slice.actions[name]['method_types']['all']['duration']  rescue 0}
       req_count = slices.map {|slice| slice.actions[name]['method_types']['all']['count'] rescue 0 }
