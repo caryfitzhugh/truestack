@@ -19,9 +19,6 @@ http://truestack.herokuapp.com
 We give you insight into your code, what makes it slow, how it is faring, etc. over time / deploys.
 
 Homepage / Dashboard / Specific Application:
-  *
-
-
 
 
 == Displaying

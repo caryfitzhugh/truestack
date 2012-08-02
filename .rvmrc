@@ -24,7 +24,4 @@
 #     [ -f .rvmrc.default ] && source .rvmrc.default || echo "Warning: No .rvmrc.default found"
 #
 
-rvm use --create ruby-1.9.3@truestack
-ENVRC="$( cd "$( dirname "$0" )" && pwd )/.envrc"
-echo $ENVRC
-[ -f $ENVRC ] && source $ENVRC || echo "Warning: No .envrc file found"
+rvm use --create ruby-1.9.2-p290@truestack
