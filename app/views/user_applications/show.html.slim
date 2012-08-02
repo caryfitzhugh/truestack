@@ -6,6 +6,34 @@
 hr
 = @slices.map(&:timestamp).to_json
 
+div id="chart"
+div id='timeline'
+
+javascript:
+  var graph = new Rickshaw.Graph( {
+      element: document.querySelector("#chart"),
+      width: 940,
+      height: 200,
+      series: [{
+          color: 'steelblue',
+          data: [
+              { x: 0, y: 40 },
+              { x: 1, y: 49 },
+              { x: 2, y: 38 },
+              { x: 3, y: 30 },
+              { x: 4, y: 32 } ]
+      }]
+  });
+
+  var annotator = new Rickshaw.Graph.Annotate({
+      graph: graph,
+      element: document.getElementById('timeline')
+  });
+
+  annotator.add(4, "ACK");
+  annotator.add(2, "GROK");
+  graph.render();
+
 - if @slices.length > 0
   javascript:
     var app_load               = #{get_app_load(@slices).to_json.html_safe};

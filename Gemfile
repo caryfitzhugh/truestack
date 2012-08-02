@@ -11,6 +11,8 @@ gem 'slim-rails'
 
 gem 'stripe'
 
+gem 'rickshaw_rails'
+
 # Roles & Permissions
 gem 'devise'
 # NOTE: cancan must come after mongoid in this file

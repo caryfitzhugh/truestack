@@ -1,4 +1,5 @@
-<% mongolab_uri = URI.parse(ENV['MONGOLAB_URI']) %>
+
+<% mongolab_uri = URI.parse(ENV['MONGOLAB_URI'] || "http://user:pass@nowhere.com") %>
 
 production:
   # Configure available database sessions. (required)
