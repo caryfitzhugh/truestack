@@ -2,10 +2,6 @@ class User
   include Mongoid::Document
   has_many :user_applications
 
-  def user_applications
-    account.user_applications rescue []
-  end
-
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
