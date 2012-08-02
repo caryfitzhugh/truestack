@@ -30,7 +30,7 @@ class ApplicationTimeSlice
       mongo_path("actions", req_name.underscore, "method_types","all","count") => 0,
       mongo_path("actions", req_name.underscore, "method_types","all","duration") => duration,
       mongo_path("actions", req_name.underscore, "method_types","browser","count") => 0,
-      mongo_path("actions", req_name.underscore, "method_types","browser","duration") => underscore,
+      mongo_path("actions", req_name.underscore, "method_types","browser","duration") => duration,
     }
 
     update_slices(tstart, user_application) do |slice_args|
