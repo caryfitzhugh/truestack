@@ -10,12 +10,14 @@ div id="chart"
 div id='timeline'
 
 javascript:
+  var palette = new Rickshaw.Color.Palette( { sheme: 'colorwheel' });
+
   var graph = new Rickshaw.Graph( {
       element: document.querySelector("#chart"),
       width: 940,
       height: 200,
       series: [{
-          color: 'steelblue',
+          color: palette.color(),
           data: [
               { x: 0, y: 40 },
               { x: 1, y: 49 },
