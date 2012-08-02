@@ -19,9 +19,7 @@ module TimeSlices
         # Which one do we use?
         slice_desc = TimeSlices::SLICES.map do |name, duration|
 
-          data = [(time_end - time_start) / duration, name]
-          pp data
-          data
+          [(time_end - time_start) / duration, name]
         end.select do |data|
           # Need more than 10 and < 200
           data.first > 10 && data.first < 200
