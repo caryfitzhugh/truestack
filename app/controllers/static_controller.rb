@@ -4,4 +4,5 @@ class StaticController < ApplicationController
   def base_css ; end
   def scaffolding ; end
   def components; end
+  def mongo; end
 end
