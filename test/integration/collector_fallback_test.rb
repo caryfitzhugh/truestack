@@ -10,6 +10,7 @@ class CollectorFallbackTest < MiniTest::Unit::TestCase
     # Clean out mongo
     Mongoid.purge!
     @test_url = "http://127.0.0.1:10000"
+
     @server_pid = Process.spawn({'RAILS_ENV' => ENV['RAILS_ENV']},   "bundle exec rails s -p 3005",
       [:err, :out] => [Rails.root.join('log','test.log').to_s, 'a'])
     tries = 0
@@ -18,6 +19,8 @@ class CollectorFallbackTest < MiniTest::Unit::TestCase
       tries += 1
       sleep 1
     end
+
+    sleep 10
 
     @access_token = AccessToken.make!
 
