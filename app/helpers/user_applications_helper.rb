@@ -27,7 +27,7 @@ module UserApplicationsHelper
 
   def extract_stacked_response_times_for_app_show(slices)
     types = Hash.new {|h,k| h[k] = [] }
-    #
+
     # We want - for rickshaw:
     # serieses: [
     #    {  // These are the type 1
@@ -42,19 +42,23 @@ module UserApplicationsHelper
       slice.method_types.keys
     end.flatten.uniq
 
+    cumulative_counts = Hash.new {|h,k| h[k] = Hash.new {|h2,k2| h2[k2] = 0} }
+
     # Now we have all the keys.
     # Iterate over each slice, looking for the key (or 0)
     type_keys.sort.map do |type|
-      [ type,
         slices.map do |slice|
           type_timings = slice.method_types[type]
-          count = if type_timings
+          resp_time = if type_timings
               type_timings['duration'] / type_timings['count']
             else
               0
             end
-          [slice.timestamp, count ]
-        end]
+          cum_count = cumulative_counts[type][slice.timestamp]
+          result = {x: slice.timestamp, y: resp_time + cum_count }
+          cumulative_counts[type][slice.timestamp] += resp_time
+          result
+        end
     end
   end
 

@@ -20,7 +20,6 @@ div style='position: relative; height: 300px'
     var slice_data             = #{@slices.to_json.html_safe};
     var exceptions             = #{extract_exception_data_for_app_show(@slices).to_json.html_safe};
     var deployments            = #{extract_deployment_data_for_app_show(@deployments).to_json.html_safe};
-    var stacked_response_times = #{extract_stacked_response_times_for_app_show(@slices).to_json.html_safe};
     var request_data_groups    = #{extract_request_data_for_app_show(@slices, @deployments).to_json.html_safe};
 
     var min_ts = 0;
@@ -28,15 +27,24 @@ div style='position: relative; height: 300px'
 
     var palette = new Rickshaw.Color.Palette( { sheme: 'colorwheel' });
 
+
+
+    var stacked_response_times_data = #{extract_stacked_response_times_for_app_show(@slices).to_json.html_safe};
+    var request_times_series = [];
+
+    for (var i = 0 ; i < stacked_response_times_data.length; i++) {
+      request_times_series.push({
+          color: palette.color(),
+          data: stacked_response_times_data[i]
+        });
+    }
+
     var request_times_graph = new Rickshaw.Graph( {
         element: document.querySelector("#req_times"),
         width: 940,
         height: 200,
         renderer: 'bar',
-        series: [{
-          color: palette.color(),
-          data: #{extract_request_counts_for_app_show(@slices).to_json.html_safe}
-        }]
+        series: request_times_series
     });
 
 
