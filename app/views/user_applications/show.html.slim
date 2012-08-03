@@ -6,35 +6,12 @@
 hr
 = @slices.map(&:timestamp).to_json
 
-div id="chart"
-div id='timeline'
+div style='position: relative; height: 300px'
 
-javascript:
-  var palette = new Rickshaw.Color.Palette( { sheme: 'colorwheel' });
+  div id="req_times"   style='position: absolute; top: 0;'
+  div id="req_counts"  style='position: absolute; top: 0;'
+  div id='deployments' style='position: relative; top: 220px;'
 
-  var graph = new Rickshaw.Graph( {
-      element: document.querySelector("#chart"),
-      width: 940,
-      height: 200,
-      series: [{
-          color: palette.color(),
-          data: [
-              { x: 0, y: 40 },
-              { x: 1, y: 49 },
-              { x: 2, y: 38 },
-              { x: 3, y: 30 },
-              { x: 4, y: 32 } ]
-      }]
-  });
-
-  var annotator = new Rickshaw.Graph.Annotate({
-      graph: graph,
-      element: document.getElementById('timeline')
-  });
-
-  annotator.add(4, "ACK");
-  annotator.add(2, "GROK");
-  graph.render();
 
 - if @slices.length > 0
   javascript:
@@ -44,5 +21,44 @@ javascript:
     var exceptions             = #{extract_exception_data_for_app_show(@slices).to_json.html_safe};
     var deployments            = #{extract_deployment_data_for_app_show(@deployments).to_json.html_safe};
     var stacked_response_times = #{extract_stacked_response_times_for_app_show(@slices).to_json.html_safe};
-    var request_counts         = #{extract_request_counts_for_app_show(@slices).to_json.html_safe};
     var request_data_groups    = #{extract_request_data_for_app_show(@slices, @deployments).to_json.html_safe};
+
+    var min_ts = 0;
+    var max_ts = 100;
+
+    var palette = new Rickshaw.Color.Palette( { sheme: 'colorwheel' });
+
+    var request_times_graph = new Rickshaw.Graph( {
+        element: document.querySelector("#req_times"),
+        width: 940,
+        height: 200,
+        renderer: 'bar',
+        series: [{
+          color: palette.color(),
+          data: #{extract_request_counts_for_app_show(@slices).to_json.html_safe}
+        }]
+    });
+
+
+    var request_counts_graph = new Rickshaw.Graph( {
+        element: document.querySelector("#req_counts"),
+        width: 940,
+        renderer: 'line',
+        height: 200,
+        series: [{
+          color: palette.color(),
+          data: #{extract_request_counts_for_app_show(@slices).to_json.html_safe}
+        }]
+    });
+
+    var deployments_graph = new Rickshaw.Graph.Annotate({
+        graph: request_counts_graph,
+        element: document.getElementById('deployments')
+    });
+
+    for (var i=0; i < deployments.length; i++) {
+      deployments_graph.add(deployments[i][0], deployments[i][1]);
+    }
+
+    request_counts_graph.render();
+    request_times_graph.render();

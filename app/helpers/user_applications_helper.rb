@@ -21,12 +21,22 @@ module UserApplicationsHelper
 
   def extract_request_counts_for_app_show(slices)
     slices.map do |slice|
-      [ slice.timestamp, slice.method_types['all']['count']]
+      { x: slice.timestamp, y: slice.method_types['all']['count'].to_i}
     end
   end
 
   def extract_stacked_response_times_for_app_show(slices)
     types = Hash.new {|h,k| h[k] = [] }
+    #
+    # We want - for rickshaw:
+    # serieses: [
+    #    {  // These are the type 1
+    #       data: [ {x: 0, y: total height}, ....]
+    #    },
+    #    // These are for type #2
+    #    // These are for type #3
+    #
+    # ]
 
     type_keys = slices.map do |slice|
       slice.method_types.keys
