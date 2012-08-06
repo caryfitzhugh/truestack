@@ -11,15 +11,15 @@ Create a file with the name .envrc and add the following to it:
     export STRIPE_PUBLIC_KEY="publishable key"
     export MONGOLAB_URI="mongo url if not localhost"
 
-
 == Welcome to TrueStack
 
-http://truestack.herokuapp.com
-
-We give you insight into your code, what makes it slow, how it is faring, etc. over time / deploys.
-
-Homepage / Dashboard / Specific Application:
-
+== TODO
+* verify code for stacked graph
+* switch the req cont grph to line not curve
+* add exceptions and popups
+* add deploy markers and popups
+* hover w/ annotations on each timing / section of the graph
+* add time stamp X axes
 
 == Displaying
 On index page, you view the 'latest' deploy.
