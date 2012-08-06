@@ -33,9 +33,11 @@ class ApplicationTimeSlice
       mongo_path("actions", req_name.underscore, "method_types","browser","duration") => duration,
     }
 
+
     update_slices(tstart, user_application) do |slice_args|
       collection.find(slice_args).upsert("$inc" => increments)
     end
+
   end
 
   def self.add_exception(user_application, req_name, exception_name, tstart)

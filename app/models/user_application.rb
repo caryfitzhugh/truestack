@@ -32,8 +32,6 @@ class UserApplication
     Rails.logger.info "Add browser request #{browser_action_name} #{tstart} - #{tend}"
 
     ApplicationTimeSlice.add_browser_ready(self, browser_action_name, tstart, tend - tstart)
-
-    #TimeSlice.add_browser_ready_timing(self.id, browser_action_name, tstart, tend-tstart)
   end
 
   def add_request(method_name, actions)

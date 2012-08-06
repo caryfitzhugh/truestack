@@ -49,7 +49,7 @@ class UserApplicationFallbackController < ApplicationController
     ::Rails.logger.info params.to_yaml
 
     app = @access_token.user_application
-    app.add_browser_ready_timing(params[:action], params[:tstart].to_i, params[:tend].to_i)
+    app.add_browser_ready_timing(params[:truestack][:name], params[:truestack][:tstart].to_i, params[:truestack][:tend].to_i)
 
     send_blank_gif
   end
