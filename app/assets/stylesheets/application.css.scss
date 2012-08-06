@@ -68,3 +68,20 @@ img.truestack-logo {
 #stripe_error {
   color: $tsRed;
 }
+
+// Use APplicat Show
+#graphs {
+  position: relative;
+  height: 200px;
+  width: 940px;
+  margin-bottom: 25px;
+  .graph {
+    position: absolute;
+    top: 0;
+    height: 300px;
+    width: 940px;
+  }
+  .deployments-annotation {
+    top: 315px;
+  }
+}
