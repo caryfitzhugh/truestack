@@ -42,7 +42,7 @@ group :test do
   gem 'pry-nav'
   gem "minitest"
   gem 'machinist', '>= 2.0.0.beta2'
-  gem 'machinist_mongo', :git => 'https://github.com/nmerouze/machinist_mongo.git', :require => 'machinist/mongoid', :branch => 'machinist2'
+  gem 'machinist_mongo', :git => 'git://github.com/nmerouze/machinist_mongo.git', :require => 'machinist/mongoid', :branch => 'machinist2'
 end
 
 gem 'jquery-rails'
@@ -53,10 +53,10 @@ gem 'rails_admin'
 gem 'pony'
 
 # Client interactions
-gem 'truestack_client', :git => "git@github.com:caryfitzhugh/truestack_client.git"
+gem 'truestack_client', :git => "git://github.com/caryfitzhugh/truestack_client.git"
 
 # Collector
 gem 'eventmachine'
 gem 'em-websocket'
 
-gem "linefit", :git => "https://github.com/escline/linefit.git"
+gem "linefit", :git => "git://github.com/escline/linefit.git"
