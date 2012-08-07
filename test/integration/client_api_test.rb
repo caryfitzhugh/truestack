@@ -7,7 +7,7 @@ class ClientApiTest < ActionDispatch::IntegrationTest
     access_token = AccessToken.make!
     body = {
       :truestack => {
-        action: "truestack#method",
+        name:     "truestack#method",
         tstart:   TruestackClient.to_timestamp(Time.now),
         tend:     TruestackClient.to_timestamp(Time.now)
       },
