@@ -1,6 +1,6 @@
 var UserApplication = {
   show: {
-    initialize_graphs: function(graphs_container, stacked, request_counts, deployments) {
+    initialize_graphs: function(graphs_container, stacked, request_counts, deployments, exceptions) {
       var palette = new Rickshaw.Color.Palette( { scheme: 'spectrum14' });
 
       var $graph_container = $(graphs_container);
@@ -12,10 +12,26 @@ var UserApplication = {
 
       // Annotations
       this.deployments_graph(    $graph_container, graphs[0], deployments);
+      this.exceptions_graph(     $graph_container, graphs[0], exceptions);
 
       for (var i = 0; i < graphs.length; i ++) {
         graphs[i].render();
       }
+    },
+    exceptions_graph: function(container, target_graph, data) {
+      var graph_div = $("<div class='exceptions-annotation' >");
+      container.append(graph_div);
+
+      var graph = new Rickshaw.Graph.Annotate({
+          graph: target_graph,
+          element: graph_div[0]
+      });
+
+      for (var i=0; i < data.length; i++) {
+        graph.add(data[i][0], data[i][1]);
+      }
+
+      return graph;
     },
     deployments_graph: function(container, target_graph, data) {
       var graph_div = $("<div class='deployments-annotation' >");

@@ -74,12 +74,15 @@ img.truestack-logo {
   position: relative;
   height: 200px;
   width: 940px;
-  margin-bottom: 25px;
+  margin-bottom: 35px;
   .graph {
     position: absolute;
     top: 0;
     height: 200px;
     width: 940px;
+  }
+  .exceptions-annotation {
+    top: 195px;
   }
   .deployments-annotation {
     top: 215px;

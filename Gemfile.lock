@@ -1,8 +1,8 @@
 GIT
   remote: git@github.com:caryfitzhugh/truestack_client.git
-  revision: a5fa4057b9279d2af8d6b1d8cec58863c3796cdd
+  revision: 0238fb7d8637a70c9743223d0529031fee46c690
   specs:
-    truestack_client (0.0.49)
+    truestack_client (0.0.50)
 
 GIT
   remote: https://github.com/escline/linefit.git
