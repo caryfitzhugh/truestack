@@ -28,6 +28,8 @@ class CollectorTest < MiniTest::Unit::TestCase
       sleep 1
     end
 
+    sleep 10
+
     @test_app = UserApplication.make!
     @access_token = @test_app.access_token
     @client = TruestackClient.configure do |c|
