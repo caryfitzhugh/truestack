@@ -40,14 +40,14 @@ module UserApplicationsHelper
 
     type_keys = slices.map do |slice|
       slice.method_types.keys
-    end.flatten.uniq
+    end.flatten.uniq - ['all']
 
     cumulative_counts = Hash.new {|h,k| h[k] = Hash.new {|h2,k2| h2[k2] = 0} }
 
     # Now we have all the keys.
     # Iterate over each slice, looking for the key (or 0)
     type_keys.sort.map do |type|
-        slices.map do |slice|
+        data = slices.map do |slice|
           type_timings = slice.method_types[type]
           resp_time = if type_timings
               type_timings['duration'] / type_timings['count']
@@ -59,6 +59,7 @@ module UserApplicationsHelper
           cumulative_counts[type][slice.timestamp] += resp_time
           result
         end
+        { name: type, data: data}
     end
   end
 

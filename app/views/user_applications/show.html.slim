@@ -16,8 +16,8 @@ div id='graphs'
     var request_data_groups    = #{extract_request_data_for_app_show(@slices, @deployments).to_json.html_safe};
 
     UserApplication.show.initialize_graphs("#graphs",
-      #{extract_stacked_response_times_for_app_show(@slices).to_json.html_safe},
-      #{extract_request_counts_for_app_show(@slices).to_json.html_safe},
-      #{extract_deployment_data_for_app_show(@deployments).to_json.html_safe},
-      #{extract_exception_data_for_app_show(@slices).to_json.html_safe}
-    );
+        #{extract_stacked_response_times_for_app_show(@slices).to_json.html_safe},
+        #{extract_request_counts_for_app_show(@slices).to_json.html_safe},
+        #{extract_deployment_data_for_app_show(@deployments).to_json.html_safe},
+        #{extract_exception_data_for_app_show(@slices).to_json.html_safe}
+      );

@@ -73,7 +73,8 @@ var UserApplication = {
       for (var i = 0 ; i < data.length; i++) {
         request_times_series.push({
             color: palette.color(),
-            data: data[i]
+            data: data[i].data,
+            name: data[i].name
           });
       }
 
