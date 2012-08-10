@@ -16,7 +16,7 @@ module UserApplicationsHelper
     total  = slices.inject(0) do |sum, slice|
       sum + (slice.method_types['all']['duration'] || 0)
     end
-    total / (tend.to_f - tstart)
+    (total / (tend.to_f - tstart)) * 100
   end
 
   def extract_request_counts_for_app_show(slices)
@@ -89,12 +89,12 @@ module UserApplicationsHelper
       exception_count = slices.map {|slice| slice.actions[name]['exceptions'].length rescue 0}
 
       { :name => name,
-        :req_times => req_times,
-        :req_count => req_count,
+        :req_times => req_times.mean.round(2),
+        :req_count => req_count.mean.round(2),
         :exception_count => exception_count,
-        :slope_times => get_slope(req_times),
-        :slope_count => get_slope(req_count),
-        :slope_exceptions => get_slope(exception_count)
+        :slope_times => get_slope(req_times).round(2),
+        :slope_count => get_slope(req_count).round(2),
+        :slope_exceptions => get_slope(exception_count).round(2)
       }
     end
   end
