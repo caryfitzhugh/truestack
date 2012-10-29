@@ -21,6 +21,16 @@ Create a file with the name .envrc and add the following to it:
 * hover w/ annotations on each timing / section of the graph
 * add time stamp X axes
 * Big test suite, which runs all the different rails versions (as fuzzinators) and pushes data to the test machine and tests the results.
+* Nightly emails which show trends based on each deploy that was made
+* OAuth on greenfrylabs.com ?
+
+== Concept
+* When you are truly agile and deployed every day,you need someone to be watching the overall trends of your site's performance and efficiency.
+* When you see that over time or with a given deploy, certain methods start to creep in suckiness... Be on top of it
+* With nightly reports that show the trends for all the day's deploys. Get a handle on performance problems, before they are problems.
+
+* In real-time you can combine metrics (with trueminer) and outputs from truestack -> truecanary to have a real-time dashboard of trends.
+* TrueCanary watches all sorts of data feeds for changes over time - when it goes outside a window of values, is an unparsable error, or if it changes too fast in a given amount of time - we let you know.
 
 
 == Displaying
