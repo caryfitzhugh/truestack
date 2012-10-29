@@ -20,6 +20,8 @@ Create a file with the name .envrc and add the following to it:
 * add deploy markers and popups
 * hover w/ annotations on each timing / section of the graph
 * add time stamp X axes
+* Big test suite, which runs all the different rails versions (as fuzzinators) and pushes data to the test machine and tests the results.
+
 
 == Displaying
 On index page, you view the 'latest' deploy.
