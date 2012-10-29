@@ -33,6 +33,7 @@ It shows you the
 * the # of exceptions overall (and a quick ability to list them (stacktrace, name, line / file, inside what action)
 * All the requests show a variance rating -- how variable are the request times.
 * your overall performance rating compared to last deploy.
+* A capped collection for each method which shows the 5 fastest and 5 slowest examples of this method (and their request data)
 * A selector to hop back to previous deploys
 
 Sections below that:
