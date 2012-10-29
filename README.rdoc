@@ -1,4 +1,34 @@
-== Setup
+= Setup
+  * Install Mongo (brew install mongodb)
+  ** The truestack app should hit the local mongo server on the default port
+  * Install the fuzzinator
+  ** This is the example app - clone it to it's own repo
+  * Setup POW
+  ** Truestack.dev -> truestack app directory
+  ** Fuzzinator.dev -> truestack_fuzzinator app directory
+  * Create the truestack keys
+  ** check out: http://truestack.dev
+  ** Go to: http://truestack.dev/users/login
+  ** Click, sign up
+  ** Add some credentials, and go!  (admin@example.com , adminadmin)
+  ** Click on "New App" - to create a new app to send data to.
+  ** Give it a name in 'App Name'
+  ** Now you have an app. Click on the down arrow in the top left, and select "Edit"
+  ** Go down to the bottom, and find the ENV TRUESTACK_URI
+  ** Copy that to truestack_fuzzinator/config/truestack_uri
+  ** But replace director.truestack.com with => director.truestack.dev
+
+  * Hit http://fuzzinator.dev
+  * Click on one of the links. Each one does something a bit different.
+
+  * Now go check the app page in the truestack app.
+  ** Click on the down arrow, select the app from the list of names
+  ** You should see some data in there!
+
+  ** That gives you a spin-up on the app.  keep hitting things and making data.
+  ** Add the truestack_rails gem (from the github repo, look at the fuzzinator's Gemfile), set the truestack_uri, and see other types of data.
+
+== OLD CSEXTON Setup
 
 To configure the local install of truestack you will need to set enviroment variables. This can be done with yoru .rvmrc if you are using rvm, or in your shell's rc files.
 
