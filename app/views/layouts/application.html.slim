@@ -22,6 +22,8 @@ html
                 a href=(rails_admin_path) Admin
             - if user_signed_in?
               li
+                = link_to 'Profile', profile_path
+              li
                 = link_to 'Log Out', destroy_user_session_path, method: :delete
 
             - else

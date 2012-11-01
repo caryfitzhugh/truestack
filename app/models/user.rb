@@ -46,14 +46,11 @@ class User
   field :last_name, type: String
   field :admin, type: Boolean
   field :member, type: Boolean
+  field :api_token, type: String
 
   has_and_belongs_to_many :roles
 
   def role?(role)
     return !!self.roles.find_by_name(role.to_s.camelize)
-  end
-
-  def full_name
-    [first_name, last_name].join(' ')
   end
 end
