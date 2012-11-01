@@ -1,0 +1,16 @@
+= form_tag :method => :update do
+  legend Email Address
+  input.input-xlarge type=:text value=current_user.email
+
+= form_tag profile_reset_api_token_path, :method => :post do
+  legend API Token
+  div.input-append
+    input.input-xlarge type=:text readonly=true value=current_user.api_token
+    input.btn type=:submit value="New Token"
+
+h2 TODO
+ul
+  li
+    update the user email address
+  li
+    update the user gravatar?
