@@ -1,4 +1,3 @@
-
 = Setup
   * Install Mongo (brew install mongodb)
   ** The truestack app should hit the local mongo server on the default port
