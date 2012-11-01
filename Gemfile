@@ -1,9 +1,11 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.1'
+ruby '1.9.3'
+gem 'rails', '3.2.8'
+
 
 # Database
-gem "mongoid", "~> 3.0.0.rc"
+gem "mongoid"
 
 # Templating
 gem 'haml-rails'
