@@ -10,6 +10,7 @@ Truestack::Application.routes.draw do
 
   get "about" => "static#about"
   get "mongo" => "static#mongo"
+  get "home"  => "static#home"
 
   authenticated :user do
     root to: 'user_applications#index'

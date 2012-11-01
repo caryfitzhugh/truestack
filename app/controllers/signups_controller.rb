@@ -1,5 +1,6 @@
 class SignupsController < ApplicationController
   layout "signups"
+
   def thanks
   end
 
