@@ -24,7 +24,7 @@ Truestack::Application.routes.draw do
   post "signups" => "signups#create"
   get  "signups" => "signups#new"
 
-  get "profile" => "user_profile#show"
+  get "profile" => "user_profile#show", :as => :profile
   post "profile" => "user_profile#update"
   post "profile/reset_token" => "user_profile#reset_token", :as => "profile_reset_api_token"
 
