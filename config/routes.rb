@@ -1,3 +1,4 @@
+
 Truestack::Application.routes.draw do
   resources :subscriptions
 
@@ -33,18 +34,22 @@ Truestack::Application.routes.draw do
     post :purge_data
   end
 
-  post  "/app/startup"           => "user_application_fallback#create_startup_event"
-  post  "/app/metric"            => "user_application_fallback#create_metric_event"
-  post  "/app/exception"         => "user_application_fallback#create_exception_event"
-  get   "/app/browser"           => "user_application_fallback#create_browser_event"
-
-  match "/app/request"           => "user_application_fallback#create_request_event"
-
   resource "admin", :only => [:show] do
     resources :collector_workers
   end
 
   mount RailsAdmin::Engine => '/rails_admin', :as => 'rails_admin'
+
+  # Mount the services from the services directory.
+  Dir[Rails.root.join("app","services","*_service.rb")].each do |file|
+    name = File.basename(file).split('.',2).first.downcase
+
+    if (name != "application_service")
+      constant= "::Services::#{name.camelize}".constantize
+      Rails.logger.info "Mounting #{constant} to #{constant.rack_base("apl")}"
+      mount constant => constant.rack_base("api")
+    end
+  end
 
   root to: 'signups#new'
 end
