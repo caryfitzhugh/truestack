@@ -2,7 +2,7 @@ $:.unshift File.expand_path(File.dirname(__FILE__) + "/..")
 
 require 'test_helper'
 
-class ClientApiTest < ActionDispatch::IntegrationTest
+class CollectorApiTest < ActionDispatch::IntegrationTest
   test "can ingest a browser report from img src" do
     access_token = AccessToken.make!
     body = {
@@ -14,7 +14,7 @@ class ClientApiTest < ActionDispatch::IntegrationTest
       'Truestack-Access-Key' => access_token.key
     }
 
-    get "app/browser", body, { :type => :json}
+    get "api/collector/browser", body
 
     assert_response :success
   end
@@ -28,9 +28,8 @@ class ClientApiTest < ActionDispatch::IntegrationTest
       methods:  mock_methods
     }.to_json
 
-    post "app/startup", body,
-        { 'Truestack-Access-Key' => access_token.key ,
-          :type => :json}
+    post "api/collector/startup", body,
+        { 'Truestack-Access-Key' => access_token.key , :type => :json}
 
     assert_response :accepted
   end
@@ -45,9 +44,8 @@ class ClientApiTest < ActionDispatch::IntegrationTest
       tstart:             TruestackClient.to_timestamp(Time.now)
     }.to_json
 
-    post "app/exception", body,
-        { 'Truestack-Access-Key' => access_token.key ,
-          :type => :json}
+    post "api/collector/exception", body,
+        { 'Truestack-Access-Key' => access_token.key , :type => :json}
 
     assert_response :accepted
   end
@@ -59,9 +57,8 @@ class ClientApiTest < ActionDispatch::IntegrationTest
       actions: mock_actions,
     }.to_json
 
-    post "app/request", body,
-        { 'Truestack-Access-Key' => access_token.key ,
-          :type => :json}
+    post "api/collector/request", body,
+        { 'Truestack-Access-Key' => access_token.key , :type => :json}
 
     assert_response :accepted
   end

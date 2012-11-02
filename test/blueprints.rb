@@ -18,6 +18,7 @@ User.blueprint do
   password_confirmation { object.password }
   first_name {"First#{sn}" }
   last_name  {"Last#{sn}" }
+  api_token { sn }
 end
 
 def  mock_failed_in_method

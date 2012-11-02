@@ -2,11 +2,14 @@ class UserApplication
   include Mongoid::Document
 
   field :name, type: String
+  validates_uniqueness_of :name, :scope => [:name, :user_id]
+
   belongs_to :user
 
   has_many :deployments
   has_one  :access_token
   has_many :application_time_slices
+
 
   after_create :create_access_token
 
@@ -63,9 +66,8 @@ class UserApplication
   def purge!
     application_time_slices.destroy_all
     deployments_list = deployments.asc(:tstart).to_a
-    binding.pry
+
     deployment_saved = deployments_list.pop
     deployments_list.each {|deploy| deploy.destroy}
   end
-
 end
