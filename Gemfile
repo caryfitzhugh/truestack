@@ -13,6 +13,8 @@ gem 'slim-rails'
 
 gem 'stripe'
 
+gem 'sinatra'
+
 gem 'rickshaw_rails'
 
 # Roles & Permissions
