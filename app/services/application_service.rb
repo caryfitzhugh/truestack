@@ -23,6 +23,14 @@ module Services
           halt 403
         end
 
+      elsif type == :admin_user
+        user = User.where(api_token: key).limit(1).first
+        if (user && user.admin)
+          user
+        else
+          halt 403
+        end
+
       elsif type == :user
         user = User.where(api_token: key).limit(1).first
         if (user)
