@@ -1,0 +1,31 @@
+h1 Access Report
+
+= render :partial => 'subnav'
+
+p.lead
+  | There are #{@applications.count} applications running which have processed
+  |  #{@applications.map(&:access_count).sum} actions this month.
+
+table.table
+  tr
+    th User
+    th Month
+    th Count
+  - sorted_apps = @applications.sort_by {|a| [(a.user ? a.user.email : '_'), a.name || '_']}
+
+  - sorted_apps.each do |app|
+    tr
+      td
+        - if app.user
+          = app.user.email
+        - else
+          | NO USER?
+      - pairs = app.access_counters.where({}).sort(count: -1)
+
+      - if pairs.empty?
+        - pairs = [AccessCounter.new(:start_on => Time.now, :count => 0)]
+
+      - pairs.each do |vals|
+          - time =  vals.start_on.strftime("%b %Y")
+          td= time
+          td= vals.count
