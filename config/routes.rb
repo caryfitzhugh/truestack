@@ -37,6 +37,7 @@ Truestack::Application.routes.draw do
   resource "admin", :only => [:show] do
     resources :collector_workers
   end
+  get "admin/access_report" => "admins#access_report", :as => :admin_access_report
 
   mount RailsAdmin::Engine => '/rails_admin', :as => 'rails_admin'
 

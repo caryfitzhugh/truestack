@@ -2,13 +2,14 @@ class UserApplication
   include Mongoid::Document
 
   field :name, type: String
-  field :access_count, type: Integer, default: 0
-  field :access_counts_start_on, type: DateTime, default: Time.now
+  field :access_counts, type: Hash, default: {}
 
   validates_uniqueness_of :name, :scope => [:name, :user_id]
 
   belongs_to :user
+  validates_presence_of :user
 
+  has_many :access_counters
   has_many :deployments
   has_one  :access_token
   has_many :application_time_slices
@@ -28,7 +29,7 @@ class UserApplication
   # And so - create a new deployment record
   def add_startup( tstart, host_id, commit_id, methods = [] )
     Rails.logger.info "Add startup event #{commit_id} : #{host_id}"
-    count_access!
+    current_access_counter.inc!
 
     startup = deployments.find_or_create_by({commit_id: commit_id})
     startup.add_startup_event(tstart, host_id, methods)
@@ -37,21 +38,21 @@ class UserApplication
 
   def add_browser_ready_timing(browser_action_name, tstart, tend)
     Rails.logger.info "Add browser request #{browser_action_name} #{tstart} - #{tend}"
-    count_access!
+    current_access_counter.inc!
 
     ApplicationTimeSlice.add_browser_ready(self, browser_action_name, tstart, tend - tstart)
   end
 
   def add_request(method_name, actions)
     Rails.logger.info "Add request #{name} #{actions.to_yaml}"
-    count_access!
+    current_access_counter.inc!
 
     ApplicationTimeSlice.add_request(self, method_name, actions)
   end
 
   def add_exception(req_name, exception_name, failed_in_method, actions, tstart, backtrace, env)
     Rails.logger.info "Add exception #{req_name} #{exception_name}"
-    count_access!
+    current_access_counter.inc!
 
     ApplicationTimeSlice.add_exception(self, req_name, exception_name, tstart)
 
@@ -78,15 +79,11 @@ class UserApplication
     deployments_list.each {|deploy| deploy.destroy}
   end
 
-  def reset_access_counts!
-    access_count = 0
-    access_counts_start_on = Time.now
+  def current_access_counter
+    AccessCounter.find_or_create_by({user: self.user, user_application: self, start_on: AccessCounter.access_count_key})
   end
 
-  private
-
-  def count_access!
-    self.access_count += 1
-    self.access_counts_start_on ||= Time.now
+  def access_count
+    current_access_counter.count
   end
 end

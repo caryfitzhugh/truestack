@@ -6,37 +6,30 @@ module Services
     # Requires a user token
     post "/" do
       user = authenticate(:user)
-      application = UserApplication.new( name: params[:name], user: user )
+      application = UserApplication.new(user: user, name: params[:name])
+
       if application.save
         [200, application.id.to_s]
       else
-        500
+        [500, application.errors.to_json]
       end
     end
 
     delete "/:id" do
-      user = authenticate(:user)
-      application = UserApplication.where(user: user).where(id: params[:id]).first
-
-      if application
-        application.destroy
-        200
-      else
-        404
-      end
+      application = authenticate(:user_application)
+      application.destroy
+      200
     end
 
     post "/:id/purge_data" do
-      user = authenticate(:user)
-      application = UserApplication.where(user: user).where(id: params[:id]).first
-
-      if application
-        application.purge!
-        200
-      else
-        404
-      end
+      application = authenticate(:user_application)
+      application.purge!
+      200
     end
 
+    get "/:id/access_counters" do
+      application = authenticate(:user_application)
+      [200, application.access_counters.map {|ac| {start_on: ac.start_on.to_i, count:ac.count} }.to_json]
+    end
   end
 end
