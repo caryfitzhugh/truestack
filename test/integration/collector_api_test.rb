@@ -11,15 +11,15 @@ class CollectorApiTest < ActionDispatch::IntegrationTest
         tstart:   TruestackClient.to_timestamp(Time.now),
         tend:     TruestackClient.to_timestamp(Time.now)
       }
-    }
+    }.to_json
 
     assert_difference "ClientType.count", 1 do
-      get "api/collector/startup", body,
+      post "api/collector/startup", body,
         {'Truestack-Access-Key' => access_token.key,
         'Truestack-Client-Type' => "1.0|rails-3.2"}
       assert_response :success
     end
-    assert ClientType.find({app: 'rails-3.2', client:'1.0'}).length == 1
+    assert ClientType.where({app: 'rails-3.2', client:'1.0'}).length == 1
   end
 
   test "can ingest a browser report from img src" do

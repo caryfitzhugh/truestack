@@ -38,6 +38,7 @@ Truestack::Application.routes.draw do
     resources :collector_workers
   end
   get "admin/access_report" => "admins#access_report", :as => :admin_access_report
+  get "admin/client_types" => "admins#client_types", :as => :admin_client_types
 
   mount RailsAdmin::Engine => '/rails_admin', :as => 'rails_admin'
 

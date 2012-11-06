@@ -1,0 +1,14 @@
+h1 Client Types
+
+= render :partial => 'subnav'
+
+table.table
+  tr
+    th App Version
+    th Client Version
+    th Month
+  - @client_types.sort_by {|ct| [ct.start_on.to_i * -1, ct.app, ct.client]}.each do |client_type|
+    tr
+      td= client_type.app
+      td= client_type.client
+      td= client_type.start_on.strftime("%b %Y")
