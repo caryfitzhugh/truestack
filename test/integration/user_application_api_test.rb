@@ -30,6 +30,30 @@ class UserApplicationApiTest < ActionDispatch::IntegrationTest
 
     assert_response 200
   end
+  test "getting access counters from a service" do
+    user = User.make!
+
+    app = UserApplication.make!(user: user)
+    access_token = app.access_token
+    body = {
+      commit_id:'12312312312312123',
+      host_id:  "112j3jk133/asdfasdf/192.323.33.21/4",
+      tstart:   TruestackClient.to_timestamp(Time.now),
+      methods:  mock_methods
+    }.to_json
+
+    post "api/collector/startup", body,
+        { 'Truestack-Access-Key' => access_token.key , :type => :json}
+
+    assert_response :accepted
+
+    get "api/apps/#{app.id}/access_counters", {}, 'Truestack-Access-Key' => user.api_token
+
+    message = ActiveSupport::JSON.decode(response.body)
+    assert_response 200
+    assert_equal 1, message.length
+    assert_equal 1, message.first['count']
+  end
 
   test "ok authentication - create new" do
     user = User.make!

@@ -10,6 +10,7 @@ end
 
 UserApplication.blueprint do
   name { "#{sn}_application"}
+  user { User.make! }
 end
 
 User.blueprint do

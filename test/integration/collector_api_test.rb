@@ -3,6 +3,32 @@ $:.unshift File.expand_path(File.dirname(__FILE__) + "/..")
 require 'test_helper'
 
 class CollectorApiTest < ActionDispatch::IntegrationTest
+  test "can track client types" do
+    access_token = AccessToken.make!
+    body = {
+      :truestack => {
+        name:     "truestack#method",
+        tstart:   TruestackClient.to_timestamp(Time.now),
+        tend:     TruestackClient.to_timestamp(Time.now)
+      }
+    }.to_json
+
+    assert_difference "ClientType.count", 1 do
+      post "api/collector/startup", body,
+        {'Truestack-Access-Key' => access_token.key,
+        'Truestack-Client-Type' => "1.0|rails-3.2"}
+      assert_response :success
+    end
+
+    admin = User.make!(:admin => true)
+    get "api/client_types/", {}, {'Truestack-Access-Key' => admin.api_token}
+
+    message = ActiveSupport::JSON.decode(response.body)
+    assert_equal   1, message.length
+    assert_equal   'rails-3.2', message.first['app']
+    assert_equal   '1.0', message.first['client']
+  end
+
   test "can ingest a browser report from img src" do
     access_token = AccessToken.make!
     body = {

@@ -4,6 +4,7 @@ class AccessCounter
   belongs_to :user_application
   field :start_on, type: Time
   field :count, type: Integer, default: 0
+  field :client_ids, type: Array, default: []
 
   def inc!
     self.inc(:count, 1)
