@@ -19,7 +19,14 @@ class CollectorApiTest < ActionDispatch::IntegrationTest
         'Truestack-Client-Type' => "1.0|rails-3.2"}
       assert_response :success
     end
-    assert ClientType.where({app: 'rails-3.2', client:'1.0'}).length == 1
+
+    admin = User.make!(:admin => true)
+    get "api/client_types/", {}, {'Truestack-Access-Key' => admin.api_token}
+
+    message = ActiveSupport::JSON.decode(response.body)
+    assert_equal   1, message.length
+    assert_equal   'rails-3.2', message.first['app']
+    assert_equal   '1.0', message.first['client']
   end
 
   test "can ingest a browser report from img src" do
