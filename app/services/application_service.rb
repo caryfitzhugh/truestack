@@ -12,7 +12,6 @@ module Services
     end
 
     before do
-      binding.pry
       client_type = request.env['Truestack-Client-Type'] || request.env['HTTP_TRUESTACK_CLIENT_TYPE']
 
       if (client_type)
