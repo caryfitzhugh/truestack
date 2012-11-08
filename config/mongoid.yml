@@ -68,11 +68,9 @@ development: &development
     default:
       <% dev_mongolab_uri = ENV['MONGOLAB_URI_DEVELOPMENT'] || "http://localhost:27017/truestack_development" %>
       <% dev_mongolab_uri = URI.parse(dev_mongolab_uri) %>
-      database: <%= mongolab_uri.path.sub('/','') %>
-      username: <%= mongolab_uri.user %>
-      password: <%= mongolab_uri.password %>
+      database: <%= dev_mongolab_uri.path.sub('/','') %>
       hosts:
-        - <%= mongolab_uri.host %>:<%= mongolab_uri.port %>
+        - <%= dev_mongolab_uri.host %>:<%= dev_mongolab_uri.port %>
 
       options:
         # Change whether the session persists in safe mode by default.
