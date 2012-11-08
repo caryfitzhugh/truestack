@@ -66,13 +66,14 @@ development: &development
   sessions:
     # Defines the default session. (required)
     default:
-      # Defines the name of the default database that Mongoid can connect to.
-      # (required).
-      database: truestack_development
-      # Provides the hosts the default session can connect to. Must be an array
-      # of host:port pairs. (required)
+      <% dev_mongolab_uri = ENV['MONGOLAB_URI_DEVELOPMENT'] || "http://localhost:27017/truestack_development" %>
+      <% dev_mongolab_uri = URI.parse(dev_mongolab_uri) %>
+      database: <%= mongolab_uri.path.sub('/','') %>
+      username: <%= mongolab_uri.user %>
+      password: <%= mongolab_uri.password %>
       hosts:
-        - localhost:27017
+        - <%= mongolab_uri.host %>:<%= mongolab_uri.port %>
+
       options:
         # Change whether the session persists in safe mode by default.
         # (default: false)
