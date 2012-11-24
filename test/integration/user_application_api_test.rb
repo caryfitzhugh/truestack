@@ -10,6 +10,25 @@ class UserApplicationApiTest < ActionDispatch::IntegrationTest
     assert_response 403
   end
 
+  test "deployments" do
+    user = User.make!
+
+    app = UserApplication.make!(user: user)
+
+    get "api/apps/#{app.id}/deployments", {}, 'Truestack-Access-Key' => user.api_token
+    message = ActiveSupport::JSON.decode(response.body)
+    assert_response 200
+    assert_equal 0, message.length
+
+    app.add_startup(0, "host1", "commt_hash", mock_methods)
+    app.save!
+
+    get "api/apps/#{app.id}/deployments", {}, 'Truestack-Access-Key' => user.api_token
+    message = ActiveSupport::JSON.decode(response.body)
+    assert_response 200
+    assert_equal 1, message.length
+  end
+
   test "destroy existing" do
     user = User.make!
 

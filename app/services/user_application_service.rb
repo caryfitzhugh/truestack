@@ -9,7 +9,9 @@ module Services
       application = UserApplication.new(user: user, name: params[:name])
 
       if application.save
-        [200, application.id.to_s]
+        # This is the TS director URL
+        url = "http://#{application.id.to_s}@#{request.host}:#{request.port}/"
+        [200, url]
       else
         [500, application.errors.to_json]
       end
@@ -25,6 +27,11 @@ module Services
       application = authenticate(:user_application)
       application.purge!
       200
+    end
+
+    get "/:id/deployments" do
+      application = authenticate(:user_application)
+      [200, application.deployments.map(&:attributes).to_json]
     end
 
     get "/:id/access_counters" do
