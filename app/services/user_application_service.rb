@@ -11,7 +11,7 @@ module Services
       if application.save
         # This is the TS director URL
         url = "http://#{application.id.to_s}@#{request.host}:#{request.port}/"
-        [200, url]
+        [200, {:url => url, :id => application.id}.to_json]
       else
         [500, application.errors.to_json]
       end
