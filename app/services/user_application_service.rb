@@ -10,7 +10,8 @@ module Services
 
       if application.save
         # This is the TS director URL
-        url = "http://#{application.id.to_s}@#{request.host}:#{request.port}/"
+        # It gives the acces_toekn key
+        url = "http://#{application.access_token.key.to_s}@#{request.host}:#{request.port}/"
         [200, {:url => url, :id => application.id}.to_json]
       else
         [500, application.errors.to_json]
