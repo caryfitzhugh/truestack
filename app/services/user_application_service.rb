@@ -34,6 +34,10 @@ module Services
       application = authenticate(:user_application)
       [200, application.deployments.map(&:attributes).to_json]
     end
+    get "/:id/time_slices" do
+      application = authenticate(:user_application)
+      [200, application.application_time_slices.map(&:attributes).to_json]
+    end
 
     get "/:id/access_counters" do
       application = authenticate(:user_application)
