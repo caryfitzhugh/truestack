@@ -27,31 +27,31 @@ class UserApplication
 
   # This user application was deployed to it's server
   # And so - create a new deployment record
-  def add_startup( tstart, host_id, commit_id, methods = [] )
-    Rails.logger.info "Add startup event #{commit_id} : #{host_id}"
+  def add_startup( app_env, tstart, host_id, commit_id, methods = [] )
+    Rails.logger.info "Add startup event #{app_env} #{commit_id} : #{host_id}"
     current_access_counter.inc!
 
-    startup = deployments.find_or_create_by({commit_id: commit_id})
+    startup = deployments.find_or_create_by({app_env: app_env, commit_id: commit_id})
     startup.add_startup_event(tstart, host_id, methods)
     startup.save!
   end
 
-  def add_browser_ready_timing(browser_action_name, tstart, tend)
-    Rails.logger.info "Add browser request #{browser_action_name} #{tstart} - #{tend}"
+  def add_browser_ready_timing(app_env, browser_action_name, tstart, tend)
+    Rails.logger.info "Add browser request #{browser_action_name} #{app_env} #{tstart} - #{tend}"
     current_access_counter.inc!
 
-    ApplicationTimeSlice.add_browser_ready(self, browser_action_name, tstart, tend - tstart)
+    ApplicationTimeSlice.add_browser_ready(self, app_env, browser_action_name, tstart, tend - tstart)
   end
 
-  def add_request(method_name, actions)
-    Rails.logger.info "Add request #{name} #{actions.to_yaml}"
+  def add_request(app_env, method_name, actions)
+    Rails.logger.info "Add request #{app_env} #{name} #{actions.to_yaml}"
     current_access_counter.inc!
 
-    ApplicationTimeSlice.add_request(self, method_name, actions)
+    ApplicationTimeSlice.add_request(self, app_env, method_name, actions)
   end
 
-  def add_exception(req_name, exception_name, failed_in_method, actions, tstart, backtrace, env)
-    Rails.logger.info "Add exception #{req_name} #{exception_name}"
+  def add_exception(app_env, req_name, exception_name, failed_in_method, actions, tstart, backtrace, env)
+    Rails.logger.info "Add exception #{app_env} #{req_name} #{exception_name}"
     current_access_counter.inc!
 
     ApplicationTimeSlice.add_exception(self, req_name, exception_name, tstart)

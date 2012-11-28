@@ -14,7 +14,7 @@ module Services
       commit_id   = message.delete(:commit_id)
       methods     = message.delete(:methods) || []
 
-      application.add_startup(tstart, host_id, commit_id, methods)
+      application.add_startup(client_env, tstart, host_id, commit_id, methods)
 
       202
     end
@@ -22,6 +22,7 @@ module Services
     # Application received an exception
     post "/exception" do
       application = authenticate(:application)
+
       message = ActiveSupport::JSON.decode(request.body).symbolize_keys
       ::Rails.logger.info "Caught exception event "
       ::Rails.logger.info message.to_yaml
@@ -34,7 +35,7 @@ module Services
       actions           = message.delete(:actions)
       env               = message.delete(:env)                    || {}
 
-      application.add_exception(req_name, name, failed_in_method, actions, tstart, backtrace, env)
+      application.add_exception(client_env, req_name, name, failed_in_method, actions, tstart, backtrace, env)
 
       202
     end
@@ -43,7 +44,7 @@ module Services
     post "/request" do
       application = authenticate(:application)
       message = ActiveSupport::JSON.decode(request.body).symbolize_keys
-      application.add_request(message[:name], message[:actions])
+      application.add_request(client_env, message[:name], message[:actions])
 
       202
     end
@@ -54,10 +55,16 @@ module Services
       application = authenticate(:application)
 
       name = params[:truestack][:name]
-      application.add_browser_ready_timing(name.underscore, params[:truestack][:tstart].to_i, params[:truestack][:tend].to_i)
+
+      application.add_browser_ready_timing(client_env, name.underscore, params[:truestack][:tstart].to_i, params[:truestack][:tend].to_i)
 
       send_blank_gif
     end
 
+    private
+
+    def client_env
+      request.env['Truestack-Access-Environment'] || request.env['HTTP_TRUESTACK_ACCESS_ENVIRONMENT'] || params['Truestack-Access-Environment'] || 'default'
+    end
   end
 end
